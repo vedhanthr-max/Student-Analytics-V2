@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Student</title>
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Edit Student</h1>
+
+<form action="/update_student/{{ student['id'] }}" method="POST">
+
+<input
+type="text"
+name="register_no"
+value="{{ student['register_no'] }}"
+required>
+
+<input type="text" name="name"
+value="{{ student['name'] }}" required>
+
+<input type="text" name="department"
+value="{{ student['department'] }}" required>
+
+<input type="text" name="year"
+value="{{ student['year'] }}" required>
+
+<input type="number" step="0.1"
+name="study_hours"
+value="{{ student['study_hours'] }}" required>
+
+<input type="number" step="0.1"
+name="attendance"
+value="{{ student['attendance'] }}" required>
+
+<input type="text"
+name="student_phone"
+value="{{ student['student_phone'] }}">
+
+<input type="text"
+name="parent_phone"
+value="{{ student['parent_phone'] }}">
+
+<input type="email"
+name="email"
+value="{{ student['email'] }}">
+
+<input type="number" step="0.1"
+name="assignment"
+value="{{ student['assignment_marks'] }}" required>
+
+<input type="number" step="0.1"
+name="internal"
+value="{{ student['internal_marks'] }}" required>
+
+<button type="submit">
+Update Student
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Add Subject</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+background:#f2f2f2;
+
+}
+
+.container{
+
+width:500px;
+margin:auto;
+margin-top:40px;
+background:white;
+padding:30px;
+border-radius:10px;
+
+}
+
+input{
+
+width:100%;
+padding:10px;
+margin:10px 0;
+
+}
+
+button{
+
+width:100%;
+padding:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Add Subject</h2>
+
+<form action="/save_subject" method="POST">
+
+<input
+type="text"
+name="subject_code"
+placeholder="Subject Code"
+required>
+
+<input
+type="text"
+name="subject_name"
+placeholder="Subject Name"
+required>
+
+<input
+type="number"
+name="semester"
+placeholder="Semester"
+required>
+
+<input
+type="number"
+name="credits"
+placeholder="Credits"
+required>
+
+<button type="submit">
+
+Save Subject
+
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Student Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Student Analytics System</h1>
+
+    <form action="/login" method="POST">
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <label>Login As</label>
+
+        <select name="role" required>
+
+            <option value="">Select Role</option>
+
+            <option value="admin">Admin</option>
+
+            <option value="teacher">Teacher</option>
+
+            <option value="student">Student</option>
+
+        </select>
+
+        <button type="submit">Login</button>
+           <br><br>
+
+               <a href="/forgot_password">
+                     Forgot Password?
+                </a>
+    </form>
+
+</div>
+
+</body>
+</html>

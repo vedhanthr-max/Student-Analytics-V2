@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Students</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Student List</h1>
+<form action="/students" method="GET">
+
+<input type="text"
+name="search"
+placeholder="Search by Name / Department / Year">
+
+<button type="submit">
+
+Search
+
+</button>
+
+</form>
+
+<br>
+<table border="1" cellpadding="10">
+
+<tr>
+    <th>ID</th>
+    <th>Register No</th>
+    <th>Name</th>
+    <th>Department</th>
+    <th>Year</th>
+    <th>Attendance</th>
+    <th>Student Phone</th>
+    <th>Parent Phone</th>
+    <th>Email</th>
+    <th>Level</th>
+    <th>Recommendation</th>
+    <th>Action</th>
+    <th>Profile</th>
+</tr>
+
+{% for s in students %}
+
+<tr>
+
+<td>{{ s["id"] }}</td>
+
+<td>{{ s["register_no"] }}</td>
+
+<td>{{ s["name"] }}</td>
+
+<td>{{ s["department"] }}</td>
+
+<td>{{ s["year"] }}</td>
+
+<td>{{ s["attendance"] }}</td>
+
+<td>{{ s["student_phone"] }}</td>
+
+<td>{{ s["parent_phone"] }}</td>
+
+<td>{{ s["email"] }}</td>
+
+<td>{{ s["cluster"] }}</td>
+
+<td>{{ s["recommendation"] }}</td>
+<td>
+
+<a href="/profile/{{ s['id'] }}">
+
+<button>
+
+👤 View Profile
+
+</button>
+
+</a>
+
+</td>
+<td>
+
+<a href="/edit_student/{{ s['id'] }}">
+<button>Edit</button>
+</a>
+
+<a href="/delete_student/{{ s['id'] }}"
+onclick="return confirm('Delete this student?')">
+
+<button style="background:red;color:white;">
+Delete
+</button>
+
+<a href="/predict/{{ s['id'] }}">
+    <button style="background:green;color:white;">
+        Predict
+    </button>
+</a>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/add_student">
+<button>Add New Student</button>
+</a>
+
+</div>
+
+</body>
+
+</html>

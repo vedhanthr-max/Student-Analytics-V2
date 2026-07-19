@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Semester Results</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f2f2f2;
+}
+
+.container{
+
+    width:95%;
+
+    margin:auto;
+
+    margin-top:30px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:10px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th,td{
+
+    border:1px solid gray;
+
+    padding:10px;
+
+    text-align:center;
+
+}
+
+th{
+
+    background:#2c3e50;
+
+    color:white;
+
+}
+
+button{
+
+    padding:6px 12px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Semester Results</h2>
+
+<br>
+
+<a href="/add_result">
+
+<button>
+
+➕ Add Result
+
+</button>
+
+</a>
+
+<br><br>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Register No</th>
+
+<th>Semester</th>
+
+<th>Subject Code</th>
+
+<th>Subject Name</th>
+
+<th>Internal</th>
+
+<th>External</th>
+
+<th>Total</th>
+
+<th>Grade</th>
+
+<th>Result</th>
+
+<th>Actions</th>
+
+</tr>
+
+{% for r in results %}
+
+<tr>
+
+<td>{{ r["result_id"] }}</td>
+
+<td>{{ r["register_no"] }}</td>
+
+<td>{{ r["semester"] }}</td>
+
+<td>{{ r["subject_code"] }}</td>
+
+<td>{{ r["subject_name"] }}</td>
+
+<td>{{ r["internal_mark"] }}</td>
+
+<td>{{ r["external_mark"] }}</td>
+
+<td>{{ r["total_mark"] }}</td>
+
+<td>{{ r["grade"] }}</td>
+
+<td>{{ r["result"] }}</td>
+
+<td>
+
+<a href="/edit_result/{{ r['result_id'] }}">
+
+<button>
+
+✏ Edit
+
+</button>
+
+</a>
+
+<a href="/delete_result/{{ r['result_id'] }}"
+onclick="return confirm('Delete this Result?')">
+
+<button>
+
+🗑 Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+
+</html>

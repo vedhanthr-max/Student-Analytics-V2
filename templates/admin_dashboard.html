@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<h1>🎓 Student Analytics Admin Panel</h1>
+
+<p>Welcome Admin 👋</p>
+
+<div class="cards">
+
+<div class="card">
+<h2>Total Students</h2>
+<h1>120</h1>
+</div>
+
+<div class="card">
+<h2>Total Teachers</h2>
+<h1>18</h1>
+</div>
+
+<div class="card">
+<h2>Fees Collected</h2>
+<h1>₹8,50,000</h1>
+</div>
+
+<div class="card">
+<h2>Pending Fees</h2>
+<h1>₹1,45,000</h1>
+</div>
+
+</div>
+
+<div class="menu">
+
+<a href="/add_student">
+<button>Add Student</button>
+</a>
+
+<a href="/analytics">
+<button>
+
+📊 Analytics Dashboard
+
+</button>
+
+</a>
+
+<a href="/fees">
+<button>Manage Fees</button>
+</a>
+
+<a href="/teacher_management">
+    <button>Teacher Management</button>
+</a>
+
+<a href="/logout">
+<button>Logout</button>
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

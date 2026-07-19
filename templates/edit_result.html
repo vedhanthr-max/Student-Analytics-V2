@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Result</title>
+</head>
+
+<body>
+
+<h2>Edit Semester Result</h2>
+
+<form action="/update_result/{{ result['result_id'] }}" method="POST">
+
+Register No<br>
+<input type="text" name="register_no"
+value="{{ result['register_no'] }}"><br><br>
+
+Semester<br>
+<input type="number" name="semester"
+value="{{ result['semester'] }}"><br><br>
+
+Subject Code<br>
+<input type="text" name="subject_code"
+value="{{ result['subject_code'] }}"><br><br>
+
+Subject Name<br>
+<input type="text" name="subject_name"
+value="{{ result['subject_name'] }}"><br><br>
+
+Internal Mark<br>
+<input type="number"
+step="0.1"
+name="internal_mark"
+value="{{ result['internal_mark'] }}"><br><br>
+
+External Mark<br>
+<input type="number"
+step="0.1"
+name="external_mark"
+value="{{ result['external_mark'] }}"><br><br>
+
+<button type="submit">
+
+Update Result
+
+</button>
+
+</form>
+
+</body>
+
+</html>
