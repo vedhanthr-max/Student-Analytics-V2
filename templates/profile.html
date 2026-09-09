@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Student Profile</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#ecf0f1;
+}
+
+.card{
+
+width:750px;
+
+margin:auto;
+
+margin-top:30px;
+
+background:white;
+
+padding:30px;
+
+border-radius:10px;
+
+box-shadow:0px 0px 10px gray;
+
+}
+
+table{
+
+width:100%;
+
+}
+
+td{
+
+padding:10px;
+
+}
+
+h2{
+
+text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>👨‍🎓 Student Profile</h2>
+
+<table border="1">
+
+<tr>
+<td>Register No</td>
+<td>{{ student["register_no"] }}</td>
+</tr>
+
+<tr>
+<td>Name</td>
+<td>{{ student["name"] }}</td>
+</tr>
+
+<tr>
+<td>Department</td>
+<td>{{ student["department"] }}</td>
+</tr>
+
+<tr>
+<td>Year</td>
+<td>{{ student["year"] }}</td>
+</tr>
+
+<tr>
+<td>Attendance</td>
+<td>{{ student["attendance"] }}%</td>
+</tr>
+
+<tr>
+<td>Study Hours</td>
+<td>{{ student["study_hours"] }}</td>
+</tr>
+
+<tr>
+<td>Assignment</td>
+<td>{{ student["assignment_marks"] }}</td>
+</tr>
+
+<tr>
+<td>Internal</td>
+<td>{{ student["internal_marks"] }}</td>
+</tr>
+
+<tr>
+<td>Performance</td>
+<td>{{ student["cluster"] }}</td>
+</tr>
+
+<tr>
+<td>Recommendation</td>
+<td>{{ student["recommendation"] }}</td>
+</tr>
+
+<tr>
+<td>Student Phone</td>
+<td>{{ student["student_phone"] }}</td>
+</tr>
+
+<tr>
+<td>Parent Phone</td>
+<td>{{ student["parent_phone"] }}</td>
+</tr>
+
+<tr>
+<td>Email</td>
+<td>{{ student["email"] }}</td>
+</tr>
+
+<tr>
+<td>Parent Meeting</td>
+<td>{{ student["parent_meeting"] }}</td>
+</tr>
+
+<tr>
+<td>Meeting Date</td>
+<td>{{ student["meeting_date"] }}</td>
+</tr>
+
+<tr>
+<td>Teacher Remarks</td>
+<td>{{ student["teacher_remarks"] }}</td>
+</tr>
+
+<tr>
+<td>Hall Ticket</td>
+<td>{{ student["hall_ticket_status"] }}</td>
+</tr>
+
+<tr>
+<td>Status</td>
+<td>{{ student["student_status"] }}</td>
+</tr>
+
+</table>
+
+<br>
+
+<a href="/students">
+
+<button>
+
+⬅ Back
+
+</button>
+
+</a>
+
+</div>
+
+</body>
+
+</html>

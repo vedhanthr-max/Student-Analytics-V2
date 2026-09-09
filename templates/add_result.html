@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Semester Result</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .container {
+
+            width: 500px;
+
+            margin: auto;
+
+            margin-top: 30px;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0px 0px 10px gray;
+
+        }
+
+        h2 {
+
+            text-align: center;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 10px;
+
+            margin-bottom: 10px;
+
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Add Semester Result</h2>
+
+        <form action="/save_result" method="POST">
+
+            <select name="register_no" required>
+
+                <option value="">Select Student</option>
+
+                {% for student in students %}
+
+                <option value="{{ student['register_no'] }}">
+
+                    {{ student['register_no'] }} - {{ student['name'] }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <label>Semester</label>
+
+            <select name="semester" required>
+
+                <option value="">Select Semester</option>
+
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+
+            </select>
+
+            <br><br>
+
+            <label>Subject</label>
+
+            <select name="subject_code" required>
+
+                <option value="">Select Subject</option>
+
+                {% for subject in subjects %}
+
+                <option value="{{ subject['subject_code'] }}">
+
+                    {{ subject['subject_code'] }} - {{ subject['subject_name'] }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <br><br>
+            <input type="number" step="0.1" min="0" max="100" name="internal_mark" placeholder="Internal Mark" required>
+
+            <input type="number" step="0.1" min="0" max="100" name="external_mark" placeholder="External Mark" required>
+
+            <button>
+
+                Save Result
+
+            </button>
+
+        </form>
+
+        <a href="/results"><button type="button">Cancel</button></a>
+
+    </div>
+
+</body>
+
+</html>

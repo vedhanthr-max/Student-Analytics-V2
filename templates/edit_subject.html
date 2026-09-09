@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Subject</title>
+
+</head>
+
+<body>
+
+    <h2>Edit Subject</h2>
+
+    <form action="/update_subject/{{ subject['subject_id'] }}" method="POST">
+
+        <input type="text" name="subject_code" value="{{ subject['subject_code'] }}" required>
+
+        <input type="text" name="subject_name" value="{{ subject['subject_name'] }}" required>
+
+        <input type="number" name="semester" value="{{ subject['semester'] }}" required>
+
+        <input type="number" name="credits" value="{{ subject['credits'] }}" required>
+
+        <button>
+
+            Update Subject
+
+        </button>
+
+    </form>
+
+    <a href="/subjects"><button type="button">Cancel</button></a>
+
+</body>
+
+</html>

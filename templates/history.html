@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Payment History</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;padding:25px}.container{max-width:1100px;margin:auto;background:white;padding:25px;border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.1)}
+table{width:100%;border-collapse:collapse;margin-top:18px}th,td{padding:10px;border:1px solid #cbd5e1;text-align:center}th{background:#1e3a8a;color:white}.btn{display:inline-block;padding:9px 13px;border-radius:8px;background:#1e3a8a;color:white;text-decoration:none;margin-top:16px}.empty{text-align:center;color:#64748b;padding:25px;background:#f8fafc;border-radius:10px}
+</style></head><body><div class="container">
+<h1>Payment History</h1>
+{% if payments %}<table><tr><th>Payment ID</th><th>Register No</th><th>Registration ID</th><th>Semester</th><th>Exam Type</th><th>Amount</th><th>Date</th><th>Mode</th><th>Transaction Ref</th><th>Status</th><th>Receipt</th></tr>
+{% for p in payments %}<tr><td>{{ p['payment_id'] }}</td><td>{{ p['register_no'] }}</td><td>{{ p['registration_id'] }}</td><td>{{ p['semester'] or '-' }}</td><td>{{ p['exam_type'] or '-' }}</td><td>₹ {{ '%.2f'|format(p['amount'] or 0) }}</td><td>{{ p['payment_date'] }}</td><td>{{ p['payment_mode'] }}</td><td>{{ p['transaction_ref'] }}</td><td>{{ p['status'] }}</td><td><a href="{{ url_for('receipt', payment_id=p['payment_id']) }}">View</a></td></tr>{% endfor %}</table>
+{% else %}<div class="empty">No payment records found.</div>{% endif %}
+{% if session.get('role') == 'student' %}<a class="btn" href="{{ url_for('students') }}">Back to Student Dashboard</a>{% else %}<a class="btn" href="{{ url_for('admin') }}">Back to Admin Dashboard</a>{% endif %}
+</div></body></html>

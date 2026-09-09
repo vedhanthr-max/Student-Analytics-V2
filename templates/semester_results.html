@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Semester {{ semester }} Results</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;padding:25px}.container{max-width:1100px;margin:auto;background:white;padding:25px;border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.1)}
+table{width:100%;border-collapse:collapse;margin-top:18px}th,td{padding:10px;border:1px solid #cbd5e1;text-align:center}th{background:#1e3a8a;color:white}.summary{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}.box{padding:14px 18px;background:#eff6ff;border-radius:10px}.btn{display:inline-block;padding:9px 13px;border-radius:8px;background:#1e3a8a;color:white;text-decoration:none;margin:5px 5px 0 0}
+.empty{padding:25px;text-align:center;color:#64748b;background:#f8fafc;border-radius:10px;margin-top:18px}
+</style></head><body><div class="container">
+<h1>Semester {{ semester }} Results</h1><p><strong>Student:</strong> {{ student['name'] }} &nbsp; <strong>Register No:</strong> {{ student['register_no'] }}</p>
+<div class="summary"><div class="box"><strong>Credits:</strong> {{ total_credits }}</div><div class="box"><strong>GPA:</strong> {{ gpa }}</div></div>
+{% if results %}<table><tr><th>Subject Code</th><th>Subject</th><th>Internal</th><th>External</th><th>Total</th><th>Grade</th><th>Grade Point</th><th>Result</th></tr>
+{% for r in results %}<tr><td>{{ r['subject_code'] }}</td><td>{{ r['subject_name'] }}</td><td>{{ r['internal_mark'] }}</td><td>{{ r['external_mark'] }}</td><td>{{ r['total_mark'] }}</td><td>{{ r['grade'] }}</td><td>{{ r['grade_point'] }}</td><td>{{ r['result'] }}</td></tr>{% endfor %}</table>
+{% else %}<div class="empty">No results are available for Semester {{ semester }}.</div>{% endif %}
+<div>{% for sem in range(1,9) %}<a class="btn" href="{{ url_for('semester_results', register_no=student['register_no'], semester=sem) }}">Sem {{ sem }}</a>{% endfor %}</div>
+{% if session.get('role') == 'student' %}<a class="btn" href="{{ url_for('students') }}">Back to Student Dashboard</a>{% else %}<a class="btn" href="{{ url_for('results') }}">Back to Results</a>{% endif %}
+</div></body></html>

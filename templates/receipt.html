@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Payment Receipt</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .receipt {
+            width: 760px;
+            margin: 24px auto;
+            background: #fff;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .actions {
+            margin-top: 16px;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        @media print {
+            .actions {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .receipt {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="receipt">
+        <h2>Exam Fee Payment Receipt</h2>
+        <p><strong>Receipt ID:</strong> {{ payment["payment_id"] }}</p>
+
+        <table>
+            <tr>
+                <td>Transaction Reference</td>
+                <td>{{ payment["transaction_ref"] }}</td>
+            </tr>
+            <tr>
+                <td>Payment Mode</td>
+                <td>{{ payment["payment_mode"] }}</td>
+            </tr>
+            <tr>
+                <td>Payment Status</td>
+                <td>{{ payment["payment_result"] }}</td>
+            </tr>
+            <tr>
+                <td>Payment Date</td>
+                <td>{{ payment["payment_date"] }}</td>
+            </tr>
+            <tr>
+                <td>Registration ID</td>
+                <td>{{ payment["registration_id"] }}</td>
+            </tr>
+            <tr>
+                <td>Register No</td>
+                <td>{{ payment["register_no"] }}</td>
+            </tr>
+            <tr>
+                <td>Student Name</td>
+                <td>{{ payment["name"] or "-" }}</td>
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>{{ payment["department"] or "-" }}</td>
+            </tr>
+            <tr>
+                <td>Year</td>
+                <td>{{ payment["year"] or "-" }}</td>
+            </tr>
+            <tr>
+                <td>Exam Type</td>
+                <td>{{ payment["exam_type"] }}</td>
+            </tr>
+            <tr>
+                <td>Semester</td>
+                <td>{{ payment["semester"] }}</td>
+            </tr>
+            <tr>
+                <td>Exam Registration Date</td>
+                <td>{{ payment["registration_date"] }}</td>
+            </tr>
+            <tr>
+                <td>Exam Fee</td>
+                <td>{{ payment["exam_fee"] }}</td>
+            </tr>
+            <tr>
+                <td>Amount Paid</td>
+                <td>{{ payment["amount"] }}</td>
+            </tr>
+        </table>
+
+        <div class="actions">
+            <button class="btn" onclick="window.print()">Print Receipt</button>
+            <a href="/fees"><button class="btn" type="button">Back to Fees</button></a>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Performance Recommendation</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;padding:30px}.card{max-width:720px;margin:auto;background:white;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(15,23,42,.12)}
+h1{color:#1e3a8a}.metric{padding:14px;background:#eff6ff;border-radius:10px;margin:12px 0}.label{color:#64748b;font-size:13px}.value{font-size:20px;font-weight:700;color:#0f172a;margin-top:5px}.btn{display:inline-block;padding:10px 15px;border-radius:8px;background:#1e3a8a;color:white;text-decoration:none;margin:6px 6px 0 0}
+</style></head><body><div class="card">
+<h1>Performance Recommendation</h1>
+<p><strong>{{ student['name'] }}</strong> · {{ student['register_no'] }}</p>
+<div class="metric"><div class="label">Current Level</div><div class="value">{{ student['cluster'] }}</div></div>
+<div class="metric"><div class="label">Recommendation</div><div class="value">{{ student['recommendation'] }}</div></div>
+<div class="metric"><div class="label">Attendance</div><div class="value">{{ student['attendance'] }}%</div></div>
+<div class="metric"><div class="label">Study Hours</div><div class="value">{{ student['study_hours'] }}</div></div>
+<div class="metric"><div class="label">Assignment Marks</div><div class="value">{{ student['assignment_marks'] }}</div></div>
+<div class="metric"><div class="label">Internal Marks</div><div class="value">{{ student['internal_marks'] }}</div></div>
+<a class="btn" href="{{ url_for('students') }}">Back to Dashboard</a>
+{% if session.get('role') in ['admin','teacher'] %}<a class="btn" href="{{ url_for('predict', id=student['id']) }}">Run Prediction Again</a>{% endif %}
+</div></body></html>

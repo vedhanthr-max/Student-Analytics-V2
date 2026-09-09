@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pending Fees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 96%;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #bbb;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Pending Fees</h2>
+        <p><strong>Total Pending:</strong> ₹ {{ total_pending }}</p>
+
+        {% if pending_registrations %}
+        <table>
+            <tr>
+                <th>Reg ID</th>
+                <th>Register No</th>
+                <th>Name</th>
+                <th>Semester</th>
+                <th>Exam Type</th>
+                <th>Total Fee</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Status</th>
+            </tr>
+            {% for registration in pending_registrations %}
+            <tr>
+                <td>{{ registration["registration_id"] }}</td>
+                <td>{{ registration["register_no"] }}</td>
+                <td>{{ registration["name"] or "-" }}</td>
+                <td>{{ registration["semester"] }}</td>
+                <td>{{ registration["exam_type"] }}</td>
+                <td>{{ registration["exam_fee"] }}</td>
+                <td>{{ registration["amount_paid"] }}</td>
+                <td>{{ registration["balance_due"] }}</td>
+                <td>{{ registration["payment_status"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No pending fee records found.</p>
+        {% endif %}
+
+        <a class="admin-back-link" href="/admin"><button>Back to Dashboard</button></a>
+    </div>
+</body>
+
+</html>

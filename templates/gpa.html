@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Semester GPA</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 95%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid gray;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        button {
+            padding: 8px 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Semester GPA</h2>
+        <p><b>Register No:</b> {{ register_no }}</p>
+        <p><b>Semester:</b> {{ semester }}</p>
+
+        <table>
+            <tr>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Total Mark</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th>Grade Point</th>
+                <th>Result</th>
+            </tr>
+            {% for result in results %}
+            <tr>
+                <td>{{ result["subject_code"] }}</td>
+                <td>{{ result["subject_name"] }}</td>
+                <td>{{ result["total_mark"] }}</td>
+                <td>{{ result["credits"] }}</td>
+                <td>{{ result["grade"] }}</td>
+                <td>{{ result["grade_point"] }}</td>
+                <td>{{ result["result"] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>GPA: {{ gpa }}</h2>
+
+        {% if session.get("role") == "student" %}
+        <a href="{{ url_for('students') }}"><button type="button">Back to Student Dashboard</button></a>
+        {% else %}
+        <a href="{{ url_for('results') }}"><button type="button">Back to Results</button></a>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

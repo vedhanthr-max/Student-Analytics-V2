@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Registration</title>
+    <style>
+        body { font-family: Arial; background: #f2f2f2; }
+        .container { width: 95%; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; }
+        input, select, button { padding: 10px; margin: 5px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid gray; padding: 10px; text-align: center; }
+        th { background: #2c3e50; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Exam Registration</h2>
+
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('save_exam_registration') }}" method="POST">
+        <label for="register_no">Student</label>
+        <select id="register_no" name="register_no" required>
+            <option value="">Select Student</option>
+            {% for student in students %}
+            <option value="{{ student['register_no'] }}">
+                {{ student['register_no'] }} - {{ student['name'] }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="semester">Semester</label>
+        <select id="semester" name="semester" required>
+            <option value="">Select Semester</option>
+            {% for number in range(1, 9) %}
+            <option value="{{ number }}">Semester {{ number }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="exam_type">Exam Type</label>
+        <select id="exam_type" name="exam_type" required>
+            <option value="">Select Exam Type</option>
+            <option value="Regular">Regular</option>
+            <option value="Arrear">Arrear</option>
+            <option value="Revaluation">Revaluation</option>
+        </select>
+
+        <label for="exam_fee">Exam Fee</label>
+        <input id="exam_fee" type="number" name="exam_fee" min="0" step="0.01" required>
+
+        <label for="registration_date">Registration Date</label>
+        <input id="registration_date" type="date" name="registration_date" required>
+
+        <button type="submit">Register for Exam</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Register No</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Year</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student['register_no'] }}</td>
+            <td>{{ student['name'] }}</td>
+            <td>{{ student['department'] }}</td>
+            <td>{{ student['year'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

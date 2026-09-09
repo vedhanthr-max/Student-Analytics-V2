@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body{font-family:Arial,sans-serif;background:#172554;margin:0;padding:28px;color:#0f172a}
+        .shell{max-width:1050px;margin:auto;background:#f8fafc;border-radius:18px;padding:28px;box-shadow:0 20px 50px rgba(2,6,23,.25)}
+        .header{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid #dbeafe;padding-bottom:18px}
+        h1{margin:0;color:#1e3a8a}.muted{color:#64748b}.badge{background:#e0e7ff;color:#1e3a8a;padding:8px 12px;border-radius:999px;font-weight:600}
+        .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+        .card{background:white;border:1px solid #dbeafe;border-radius:14px;padding:18px;text-decoration:none;color:inherit}
+        .card:hover{box-shadow:0 12px 25px rgba(30,58,138,.12);transform:translateY(-2px)}
+        .card h2{font-size:19px;color:#1e3a8a;margin:8px 0}.icon{font-size:26px}.value{font-weight:700;color:#0f172a}
+        .logout{background:#fee2e2;border-color:#fecaca}.logout h2{color:#991b1b}
+        @media(max-width:760px){.grid{grid-template-columns:1fr 1fr}.header{flex-direction:column;align-items:flex-start}}
+        @media(max-width:500px){body{padding:14px}.shell{padding:18px}.grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+<div class="shell">
+    <div class="header">
+        <div><h1>Student Dashboard</h1><p class="muted">Welcome, {{ student['name'] }}. Manage your academic information from one place.</p></div>
+        <div class="badge">{{ student['register_no'] }}</div>
+    </div>
+
+    <div class="grid">
+        <a class="card" href="{{ url_for('profile', id=student['id']) }}"><span class="icon">👤</span><h2>Profile</h2><p class="muted">View your personal and academic profile.</p></a>
+        <a class="card" href="{{ url_for('fees') }}"><span class="icon">💳</span><h2>Fees & Payment</h2><p class="muted">View exam fees and available payment options.</p></a>
+        <a class="card" href="{{ url_for('payment_history') }}"><span class="icon">🧾</span><h2>Payment History</h2><p class="muted">Review your recorded payment transactions.</p></a>
+        <a class="card" href="{{ url_for('recommendation', id=student['id']) }}"><span class="icon">💡</span><h2>Recommendation</h2><p class="muted">View your current performance level and recommendation.</p></a>
+        <a class="card" href="{{ url_for('semester_results', register_no=student['register_no'], semester=1) }}"><span class="icon">📚</span><h2>Semester Results</h2><p class="muted">Open semester-wise marks, grades, and GPA.</p></a>
+        <a class="card" href="{{ url_for('hall_ticket', id=student['id']) }}"><span class="icon">🎫</span><h2>Hall Ticket</h2><p class="muted">Check your current hall-ticket status.</p></a>
+        <a class="card" href="{{ url_for('students') }}"><span class="icon">📋</span><h2>My Record</h2><p class="muted">Return to the complete student record view.</p></a>
+        <a class="card logout" href="{{ url_for('logout') }}"><span class="icon">🚪</span><h2>Logout</h2><p class="muted">Sign out of your student account.</p></a>
+    </div>
+
+    <div class="card" style="margin-top:18px;">
+        <h2 style="color:#1e3a8a;">Performance Snapshot</h2>
+        <p><strong>Department:</strong> {{ student['department'] }}</p>
+        <p><strong>Year:</strong> {{ student['year'] }}</p>
+        <p><strong>Level:</strong> <span class="value">{{ student['cluster'] }}</span></p>
+        <p><strong>Recommendation:</strong> {{ student['recommendation'] }}</p>
+        <p><strong>Attendance:</strong> {{ student['attendance'] }}%</p>
+        <p><strong>Arrears:</strong> {{ student['arrear_count'] }}</p>
+    </div>
+</div>
+</body>
+</html>

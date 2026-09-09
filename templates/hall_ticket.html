@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Hall Ticket</title>
+
+</head>
+
+<body>
+
+    <h1 align="center">
+        COLLEGE EXAMINATION HALL TICKET
+    </h1>
+
+    <hr>
+
+    <h3>Hall Ticket No :
+        {{ student["hall_ticket_no"] }}
+    </h3>
+
+    <h3>Register No :
+        {{ student["register_no"] }}
+    </h3>
+
+    <h3>Name :
+        {{ student["name"] }}
+    </h3>
+
+    <h3>Department :
+        {{ student["department"] }}
+    </h3>
+
+    <h3>Year :
+        {{ student["year"] }}
+    </h3>
+
+    <h3>Hall Ticket Status :
+        {{ student["hall_ticket_status"] }}
+    </h3>
+
+    <h3>Generated Date :
+        {{ student["hall_ticket_generated_date"] }}
+    </h3>
+
+    <hr>
+
+    <h3 align="center">
+        Principal Signature
+    </h3>
+
+    <a href="/students"><button type="button">Back to Students</button></a>
+
+</body>
+
+</html>

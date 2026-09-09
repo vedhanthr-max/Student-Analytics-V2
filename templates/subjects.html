@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Subjects</title>
+
+</head>
+
+<body>
+
+    <h2>Subjects</h2>
+
+    {% if session.get("role") == "admin" %}
+
+    <a href="/add_subject">
+
+        <button>
+
+            Add Subject
+
+        </button>
+
+    </a>
+
+    {% endif %}
+
+    {% if session.get("role") == "teacher" %}
+    <a href="/teacher"><button type="button">Back to Teacher Dashboard</button></a>
+    {% elif session.get("role") == "admin" %}
+    <a href="/admin"><button type="button">Back to Admin Dashboard</button></a>
+    {% endif %}
+
+    <br><br>
+
+    <table border="1">
+
+        <tr>
+
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Credits</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for s in subjects %}
+
+        <tr>
+
+            <td>{{ s["subject_id"] }}</td>
+
+            <td>{{ s["subject_code"] }}</td>
+
+            <td>{{ s["subject_name"] }}</td>
+
+            <td>{{ s["semester"] }}</td>
+
+            <td>{{ s["credits"] }}</td>
+            <td>
+
+                {% if session.get("role") == "admin" %}
+
+                <a href="/edit_subject/{{ s['subject_id'] }}">
+
+                    <button>
+
+                        ✏ Edit
+
+                    </button>
+
+                </a>
+
+                <a href="/delete_subject/{{ s['subject_id'] }}" onclick="return confirm('Delete this Subject?')">
+
+                    <button>
+
+                        🗑 Delete
+
+                    </button>
+
+                </a>
+
+                {% else %}
+
+                View Only
+
+                {% endif %}
+
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>
