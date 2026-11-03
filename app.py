@@ -20,7 +20,7 @@ from config import (
     UPI_NUMBER,
     UPI_PAYEE_NAME,
 )
-from services.grades import calculate_grade
+from services.grades import calculate_grade, compute_gpa, compute_summary, parse_marks
 from services.prediction import predict_student_performance
 from utils.auth import login_required, roles_required, student_identity
 from utils.database import get_connection, get_row_connection
@@ -703,6 +703,15 @@ def save_result():
     register_no = request.form["register_no"]
     semester = request.form["semester"]
     subject_code = request.form["subject_code"]
+    try:
+        semester = int(request.form["semester"])
+        internal, external = parse_marks(
+            request.form["internal_mark"],
+            request.form["external_mark"],
+        )
+    except (KeyError, ValueError) as exc:
+        return str(exc) or "Invalid result data.", 400
+
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -724,17 +733,20 @@ def save_result():
     subject_name = row[0]
     credits = row[1]
 
-    conn.close()
-
-    internal = float(request.form["internal_mark"])
-    external = float(request.form["external_mark"])
+    cursor.execute(
+        """
+        SELECT 1
+        FROM semester_results
+        WHERE register_no=? AND semester=? AND subject_code=?
+        """,
+        (register_no, semester, subject_code),
+    )
+    if cursor.fetchone() is not None:
+        conn.close()
+        return "Result already exists for this subject and semester.", 409
 
     total = internal + external
     grade, grade_point, result = calculate_grade(total)
-
-    conn = get_connection()
-
-    cursor = conn.cursor()
 
     cursor.execute("""
 
@@ -837,8 +849,14 @@ def update_result(id):
     subject_code = request.form["subject_code"]
     subject_name = request.form["subject_name"]
 
-    internal = float(request.form["internal_mark"])
-    external = float(request.form["external_mark"])
+    try:
+        semester = int(request.form["semester"])
+        internal, external = parse_marks(
+            request.form["internal_mark"],
+            request.form["external_mark"],
+        )
+    except (KeyError, ValueError) as exc:
+        return str(exc) or "Invalid result data.", 400
 
     total = internal + external
     grade, grade_point, result = calculate_grade(total)
@@ -852,6 +870,18 @@ def update_result(id):
     )
     subject = cursor.fetchone()
     credits = subject[0] if subject else 0
+
+    cursor.execute(
+        """
+        SELECT 1
+        FROM semester_results
+        WHERE register_no=? AND semester=? AND subject_code=? AND result_id!=?
+        """,
+        (register_no, semester, subject_code, id),
+    )
+    if cursor.fetchone() is not None:
+        conn.close()
+        return "Result already exists for this subject and semester.", 409
 
     cursor.execute("""
     UPDATE semester_results
@@ -942,18 +972,8 @@ def gpa(register_no, semester):
 
     results = cursor.fetchall()
 
-    total_points = 0
-    total_credits = 0
-
-    for r in results:
-
-        total_points += r["grade_point"] * r["credits"]
-        total_credits += r["credits"]
-
-    if total_credits == 0:
-        gpa = 0
-    else:
-        gpa = round(total_points / total_credits, 2)
+    gpa = compute_gpa(results)
+    total_credits = sum(r["credits"] for r in results)
 
     conn.close()
 
@@ -1167,32 +1187,7 @@ def academic_summary(register_no, semester):
 
     results = cursor.fetchall()
 
-    total_credits = 0
-    total_points = 0
-    pass_count = 0
-    fail_count = 0
-    total_marks = 0
-
-    for r in results:
-
-        total_credits += r["credits"]
-        total_points += r["credits"] * r["grade_point"]
-        total_marks += r["total_mark"]
-
-        if r["result"] == "Pass":
-            pass_count += 1
-        else:
-            fail_count += 1
-
-    if total_credits == 0:
-        gpa = 0
-    else:
-        gpa = round(total_points / total_credits, 2)
-
-    if len(results) == 0:
-        percentage = 0
-    else:
-        percentage = round(total_marks / len(results), 2)
+    summary = compute_summary(results)
 
     conn.close()
 
@@ -1201,11 +1196,12 @@ def academic_summary(register_no, semester):
         student=student,
         results=results,
         semester=semester,
-        total_credits=total_credits,
-        pass_count=pass_count,
-        fail_count=fail_count,
-        gpa=gpa,
-        percentage=percentage
+        total_credits=summary["total_credits"],
+        pass_count=summary["pass_count"],
+        fail_count=summary["fail_count"],
+        gpa=summary["gpa"],
+        percentage=summary["average_marks"],
+        average_marks=summary["average_marks"],
     )
 
 # ---------------- SUBJECTS ----------------
@@ -1989,14 +1985,6 @@ def generate_hallticket(id):
     if student is None:
         conn.close()
         return "Student Not Found", 404
-
-    if student["exam_fee"] > 0:
-        conn.close()
-        return """
-        <h2>Hall Ticket Cannot Be Generated</h2>
-        <h3>Pending Exam Fee</h3>
-        <a href="/students">Go Back</a>
-        """
 
     cursor.execute("""
     SELECT COUNT(*) AS pending_count

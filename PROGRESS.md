@@ -1,5 +1,5 @@
 - [x] B1: Backend run-safety and security
-- [ ] B2: Cluster label mapping and validation
+- [x] B2: Cluster label mapping and validation
 - [ ] F1: POST action buttons
 - [ ] B3: Project hygiene and tests
 - [ ] F2: Template cleanup and base layout
