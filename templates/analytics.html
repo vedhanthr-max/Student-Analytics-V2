@@ -2,9 +2,8 @@
 
 {% block title %}Analytics Dashboard{% endblock %}
 {% block extra_head %}
-
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         .analytics-shell {
             max-width: 1120px;
@@ -24,11 +23,19 @@
             color: #475569;
         }
 
-        .analytics-cards {
+        .analytics-cards,
+        .analytics-charts {
             display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 14px;
+        }
+
+        .analytics-cards {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             margin-bottom: 22px;
+        }
+
+        .analytics-charts {
+            grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
         }
 
         .analytics-card,
@@ -40,9 +47,13 @@
             box-shadow: 0 8px 20px rgba(30, 58, 138, 0.08);
         }
 
+        .analytics-card h2,
+        .analytics-chart h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
         .analytics-card h2 {
-            margin: 0;
-            color: #475569;
             font-size: 14px;
         }
 
@@ -53,41 +64,9 @@
             font-size: 28px;
         }
 
-        .analytics-chart h2 {
-            margin-top: 0;
-            color: #1e3a8a;
-        }
-
-        .bar-chart {
-            display: grid;
-            gap: 14px;
-        }
-
-        .bar-row {
-            display: grid;
-            grid-template-columns: 150px 1fr 50px;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .bar-track {
-            height: 18px;
-            overflow: hidden;
-            background: #e2e8f0;
-            border-radius: 999px;
-        }
-
-        .bar-fill {
-            height: 100%;
-            min-width: 2px;
-            background: #2563eb;
-            border-radius: inherit;
-        }
-
-        .bar-value {
-            color: #1e3a8a;
-            font-weight: 700;
-            text-align: right;
+        .analytics-chart canvas {
+            width: 100% !important;
+            max-height: 360px;
         }
 
         .analytics-back {
@@ -99,21 +78,18 @@
             .analytics-cards {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
+
+            .analytics-charts {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 620px) {
             .analytics-cards {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .bar-row {
-                grid-template-columns: 110px 1fr 40px;
-                font-size: 13px;
-            }
         }
     </style>
-
-
 {% endblock %}
 {% block content %}
 <div class="analytics-shell">
@@ -130,43 +106,67 @@
         <div class="analytics-card"><h2>Not Predicted</h2><strong>{{ not_predicted }}</strong></div>
     </section>
 
-    {% set chart_max = [excellent, average, weak, not_predicted]|max %}
-    <section class="analytics-chart" aria-labelledby="performance-chart-title">
-        <h2 id="performance-chart-title">Performance Distribution</h2>
-        <div class="bar-chart">
-            {% for label, value in [
-                ('Excellent', excellent),
-                ('Average', average),
-                ('Need Improvement', weak),
-                ('Not Predicted', not_predicted)
-            ] %}
-            <div class="bar-row">
-                <span>{{ label }}</span>
-                <div class="bar-track" role="img" aria-label="{{ label }}: {{ value }}">
-                    <div class="bar-fill" style="width: {{ (value / chart_max * 100 if chart_max else 0)|round(1) }}%;"></div>
-                </div>
-                <span class="bar-value">{{ value }}</span>
-            </div>
-            {% endfor %}
+    <section class="analytics-charts">
+        <div class="analytics-chart">
+            <h2>Performance Distribution</h2>
+            <canvas id="performanceChart" aria-label="Performance distribution doughnut chart"></canvas>
+        </div>
+        <div class="analytics-chart">
+            <h2>Study Hours vs Internal Marks</h2>
+            <canvas id="studyChart" aria-label="Study hours and internal marks scatter chart"></canvas>
         </div>
     </section>
 
     {% if session.get("role") == "teacher" %}
-
-    <a href="/teacher">
-
-        <button type="button">Back to Dashboard</button>
-
-    </a>
-
+    <a class="analytics-back" href="{{ url_for('teacher') }}"><button type="button">Back to Dashboard</button></a>
     {% else %}
-
-    <a href="/admin">
-
-        <button type="button">Back to Dashboard</button>
-
-    </a>
-
+    <a class="analytics-back" href="{{ url_for('admin') }}"><button type="button">Back to Dashboard</button></a>
     {% endif %}
 </div>
+<script>
+    const clusterColors = {
+        "Excellent": "#16a34a",
+        "Average": "#f59e0b",
+        "Need Improvement": "#dc2626",
+        "Not Predicted": "#64748b"
+    };
+    new Chart(document.getElementById("performanceChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["Excellent", "Average", "Need Improvement", "Not Predicted"],
+            datasets: [{
+                data: [{{ excellent }}, {{ average }}, {{ weak }}, {{ not_predicted }}],
+                backgroundColor: Object.values(clusterColors)
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    fetch("{{ url_for('analytics_data') }}")
+        .then(response => response.json())
+        .then(points => {
+            const datasets = {};
+            points.forEach(point => {
+                if (!datasets[point.cluster]) {
+                    datasets[point.cluster] = {
+                        label: point.cluster,
+                        data: [],
+                        backgroundColor: clusterColors[point.cluster] || "#2563eb"
+                    };
+                }
+                datasets[point.cluster].data.push({x: point.x, y: point.y});
+            });
+            new Chart(document.getElementById("studyChart"), {
+                type: "scatter",
+                data: {datasets: Object.values(datasets)},
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {title: {display: true, text: "Study Hours"}},
+                        y: {title: {display: true, text: "Internal Marks"}, beginAtZero: true}
+                    }
+                }
+            });
+        });
+</script>
 {% endblock %}

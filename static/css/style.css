@@ -36,6 +36,50 @@ body {
     gap: 14px;
 }
 
+.csv-import-panel {
+    margin: 20px 0;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+}
+
+.csv-import-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.csv-import-form input[type="file"] {
+    width: auto;
+    margin: 0;
+    padding: 8px;
+}
+
+.csv-import-form button {
+    width: auto;
+    padding: 9px 13px;
+    font-size: 14px;
+}
+
+.csv-import-preview {
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.csv-import-preview table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.csv-import-preview th,
+.csv-import-preview td {
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+}
+
 .page-content {
     min-height: calc(100vh - 112px);
 }
@@ -447,4 +491,51 @@ label {
 
     width: auto;
 
+}
+
+@media (max-width: 767px) {
+    .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 12px 16px;
+    }
+
+    .site-nav {
+        width: 100%;
+        gap: 8px;
+    }
+
+    .site-nav a {
+        padding: 7px 9px;
+        background: #1e293b;
+        border-radius: 6px;
+    }
+
+    .container,
+    .card {
+        width: auto;
+        margin: 24px 12px;
+        padding: 20px;
+    }
+
+    .student-table-wrap,
+    .container > table {
+        overflow-x: auto;
+    }
+
+    .container > table {
+        display: block;
+        max-width: 100%;
+    }
+
+    .csv-import-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .csv-import-form input[type="file"],
+    .csv-import-form button {
+        width: 100%;
+        box-sizing: border-box;
+    }
 }

@@ -3,6 +3,8 @@
 {% block title %}Admin Dashboard{% endblock %}
 {% block extra_head %}
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -110,6 +112,18 @@
             color: #64748b;
             font-size: 14px;
             line-height: 1.45;
+        }
+
+        .admin-fee-chart {
+            margin-top: 24px;
+            padding: 18px;
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 14px;
+        }
+
+        .admin-fee-chart canvas {
+            max-height: 280px;
         }
 
         .admin-logout-card {
@@ -229,5 +243,27 @@
 
         </section>
 
+        <section class="admin-fee-chart" aria-labelledby="fee-chart-title">
+            <h2 id="fee-chart-title">Fee Collection Overview</h2>
+            <canvas id="feeChart" aria-label="Fees collected compared with pending fees"></canvas>
+        </section>
+
     </div>
+    <script>
+        new Chart(document.getElementById("feeChart"), {
+            type: "bar",
+            data: {
+                labels: ["Collected", "Pending"],
+                datasets: [{
+                    label: "Amount (INR)",
+                    data: [{{ fees_collected|float }}, {{ pending_fees|float }}],
+                    backgroundColor: ["#16a34a", "#f59e0b"]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
 {% endblock %}

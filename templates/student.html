@@ -449,6 +449,20 @@
 
         </form>
 
+        {% if session.get("role") == "admin" %}
+        <section class="csv-import-panel">
+            <h2>Import Students</h2>
+            <form class="csv-import-form" action="{{ url_for('import_students') }}" method="post"
+                enctype="multipart/form-data" data-preview-target="student-import-preview">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="file" name="file" accept=".csv" required>
+                <button type="submit" data-dry-run="1">Preview CSV</button>
+                <button type="submit">Import CSV</button>
+            </form>
+            <div id="student-import-preview" class="csv-import-preview" aria-live="polite"></div>
+        </section>
+        {% endif %}
+
         <br>
         <div class="student-table-wrap">
             <table class="student-table" border="1" cellpadding="10">
@@ -602,5 +616,35 @@
 
     </div>
 
+    {% endif %}
+    {% if session.get("role") == "admin" %}
+    <script>
+        document.querySelectorAll(".csv-import-form").forEach(form => {
+            form.addEventListener("submit", async event => {
+                event.preventDefault();
+                const button = event.submitter;
+                const data = new FormData(form);
+                if (button.dataset.dryRun === "1") {
+                    data.set("dry_run", "1");
+                }
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: data,
+                    headers: {"X-CSRFToken": form.querySelector("[name=csrf_token]").value}
+                });
+                const result = await response.json();
+                const target = document.getElementById(form.dataset.previewTarget);
+                target.innerHTML = "";
+                const table = document.createElement("table");
+                table.innerHTML = "<tr><th>Result</th><th>Details</th></tr>";
+                const row = table.insertRow();
+                row.insertCell().textContent = result.errors.length ? "Errors" : "Ready";
+                row.insertCell().textContent = result.errors.length
+                    ? result.errors.join(" ")
+                    : `${result.inserted} row(s) processed.`;
+                target.appendChild(table);
+            });
+        });
+    </script>
     {% endif %}
 {% endblock %}

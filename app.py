@@ -42,7 +42,7 @@ from config import (
     UPI_PAYEE_NAME,
 )
 from services.grades import calculate_grade, compute_gpa, compute_summary, parse_marks
-from services.prediction import predict_student_performance
+from services.prediction import explain_cluster, predict_student_performance
 from blueprints import register_blueprints, route
 from utils.auth import login_required, roles_required, student_identity
 from utils.database import get_connection, get_row_connection
@@ -1849,6 +1849,28 @@ def analytics():
     )
 
 
+@route("/analytics/data")
+@roles_required("admin", "teacher")
+def analytics_data():
+    conn = get_row_connection()
+    rows = conn.execute(
+        """
+        SELECT study_hours, internal_marks, COALESCE(cluster, 'Not Predicted') AS cluster
+        FROM students
+        WHERE study_hours IS NOT NULL AND internal_marks IS NOT NULL
+        """
+    ).fetchall()
+    conn.close()
+    return jsonify([
+        {
+            "x": float(row["study_hours"]),
+            "y": float(row["internal_marks"]),
+            "cluster": row["cluster"],
+        }
+        for row in rows
+    ])
+
+
 # ---------------- FEES ----------------
 
 @route("/fees")
@@ -2538,11 +2560,19 @@ def profile(id):
             conn.close()
             return "Forbidden", 403
 
+    explanation = None
+    if student["cluster"] and student["cluster"] != "Not Predicted":
+        try:
+            explanation = explain_cluster(student)
+        except (FileNotFoundError, ValueError):
+            explanation = None
+
     conn.close()
 
     return render_template(
         "profile.html",
-        student=student
+        student=student,
+        explanation=explanation,
     )
 # ---------------- GENERATE HALL TICKET ----------------
 

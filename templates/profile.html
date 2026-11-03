@@ -101,12 +101,25 @@ text-align:center;
 
 <tr>
 <td>Performance</td>
-<td>{{ student["cluster"] }}</td>
+<td>{{ student["cluster"] or "Not available" }}</td>
 </tr>
 
 <tr>
 <td>Recommendation</td>
-<td>{{ student["recommendation"] }}</td>
+<td>{{ student["recommendation"] or "No recommendation available." }}</td>
+</tr>
+
+<tr>
+<td>Cluster Explanation Gaps</td>
+<td>
+{% if explanation %}
+    {% for feature, gap in explanation.items() %}
+        {{ feature.replace("_", " ")|title }}: {{ "%.1f"|format(gap) }}<br>
+    {% endfor %}
+{% else %}
+    Explanation unavailable.
+{% endif %}
+</td>
 </tr>
 
 <tr>

@@ -9,3 +9,14 @@
 - [x] F4: Dashboards, charts, and pagination UI
 - [x] F5: PDF and print buttons
 - [x] B7: Blueprint refactor
+
+## Fix-up verification
+
+- [x] F4 gaps: charts, analytics data, profile explanations, CSV previews, and responsive layout
+- [ ] F5/F3 gaps: shared print CSS and CSRF coverage
+- [ ] B7 gaps: application factory, module split, container files, and route-map comparison
+- [ ] Git hygiene: untrack generated files and local database
+
+### Unverified
+
+- None currently.
