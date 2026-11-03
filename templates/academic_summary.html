@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Academic Summary</title>
-</head>
+{% block title %}Academic Summary{% endblock %}
+{% block extra_head %}
 
-<body>
 
-    <h2>Academic Summary</h2>
+{% endblock %}
+{% block content %}
+<h2>Academic Summary</h2>
 
     <h3>{{ student["name"] }}</h3>
 
@@ -77,7 +76,4 @@
     {% else %}
     <a href="/results"><button type="button">Back to Results</button></a>
     {% endif %}
-
-</body>
-
-</html>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Analytics{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <header class="site-header">
+        <a class="site-brand" href="{{ url_for('index') }}">Student Analytics</a>
+        {% if session.get("role") %}
+        <nav class="site-nav" aria-label="Main navigation">
+            {% if session.get("role") == "admin" %}
+            <a href="{{ url_for('admin') }}">Dashboard</a>
+            <a href="{{ url_for('admin_students') }}">Students</a>
+            <a href="{{ url_for('admin_teachers') }}">Teachers</a>
+            <a href="{{ url_for('subjects') }}">Subjects</a>
+            <a href="{{ url_for('results') }}">Results</a>
+            {% elif session.get("role") == "teacher" %}
+            <a href="{{ url_for('teacher') }}">Dashboard</a>
+            <a href="{{ url_for('students') }}">Students</a>
+            <a href="{{ url_for('subjects') }}">Subjects</a>
+            <a href="{{ url_for('results') }}">Results</a>
+            {% elif session.get("role") == "student" %}
+            <a href="{{ url_for('students') }}">Dashboard</a>
+            <a href="{{ url_for('fees') }}">Fees</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+        {% endif %}
+    </header>
+
+    {% include "_flash.html" %}
+
+    <main class="page-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">Student Analytics</footer>
+</body>
+
+</html>

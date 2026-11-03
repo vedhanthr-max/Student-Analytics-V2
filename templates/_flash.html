@@ -1,0 +1,7 @@
+{% set notice = message or request.args.get("message") %}
+{% if notice %}
+<div class="flash-banner {% if 'error' in notice|lower or 'failed' in notice|lower or 'incorrect' in notice|lower or 'forbidden' in notice|lower %}flash-error{% else %}flash-success{% endif %}"
+    role="alert">
+    {{ notice }}
+</div>
+{% endif %}

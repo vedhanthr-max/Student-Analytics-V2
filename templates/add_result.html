@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block title %}Add Semester Result{% endblock %}
+{% block extra_head %}
 
-    <title>Add Semester Result</title>
+
 
     <style>
         body {
@@ -56,11 +56,10 @@
         }
     </style>
 
-</head>
 
-<body>
-
-    <div class="container">
+{% endblock %}
+{% block content %}
+<div class="container">
 
         <h2>Add Semester Result</h2>
 
@@ -135,7 +134,4 @@
         <a href="/results"><button type="button">Cancel</button></a>
 
     </div>
-
-</body>
-
-</html>
+{% endblock %}

@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Fees Management</title>
+{% block title %}Fees Management{% endblock %}
+{% block extra_head %}
+
     <style>
         body {
             font-family: Arial;
@@ -71,11 +71,10 @@
             font-weight: bold;
         }
     </style>
-</head>
 
-<body>
-
-    <div class="container">
+{% endblock %}
+{% block content %}
+<div class="container">
         <h2>Fees Management</h2>
 
         {% if message %}
@@ -141,7 +140,4 @@
         <a href="/admin"><button class="btn btn-receipt">Back to Dashboard</button></a>
         {% endif %}
     </div>
-
-</body>
-
-</html>
+{% endblock %}

@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Add Subject</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}Add Subject{% endblock %}
+{% block extra_head %}
 
-<body>
 
-    <div class="container">
+
+{% endblock %}
+{% block content %}
+<div class="container">
         <h1>Add Subject</h1>
 
         <form action="{{ url_for('save_subject') }}" method="POST">
@@ -22,7 +21,4 @@
 
         <a href="/subjects"><button type="button">Cancel</button></a>
     </div>
-
-</body>
-
-</html>
+{% endblock %}

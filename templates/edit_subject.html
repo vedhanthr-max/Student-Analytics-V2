@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block title %}Edit Subject{% endblock %}
+{% block extra_head %}
 
-    <title>Edit Subject</title>
 
-</head>
 
-<body>
 
-    <h2>Edit Subject</h2>
+{% endblock %}
+{% block content %}
+<h2>Edit Subject</h2>
 
     <form action="/update_subject/{{ subject['subject_id'] }}" method="POST">
 
@@ -30,7 +29,4 @@
     </form>
 
     <a href="/subjects"><button type="button">Cancel</button></a>
-
-</body>
-
-</html>
+{% endblock %}

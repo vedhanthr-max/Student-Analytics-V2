@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Teacher Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block title %}Teacher Management{% endblock %}
+{% block extra_head %}
+
+
     <style>
         .teacher-page .panel {
             width: 90%;
@@ -40,10 +40,10 @@
             color: #334155;
         }
     </style>
-</head>
 
-<body class="teacher-page">
-    <div class="panel">
+{% endblock %}
+{% block content %}
+<div class="panel">
         <h1>Teacher Management</h1>
         <p>Teachers are sourced from the existing login table. No separate teacher table exists in the current database.
         </p>
@@ -74,6 +74,4 @@
             <button>Back to Dashboard</button>
         </a>
     </div>
-</body>
-
-</html>
+{% endblock %}

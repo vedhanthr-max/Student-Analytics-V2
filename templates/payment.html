@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>UPI Payment</title>
+{% block title %}UPI Payment{% endblock %}
+{% block extra_head %}
+
     <style>
         body {
             font-family: Arial;
@@ -83,11 +83,10 @@
             margin: 14px 0;
         }
     </style>
-</head>
 
-<body>
-
-    <div class="card">
+{% endblock %}
+{% block content %}
+<div class="card">
         <h2>Exam Fee Payment</h2>
 
         {% if message %}
@@ -135,7 +134,7 @@
             <p><strong>UPI ID:</strong> {{ upi_id }}</p>
             <p><strong>UPI Number:</strong> {{ upi_number }}</p>
             <p><strong>Payee:</strong> {{ payee_name }}</p>
-            <p><strong>Amount Due:</strong> ₹ {{ "%.2f"|format(payment_amount) }}</p>
+            <p><strong>Amount Due:</strong> â‚¹ {{ "%.2f"|format(payment_amount) }}</p>
         </div>
 
         <div class="payment-note">
@@ -149,7 +148,4 @@
 
         <a href="/fees"><button type="button" class="btn btn-secondary">Cancel</button></a>
     </div>
-
-</body>
-
-</html>
+{% endblock %}

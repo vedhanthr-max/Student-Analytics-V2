@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Semester GPA</title>
+{% block title %}Semester GPA{% endblock %}
+{% block extra_head %}
+
     <style>
         body {
             font-family: Arial;
@@ -38,11 +38,10 @@
             padding: 8px 12px;
         }
     </style>
-</head>
 
-<body>
-
-    <div class="container">
+{% endblock %}
+{% block content %}
+<div class="container">
         <h2>Semester GPA</h2>
         <p><b>Register No:</b> {{ register_no }}</p>
         <p><b>Semester:</b> {{ semester }}</p>
@@ -78,7 +77,4 @@
         <a href="{{ url_for('results') }}"><button type="button">Back to Results</button></a>
         {% endif %}
     </div>
-
-</body>
-
-</html>
+{% endblock %}

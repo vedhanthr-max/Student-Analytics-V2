@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Pending Fees</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block title %}Pending Fees{% endblock %}
+{% block extra_head %}
+
+
     <style>
         body {
             font-family: Arial;
@@ -36,12 +36,12 @@
             color: white;
         }
     </style>
-</head>
 
-<body>
-    <div class="container">
+{% endblock %}
+{% block content %}
+<div class="container">
         <h2>Pending Fees</h2>
-        <p><strong>Total Pending:</strong> ₹ {{ total_pending }}</p>
+        <p><strong>Total Pending:</strong> â‚¹ {{ total_pending }}</p>
 
         {% if pending_registrations %}
         <table>
@@ -76,6 +76,4 @@
 
         <a class="admin-back-link" href="/admin"><button>Back to Dashboard</button></a>
     </div>
-</body>
-
-</html>
+{% endblock %}

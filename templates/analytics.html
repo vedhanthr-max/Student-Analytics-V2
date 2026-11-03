@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block title %}Analytics Dashboard{% endblock %}
+{% block extra_head %}
 
-    <title>Analytics Dashboard</title>
+
 
     <style>
         body {
@@ -43,11 +43,10 @@
         }
     </style>
 
-</head>
 
-<body>
-
-    <h1>📊 Analytics Dashboard</h1>
+{% endblock %}
+{% block content %}
+<h1>ðŸ“Š Analytics Dashboard</h1>
 
     <div class="card">
         <h2>Total Students</h2>
@@ -55,22 +54,22 @@
     </div>
 
     <div class="card">
-        <h2>🟢 Excellent</h2>
+        <h2>ðŸŸ¢ Excellent</h2>
         <h1>{{ excellent }}</h1>
     </div>
 
     <div class="card">
-        <h2>🟠 Average</h2>
+        <h2>ðŸŸ  Average</h2>
         <h1>{{ average }}</h1>
     </div>
 
     <div class="card">
-        <h2>🔴 Need Improvement</h2>
+        <h2>ðŸ”´ Need Improvement</h2>
         <h1>{{ weak }}</h1>
     </div>
 
     <div class="card">
-        <h2>⚪ Not Predicted</h2>
+        <h2>âšª Not Predicted</h2>
         <h1>{{ not_predicted }}</h1>
     </div>
 
@@ -82,7 +81,7 @@
 
         <button>
 
-            ⬅ Back to Dashboard
+            â¬… Back to Dashboard
 
         </button>
 
@@ -94,14 +93,11 @@
 
         <button>
 
-            ⬅ Back to Dashboard
+            â¬… Back to Dashboard
 
         </button>
 
     </a>
 
     {% endif %}
-
-</body>
-
-</html>
+{% endblock %}

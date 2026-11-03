@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Payment Receipt</title>
+{% block title %}Payment Receipt{% endblock %}
+{% block extra_head %}
+
     <style>
         body {
             font-family: Arial;
@@ -61,11 +61,10 @@
             }
         }
     </style>
-</head>
 
-<body>
-
-    <div class="receipt">
+{% endblock %}
+{% block content %}
+<div class="receipt">
         <h2>Exam Fee Payment Receipt</h2>
         <p><strong>Receipt ID:</strong> {{ payment["payment_id"] }}</p>
 
@@ -133,7 +132,4 @@
             <a href="/fees"><button class="btn" type="button">Back to Fees</button></a>
         </div>
     </div>
-
-</body>
-
-</html>
+{% endblock %}

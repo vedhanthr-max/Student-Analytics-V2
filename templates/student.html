@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Students</title>
+{% block title %}Students{% endblock %}
+{% block extra_head %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <style>
         .student-dashboard-page {
             min-height: 100vh;
@@ -211,11 +211,10 @@
             }
         }
     </style>
-</head>
 
-<body class="student-page {% if session.get('role') == 'student' %}student-dashboard-page{% endif %}">
-
-    {% if session.get("role") == "student" and students %}
+{% endblock %}
+{% block content %}
+{% if session.get("role") == "student" and students %}
     {% set me = students[0] %}
 
     <div class="student-dashboard-shell">
@@ -234,31 +233,31 @@
         <section class="student-dashboard-grid">
 
             <a class="student-dashboard-card" href="/profile/{{ me['id'] }}">
-                <span class="student-card-icon">👤</span>
+                <span class="student-card-icon">ðŸ‘¤</span>
                 <h2 class="student-card-title">Profile</h2>
                 <p class="student-card-desc">View your personal and academic profile information.</p>
             </a>
 
             <a class="student-dashboard-card" href="/hall_ticket/{{ me['id'] }}">
-                <span class="student-card-icon">🎫</span>
+                <span class="student-card-icon">ðŸŽ«</span>
                 <h2 class="student-card-title">Hall Ticket</h2>
                 <p class="student-card-desc">Check current hall ticket status and details.</p>
             </a>
 
             <a class="student-dashboard-card" href="/students">
-                <span class="student-card-icon">📋</span>
+                <span class="student-card-icon">ðŸ“‹</span>
                 <h2 class="student-card-title">My Record</h2>
                 <p class="student-card-desc">Review your current data in the student record table.</p>
             </a>
 
             <a class="student-dashboard-card" href="/fees">
-                <span class="student-card-icon">💳</span>
+                <span class="student-card-icon">ðŸ’³</span>
                 <h2 class="student-card-title">Fees / Payment</h2>
                 <p class="student-card-desc">View your own exam fees and available payment options.</p>
             </a>
 
             <div class="student-dashboard-card">
-                <span class="student-card-icon">🎓</span>
+                <span class="student-card-icon">ðŸŽ“</span>
                 <h2 class="student-card-title">GPA / Results</h2>
                 <p class="student-card-desc">Open GPA summary by semester.</p>
                 <div class="student-inline-links">
@@ -274,7 +273,7 @@
             </div>
 
             <div class="student-dashboard-card">
-                <span class="student-card-icon">📘</span>
+                <span class="student-card-icon">ðŸ“˜</span>
                 <h2 class="student-card-title">Academic Summary</h2>
                 <p class="student-card-desc">View pass/fail counts and semester performance details.</p>
                 <div class="student-inline-links">
@@ -290,7 +289,7 @@
             </div>
 
             <a class="student-dashboard-card student-logout-card" href="/logout">
-                <span class="student-card-icon">🚪</span>
+                <span class="student-card-icon">ðŸšª</span>
                 <h2 class="student-card-title">Logout</h2>
                 <p class="student-card-desc">Sign out of your student account securely.</p>
             </a>
@@ -388,7 +387,7 @@
 
                         <td class="student-profile-cell">
                             <a class="action-link" href="/profile/{{ me['id'] }}">
-                                <button class="action-btn action-btn-profile">👤 View Profile</button>
+                                <button class="action-btn action-btn-profile">ðŸ‘¤ View Profile</button>
                             </a>
                         </td>
 
@@ -406,9 +405,7 @@
 
         <h1>Student List</h1>
 
-        {% if request.args.get("message") %}
-        <p>{{ request.args.get("message") }}</p>
-        {% endif %}
+
 
         <form action="{{ request.path }}" method="GET">
 
@@ -521,7 +518,7 @@
 
                             <button class="action-btn action-btn-profile">
 
-                                👤 View Profile
+                                ðŸ‘¤ View Profile
 
                             </button>
 
@@ -563,7 +560,4 @@
     </div>
 
     {% endif %}
-
-</body>
-
-</html>
+{% endblock %}

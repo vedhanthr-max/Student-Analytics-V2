@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block title %}Hall Ticket{% endblock %}
+{% block extra_head %}
 
-    <title>Hall Ticket</title>
 
-</head>
 
-<body>
 
-    <h1 align="center">
+{% endblock %}
+{% block content %}
+<h1 align="center">
         COLLEGE EXAMINATION HALL TICKET
     </h1>
 
@@ -50,7 +49,4 @@
     </h3>
 
     <a href="/students"><button type="button">Back to Students</button></a>
-
-</body>
-
-</html>
+{% endblock %}

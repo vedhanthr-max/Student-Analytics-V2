@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Teacher Dashboard</title>
+{% block title %}Teacher Dashboard{% endblock %}
+{% block extra_head %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <style>
         .teacher-dashboard {
             min-height: 100vh;
@@ -148,11 +148,10 @@
         }
     </style>
 
-</head>
 
-<body class="teacher-dashboard">
-
-    <div class="teacher-dashboard-shell">
+{% endblock %}
+{% block content %}
+<div class="teacher-dashboard-shell">
         <header class="teacher-dashboard-header">
             <div>
                 <h1 class="teacher-dashboard-title">Teacher Dashboard</h1>
@@ -165,56 +164,53 @@
 
         <section class="teacher-dashboard-grid">
             <a class="teacher-dashboard-card" href="/students">
-                <span class="teacher-card-icon">👨‍🎓</span>
+                <span class="teacher-card-icon">ðŸ‘¨â€ðŸŽ“</span>
                 <h2 class="teacher-card-title">View Students</h2>
                 <p class="teacher-card-desc">Browse student profiles, attendance, recommendations, and hall-ticket
                     status.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/results">
-                <span class="teacher-card-icon">📝</span>
+                <span class="teacher-card-icon">ðŸ“</span>
                 <h2 class="teacher-card-title">Results</h2>
                 <p class="teacher-card-desc">View semester result entries and track performance outcomes.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/subjects">
-                <span class="teacher-card-icon">📚</span>
+                <span class="teacher-card-icon">ðŸ“š</span>
                 <h2 class="teacher-card-title">Subjects</h2>
                 <p class="teacher-card-desc">Access subject lists, codes, semesters, and academic metadata.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/analytics">
-                <span class="teacher-card-icon">📊</span>
+                <span class="teacher-card-icon">ðŸ“Š</span>
                 <h2 class="teacher-card-title">Analytics</h2>
                 <p class="teacher-card-desc">Review student clusters and overall academic distribution insights.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/add_result">
-                <span class="teacher-card-icon">➕</span>
+                <span class="teacher-card-icon">âž•</span>
                 <h2 class="teacher-card-title">Add Result</h2>
                 <p class="teacher-card-desc">Enter new result records for students using the current workflow.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/exam_registration">
-                <span class="teacher-card-icon">🗓️</span>
+                <span class="teacher-card-icon">ðŸ—“ï¸</span>
                 <h2 class="teacher-card-title">Exam Registration</h2>
                 <p class="teacher-card-desc">Register students for upcoming examinations.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/students">
-                <span class="teacher-card-icon">🎫</span>
+                <span class="teacher-card-icon">ðŸŽ«</span>
                 <h2 class="teacher-card-title">Hall Tickets</h2>
                 <p class="teacher-card-desc">Open student records to view and manage hall tickets.</p>
             </a>
 
             <a class="teacher-dashboard-card teacher-logout-card" href="/logout">
-                <span class="teacher-card-icon">🚪</span>
+                <span class="teacher-card-icon">ðŸšª</span>
                 <h2 class="teacher-card-title">Logout</h2>
                 <p class="teacher-card-desc">Sign out of the teacher portal securely.</p>
             </a>
         </section>
     </div>
-
-</body>
-
-</html>
+{% endblock %}

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
+{% block title %}Student Profile{% endblock %}
+{% block extra_head %}
 
-<title>Student Profile</title>
+
 
 <style>
 
@@ -50,13 +50,12 @@ text-align:center;
 
 </style>
 
-</head>
 
-<body>
-
+{% endblock %}
+{% block content %}
 <div class="card">
 
-<h2>👨‍🎓 Student Profile</h2>
+<h2>ðŸ‘¨â€ðŸŽ“ Student Profile</h2>
 
 <table border="1">
 
@@ -158,14 +157,11 @@ text-align:center;
 
 <button>
 
-⬅ Back
+â¬… Back
 
 </button>
 
 </a>
 
 </div>
-
-</body>
-
-</html>
+{% endblock %}

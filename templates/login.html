@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>{{ login_title or "Login - Student Analytics" }}</title>
+{% block title %}{{ login_title or "Login - Student Analytics" }}{% endblock %}
+{% block extra_head %}
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <style>
         .password-field-wrap {
             position: relative;
@@ -44,11 +44,10 @@
             outline-offset: 1px;
         }
     </style>
-</head>
 
-<body>
-
-    <div class="container">
+{% endblock %}
+{% block content %}
+<div class="container">
 
         <h1>{{ login_title or "Student Analytics System" }}</h1>
 
@@ -62,7 +61,7 @@
                 <input id="password" type="password" name="password" required>
                 <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password"
                     aria-pressed="false" title="Show password">
-                    👁
+                    ðŸ‘
                 </button>
             </div>
 
@@ -96,14 +95,11 @@
             toggleBtn.addEventListener('click', function () {
                 var isHidden = passwordInput.type === 'password';
                 passwordInput.type = isHidden ? 'text' : 'password';
-                toggleBtn.textContent = isHidden ? '🙈' : '👁';
+                toggleBtn.textContent = isHidden ? 'ðŸ™ˆ' : 'ðŸ‘';
                 toggleBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
                 toggleBtn.setAttribute('title', isHidden ? 'Hide password' : 'Show password');
                 toggleBtn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
             });
         })();
     </script>
-
-</body>
-
-</html>
+{% endblock %}

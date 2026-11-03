@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
 
-<title>Add Student</title>
+{% block title %}Add Student{% endblock %}
+{% block extra_head %}
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
 
-</head>
 
-<body>
 
+
+
+{% endblock %}
+{% block content %}
 <div class="container">
 
 <h2>Add Student</h2>
@@ -96,6 +95,4 @@ Save Student
 </form>
 
 </div>
-
-</body>
-</html>
+{% endblock %}

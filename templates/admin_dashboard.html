@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>Admin Dashboard</title>
+{% block title %}Admin Dashboard{% endblock %}
+{% block extra_head %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <style>
         .admin-dashboard {
             min-height: 100vh;
@@ -157,11 +157,10 @@
         }
     </style>
 
-</head>
 
-<body class="admin-dashboard">
-
-    <div class="admin-dashboard-shell">
+{% endblock %}
+{% block content %}
+<div class="admin-dashboard-shell">
 
         <header class="admin-dashboard-header">
             <div>
@@ -189,13 +188,13 @@
 
             <a class="admin-card-link" href="{{ url_for('admin_fees_collected') }}">
                 <h2 class="admin-card-title">Fees Collected</h2>
-                <p class="admin-card-value">₹ {{ fees_collected }}</p>
+                <p class="admin-card-value">â‚¹ {{ fees_collected }}</p>
                 <p class="admin-card-desc">Track successful and completed fee payments.</p>
             </a>
 
             <a class="admin-card-link" href="{{ url_for('admin_fees_pending') }}">
                 <h2 class="admin-card-title">Pending Fees</h2>
-                <p class="admin-card-value">₹ {{ pending_fees }}</p>
+                <p class="admin-card-value">â‚¹ {{ pending_fees }}</p>
                 <p class="admin-card-desc">Monitor unpaid balances and pending dues.</p>
             </a>
 
@@ -231,7 +230,4 @@
         </section>
 
     </div>
-
-</body>
-
-</html>
+{% endblock %}
