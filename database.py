@@ -2,12 +2,13 @@
 
 import sqlite3
 
-from config import DATABASE
+import config
 from werkzeug.security import generate_password_hash
 
 
-def init_db():
-    conn = sqlite3.connect(DATABASE)
+def init_db(db_path=None):
+    database_path = db_path or config.DATABASE
+    conn = sqlite3.connect(database_path)
 
     cursor = conn.cursor()
 

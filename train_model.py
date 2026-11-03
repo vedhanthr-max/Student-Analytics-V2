@@ -2,7 +2,6 @@
 
 import json
 import os
-import sqlite3
 from datetime import datetime, timezone
 
 import joblib
@@ -11,7 +10,8 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-from config import BASE_DIR, DATABASE, MODEL_PATH, SCALER_PATH
+from config import BASE_DIR, MODEL_PATH, SCALER_PATH
+from utils.database import get_connection
 
 FEATURE_COLUMNS = [
     "Study_Hours",
@@ -25,7 +25,7 @@ MODEL_META_PATH = os.path.join(BASE_DIR, "models", "model_meta.json")
 
 def _load_training_data():
     """Load non-zero database features or fall back to the CSV dataset."""
-    with sqlite3.connect(DATABASE) as conn:
+    with get_connection() as conn:
         database_data = pd.read_sql_query(
             """
             SELECT study_hours AS Study_Hours,

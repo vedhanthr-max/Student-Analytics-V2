@@ -2,12 +2,12 @@
 
 import sqlite3
 
-from config import DATABASE
+import config
 
 
 def get_connection():
     """Return a SQLite connection to the application database."""
-    return sqlite3.connect(DATABASE)
+    return sqlite3.connect(config.DATABASE)
 
 
 def get_row_connection():

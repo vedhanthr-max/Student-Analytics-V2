@@ -1,6 +1,10 @@
 from collections.abc import Mapping
+import logging
 
+import config
 from config import DEBUG, get_secret_key
+from database import init_db
+from utils.database import get_connection
 from .admin import ENDPOINTS as ADMIN_ENDPOINTS, blueprint as admin_blueprint
 from .analytics import ENDPOINTS as ANALYTICS_ENDPOINTS, blueprint as analytics_blueprint
 from .auth import ENDPOINTS as AUTH_ENDPOINTS, blueprint as auth_blueprint
@@ -22,6 +26,7 @@ _FUNCTION_GROUPS = {
     for endpoint in endpoints
 }
 _legacy_app = None
+logger = logging.getLogger("student_analytics")
 
 
 def route(rule, **options):
@@ -63,6 +68,25 @@ def create_app(config=None):
             _legacy_app.config.from_object(config)
         debug = _legacy_app.config.get("DEBUG", debug)
     _legacy_app.config["SECRET_KEY"] = get_secret_key(debug=debug)
+    init_db()
+    with get_connection() as conn:
+        login_table = conn.execute(
+            "SELECT name FROM sqlite_master "
+            "WHERE type='table' AND name='login'"
+        ).fetchone()
+    if login_table is None:
+        logger.error(
+            "Login table missing from database path %s; initializing schema.",
+            config.DATABASE,
+        )
+        init_db()
+        with get_connection() as conn:
+            login_table = conn.execute(
+                "SELECT name FROM sqlite_master "
+                "WHERE type='table' AND name='login'"
+            ).fetchone()
+        if login_table is None:
+            raise RuntimeError("Database schema initialization failed.")
     return _legacy_app
 
 

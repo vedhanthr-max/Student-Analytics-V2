@@ -117,6 +117,52 @@ def _run_secret_key_check(debug):
     )
 
 
+def _run_database_check(database_path):
+    child_env = os.environ.copy()
+    child_env["PYTHON_DOTENV_DISABLED"] = "1"
+    child_env["SECRET_KEY"] = "test-secret"
+    child_env["STUDENT_DB_PATH"] = database_path
+    code = (
+        "import re, sqlite3\n"
+        "from app import create_app\n"
+        "from config import DATABASE\n"
+        "app = create_app({'TESTING': True})\n"
+        "client = app.test_client()\n"
+        "page = client.get('/admin/login')\n"
+        "token = re.search(rb'name=\\\"csrf_token\\\" value=\\\"([^\\\"]+)\\\"', page.data).group(1).decode()\n"
+        "response = client.post('/admin/login', data={'username':'admin','password':'admin123','csrf_token':token})\n"
+        "print(DATABASE)\n"
+        "print(response.status_code)\n"
+    )
+    return subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=PROJECT_ROOT,
+        env=child_env,
+        capture_output=True,
+        text=True,
+    )
+
+
+def test_empty_database_path_uses_default_database():
+    result = _run_database_check("")
+    assert result.returncode == 0, result.stderr
+    assert "database\\student.db" in result.stdout
+    assert result.stdout.strip().endswith(("302", "401"))
+
+
+def test_fresh_database_is_initialized_and_seeded():
+    fresh_database = Path(tempfile.mkdtemp(prefix="student-analytics-fresh-")) / "fresh.db"
+    result = _run_database_check(str(fresh_database))
+    assert result.returncode == 0, result.stderr
+    with sqlite3.connect(fresh_database) as conn:
+        assert conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='login'"
+        ).fetchone()
+        assert conn.execute(
+            "SELECT COUNT(*) FROM login WHERE username IN ('admin', 'teacher', 'student')"
+        ).fetchone()[0] == 3
+
+
 def test_empty_secret_key_uses_generated_development_key():
     result = _run_secret_key_check(debug=True)
     assert result.returncode == 0, result.stderr

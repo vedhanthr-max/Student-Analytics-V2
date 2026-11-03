@@ -14,11 +14,9 @@ if load_dotenv is not None:
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_DB_PATH = os.path.join(BASE_DIR, "database", "student.db")
 
-DATABASE = os.environ.get(
-    "STUDENT_DB_PATH",
-    os.path.join(BASE_DIR, "database", "student.db"),
-)
+DATABASE = os.environ.get("STUDENT_DB_PATH") or DEFAULT_DB_PATH
 MODEL_PATH = os.path.join(BASE_DIR, "models", "kmeans_model.pkl")
 SCALER_PATH = os.path.join(BASE_DIR, "models", "scaler.pkl")
 
