@@ -19,4 +19,5 @@
 
 ### Unverified
 
-- None currently.
+- `pytest -q` executable was not on PATH; equivalent `python -m pytest -q` passed (17 tests).
+- Direct Gunicorn startup is unavailable on Windows because Gunicorn requires Unix `fcntl`; Docker targets Linux.
