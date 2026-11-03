@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Subject</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Add Subject</h1>
+
+        <form action="{{ url_for('save_subject') }}" method="POST">
+            <input type="text" name="subject_code" placeholder="Subject Code" required>
+            <input type="text" name="subject_name" placeholder="Subject Name" required>
+            <input type="number" name="semester" min="1" max="8" placeholder="Semester" required>
+            <input type="number" name="credits" min="1" placeholder="Credits" required>
+
+            <button type="submit">Save Subject</button>
+        </form>
+
+        <a href="/subjects"><button type="button">Cancel</button></a>
+    </div>
+
+</body>
+
+</html>

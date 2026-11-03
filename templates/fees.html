@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fees Management</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 96%;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #bbb;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .msg {
+            background: #ecf7ec;
+            border: 1px solid #7cbf7c;
+            color: #1f6b1f;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-pay {
+            background: #27ae60;
+            color: #fff;
+        }
+
+        .btn-receipt {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        .badge-paid {
+            color: #0b7a2a;
+            font-weight: bold;
+        }
+
+        .badge-unpaid {
+            color: #b33a3a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Fees Management</h2>
+
+        {% if message %}
+        <div class="msg">{{ message }}</div>
+        {% endif %}
+
+        <table>
+            <tr>
+                <th>Reg ID</th>
+                <th>Register No</th>
+                <th>Name</th>
+                <th>Semester</th>
+                <th>Exam Type</th>
+                <th>Total Fee</th>
+                <th>Paid</th>
+                <th>Balance</th>
+                <th>Status</th>
+                <th>Registration Date</th>
+                <th>Last Payment Date</th>
+                <th>Action</th>
+            </tr>
+            {% for r in registrations %}
+            <tr>
+                <td>{{ r["registration_id"] }}</td>
+                <td>{{ r["register_no"] }}</td>
+                <td>{{ r["name"] or "-" }}</td>
+                <td>{{ r["semester"] }}</td>
+                <td>{{ r["exam_type"] }}</td>
+                <td>{{ r["exam_fee"] }}</td>
+                <td>{{ r["amount_paid"] }}</td>
+                <td>{{ r["balance_due"] }}</td>
+                <td>
+                    {% if r["payment_status"] == "Paid" %}
+                    <span class="badge-paid">Paid</span>
+                    {% else %}
+                    <span class="badge-unpaid">Unpaid</span>
+                    {% endif %}
+                </td>
+                <td>{{ r["registration_date"] }}</td>
+                <td>{{ r["last_payment_date"] or "-" }}</td>
+                <td>
+                    {% if r["payment_status"] == "Paid" or r["balance_due"] <= 0 %} {% if r["last_payment_id"] %} <a
+                        href="/receipt/{{ r['last_payment_id'] }}">
+                        <button class="btn btn-receipt">View Receipt</button>
+                        </a>
+                        {% else %}
+                        Paid
+                        {% endif %}
+                        {% else %}
+                        <a href="/payment/{{ r['registration_id'] }}">
+                            <button class="btn btn-pay">Pay Now</button>
+                        </a>
+                        {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+        {% if student_view %}
+        <a href="/students"><button class="btn btn-receipt">Back to Dashboard</button></a>
+        {% else %}
+        <a href="/admin"><button class="btn btn-receipt">Back to Dashboard</button></a>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

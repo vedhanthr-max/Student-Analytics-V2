@@ -1,10 +1,12 @@
+"""Backward-compatible recommendation helper.
+
+Prefer services.prediction.get_cluster_label_and_recommendation for new code.
+"""
+
+from services.prediction import get_cluster_label_and_recommendation
+
+
 def get_recommendation(cluster):
-
-    if cluster == 0:
-        return "Excellent Performance. Continue advanced learning."
-
-    elif cluster == 1:
-        return "Average Performance. Improve assignments and study consistency."
-
-    else:
-        return "Needs Improvement. Focus on attendance and study hours."
+    """Return recommendation text for a KMeans cluster id."""
+    _, recommendation = get_cluster_label_and_recommendation(cluster)
+    return recommendation

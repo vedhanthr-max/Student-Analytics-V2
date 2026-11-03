@@ -1,165 +1,381 @@
-body{
+body {
 
-background:#172554;
+    background: #172554;
 
-font-family:Arial;
+    font-family: Arial;
 
-margin:0;
+    margin: 0;
 
-padding:0;
-
-}
-
-.container{
-
-width:450px;
-
-margin:70px auto;
-
-background:white;
-
-padding:40px;
-
-border-radius:15px;
-
-text-align:center;
+    padding: 0;
 
 }
 
-h1{
+.container {
 
-color:#1e3a8a;
+    width: 450px;
 
-}
+    margin: 70px auto;
 
-input{
+    background: white;
 
-width:95%;
+    padding: 40px;
 
-padding:15px;
+    border-radius: 15px;
 
-margin:12px;
-
-font-size:17px;
+    text-align: center;
 
 }
 
-button{
+h1 {
 
-width:100%;
-
-padding:15px;
-
-background:#2563eb;
-
-color:white;
-
-border:none;
-
-font-size:20px;
-
-cursor:pointer;
+    color: #1e3a8a;
 
 }
 
-button:hover{
+input {
 
-background:#1d4ed8;
+    width: 95%;
 
-}
+    padding: 15px;
 
-select{
-    width:100%;
-    padding:15px;
-    margin:12px 0;
-    font-size:17px;
-}
+    margin: 12px;
 
-label{
-    display:block;
-    text-align:left;
-    margin-top:10px;
-    font-weight:bold;
-}
-
-.dashboard{
-
-width:90%;
-
-margin:40px auto;
-
-text-align:center;
+    font-size: 17px;
 
 }
 
-.cards{
+button {
 
-display:grid;
+    width: 100%;
 
-grid-template-columns:repeat(2,1fr);
+    padding: 15px;
 
-gap:25px;
+    background: #2563eb;
 
-margin-top:40px;
+    color: white;
 
-}
+    border: none;
 
-.card{
+    font-size: 20px;
 
-background:white;
-
-padding:30px;
-
-border-radius:15px;
-
-box-shadow:0 0 15px rgba(0,0,0,.2);
+    cursor: pointer;
 
 }
 
-.card h1{
+button:hover {
 
-color:#0d47a1;
-
-font-size:45px;
+    background: #1d4ed8;
 
 }
 
-.menu{
+.student-page .container {
 
-margin-top:40px;
+    width: 95%;
 
-display:grid;
+    max-width: none;
 
-grid-template-columns:repeat(3,1fr);
+    margin: 30px auto;
 
-gap:20px;
+    padding: 24px;
 
-}
-
-.menu button{
-
-width:100%;
-
-padding:18px;
-
-font-size:18px;
-
-background:#1565c0;
-
-color:white;
-
-border:none;
-
-border-radius:10px;
-
-cursor:pointer;
-
-transition:.3s;
+    text-align: left;
 
 }
 
-.menu button:hover{
+.student-page .student-table-wrap {
 
-background:#0d47a1;
+    overflow-x: auto;
+
+    width: 100%;
+
+    border-radius: 12px;
+
+}
+
+.student-page .student-table {
+
+    width: 100%;
+
+    min-width: 1450px;
+
+    border-collapse: collapse;
+
+    font-size: 14px;
+
+    background: #fff;
+
+}
+
+.student-page .student-table th,
+.student-page .student-table td {
+
+    padding: 10px 12px;
+
+    vertical-align: top;
+
+    white-space: nowrap;
+
+}
+
+.student-page .student-actions {
+
+    white-space: normal;
+
+    min-width: 320px;
+
+}
+
+.student-page .student-profile-cell {
+
+    min-width: 150px;
+
+}
+
+.student-page .action-link {
+
+    display: inline-block;
+
+    margin: 4px 6px 4px 0;
+
+    text-decoration: none;
+
+}
+
+.student-page .action-btn {
+
+    width: auto;
+
+    padding: 7px 12px;
+
+    font-size: 14px;
+
+    line-height: 1.2;
+
+    border-radius: 8px;
+
+}
+
+.student-page .action-btn-success {
+
+    background: #15803d;
+
+}
+
+.student-page .action-btn-success:hover {
+
+    background: #166534;
+
+}
+
+.student-page .action-btn-danger {
+
+    background: #dc2626;
+
+}
+
+.student-page .action-btn-danger:hover {
+
+    background: #b91c1c;
+
+}
+
+.student-page .action-btn-secondary {
+
+    background: #475569;
+
+}
+
+.student-page .action-btn-secondary:hover {
+
+    background: #334155;
+
+}
+
+.student-page .action-btn-profile {
+
+    background: #2563eb;
+
+}
+
+.student-page .action-btn-profile:hover {
+
+    background: #1d4ed8;
+
+}
+
+.student-page .student-table a button {
+
+    width: auto;
+
+}
+
+.student-page .student-table thead th,
+.student-page .student-table th {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1;
+
+    background: #1e3a8a;
+
+    color: white;
+
+}
+
+.student-page .student-table tr:nth-child(even) {
+
+    background: #f8fafc;
+
+}
+
+.student-page .student-table tr:hover {
+
+    background: #eef2ff;
+
+}
+
+.student-page table.borderless,
+.student-page table {
+
+    table-layout: auto;
+
+}
+
+select {
+    width: 100%;
+    padding: 15px;
+    margin: 12px 0;
+    font-size: 17px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.dashboard {
+
+    width: 90%;
+
+    margin: 40px auto;
+
+    text-align: center;
+
+}
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+
+    margin-top: 40px;
+
+}
+
+.card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+
+}
+
+.card h1 {
+
+    color: #0d47a1;
+
+    font-size: 45px;
+
+}
+
+.menu {
+
+    margin-top: 40px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+.menu button {
+
+    width: 100%;
+
+    padding: 18px;
+
+    font-size: 18px;
+
+    background: #1565c0;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.menu button:hover {
+
+    background: #0d47a1;
+
+}
+
+.dashboard-card-link {
+
+    display: block;
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+.dashboard-card-link h2,
+.dashboard-card-link h3,
+.dashboard-card-link h1,
+.dashboard-card-link p {
+
+    margin: 0;
+
+}
+
+.dashboard-card-link h1 {
+
+    margin-top: 12px;
+
+}
+
+.admin-back-link {
+
+    display: inline-block;
+
+    margin-top: 18px;
+
+    text-decoration: none;
+
+}
+
+.admin-back-link button {
+
+    width: auto;
 
 }

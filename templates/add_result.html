@@ -6,145 +6,135 @@
     <title>Add Semester Result</title>
 
     <style>
-
-        body{
-            font-family:Arial;
-            background:#f2f2f2;
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
         }
 
-        .container{
+        .container {
 
-            width:500px;
+            width: 500px;
 
-            margin:auto;
+            margin: auto;
 
-            margin-top:30px;
+            margin-top: 30px;
 
-            background:white;
+            background: white;
 
-            padding:30px;
+            padding: 30px;
 
-            border-radius:10px;
+            border-radius: 10px;
 
-            box-shadow:0px 0px 10px gray;
-
-        }
-
-        h2{
-
-            text-align:center;
+            box-shadow: 0px 0px 10px gray;
 
         }
 
-        input{
+        h2 {
 
-            width:100%;
-
-            padding:10px;
-
-            margin-top:10px;
-
-            margin-bottom:10px;
+            text-align: center;
 
         }
 
-        button{
+        input {
 
-            width:100%;
+            width: 100%;
 
-            padding:10px;
+            padding: 10px;
+
+            margin-top: 10px;
+
+            margin-bottom: 10px;
 
         }
 
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+        }
     </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<h2>Add Semester Result</h2>
+        <h2>Add Semester Result</h2>
 
-<form action="/save_result" method="POST">
+        <form action="/save_result" method="POST">
 
-<select name="register_no" required>
+            <select name="register_no" required>
 
-<option value="">Select Student</option>
+                <option value="">Select Student</option>
 
-{% for student in students %}
+                {% for student in students %}
 
-<option value="{{ student['register_no'] }}">
+                <option value="{{ student['register_no'] }}">
 
-{{ student['register_no'] }} - {{ student['name'] }}
+                    {{ student['register_no'] }} - {{ student['name'] }}
 
-</option>
+                </option>
 
-{% endfor %}
+                {% endfor %}
 
-</select>
+            </select>
 
-<label>Semester</label>
+            <label>Semester</label>
 
-<select name="semester" required>
+            <select name="semester" required>
 
-    <option value="">Select Semester</option>
+                <option value="">Select Semester</option>
 
-    <option value="1">Semester 1</option>
-    <option value="2">Semester 2</option>
-    <option value="3">Semester 3</option>
-    <option value="4">Semester 4</option>
-    <option value="5">Semester 5</option>
-    <option value="6">Semester 6</option>
-    <option value="7">Semester 7</option>
-    <option value="8">Semester 8</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
 
-</select>
+            </select>
 
-<br><br>
+            <br><br>
 
-<label>Subject</label>
+            <label>Subject</label>
 
-<select name="subject_code" required>
+            <select name="subject_code" required>
 
-    <option value="">Select Subject</option>
+                <option value="">Select Subject</option>
 
-    {% for subject in subjects %}
+                {% for subject in subjects %}
 
-    <option value="{{ subject['subject_code'] }}">
+                <option value="{{ subject['subject_code'] }}">
 
-        {{ subject['subject_code'] }} - {{ subject['subject_name'] }}
+                    {{ subject['subject_code'] }} - {{ subject['subject_name'] }}
 
-    </option>
+                </option>
 
-    {% endfor %}
+                {% endfor %}
 
-</select>
+            </select>
 
-<br><br>
-<input
-type="number"
-step="0.1"
-name="internal_mark"
-placeholder="Internal Mark"
-required>
+            <br><br>
+            <input type="number" step="0.1" name="internal_mark" placeholder="Internal Mark" required>
 
-<input
-type="number"
-step="0.1"
-name="external_mark"
-placeholder="External Mark"
-required>
+            <input type="number" step="0.1" name="external_mark" placeholder="External Mark" required>
 
-<button>
+            <button>
 
-Save Result
+                Save Result
 
-</button>
+            </button>
 
-</form>
+        </form>
 
-</div>
+        <a href="/results"><button type="button">Cancel</button></a>
+
+    </div>
 
 </body>
 

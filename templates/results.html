@@ -3,171 +3,187 @@
 
 <head>
 
-<title>Semester Results</title>
+    <title>Semester Results</title>
 
-<style>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
 
-body{
-    font-family:Arial;
-    background:#f2f2f2;
-}
+        .container {
 
-.container{
+            width: 95%;
 
-    width:95%;
+            margin: auto;
 
-    margin:auto;
+            margin-top: 30px;
 
-    margin-top:30px;
+            background: white;
 
-    background:white;
+            padding: 20px;
 
-    padding:20px;
+            border-radius: 10px;
 
-    border-radius:10px;
+        }
 
-}
+        table {
 
-table{
+            width: 100%;
 
-    width:100%;
+            border-collapse: collapse;
 
-    border-collapse:collapse;
+        }
 
-}
+        th,
+        td {
 
-th,td{
+            border: 1px solid gray;
 
-    border:1px solid gray;
+            padding: 10px;
 
-    padding:10px;
+            text-align: center;
 
-    text-align:center;
+        }
 
-}
+        th {
 
-th{
+            background: #2c3e50;
 
-    background:#2c3e50;
+            color: white;
 
-    color:white;
+        }
 
-}
+        button {
 
-button{
+            padding: 6px 12px;
 
-    padding:6px 12px;
-
-}
-
-</style>
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<h2>Semester Results</h2>
+        <h2>Semester Results</h2>
 
-<br>
+        <br>
 
-<a href="/add_result">
+        {% if session.get("role") in ["admin", "teacher"] %}
 
-<button>
+        <a href="/add_result">
 
-➕ Add Result
+            <button>
 
-</button>
+                ➕ Add Result
 
-</a>
+            </button>
 
-<br><br>
+        </a>
 
-<table>
+        {% endif %}
 
-<tr>
+        {% if session.get("role") == "teacher" %}
+        <a href="/teacher"><button type="button">Back to Teacher Dashboard</button></a>
+        {% elif session.get("role") == "admin" %}
+        <a href="/admin"><button type="button">Back to Admin Dashboard</button></a>
+        {% endif %}
 
-<th>ID</th>
+        <br><br>
 
-<th>Register No</th>
+        <table>
 
-<th>Semester</th>
+            <tr>
 
-<th>Subject Code</th>
+                <th>ID</th>
 
-<th>Subject Name</th>
+                <th>Register No</th>
 
-<th>Internal</th>
+                <th>Semester</th>
 
-<th>External</th>
+                <th>Subject Code</th>
 
-<th>Total</th>
+                <th>Subject Name</th>
 
-<th>Grade</th>
+                <th>Internal</th>
 
-<th>Result</th>
+                <th>External</th>
 
-<th>Actions</th>
+                <th>Total</th>
 
-</tr>
+                <th>Grade</th>
 
-{% for r in results %}
+                <th>Result</th>
 
-<tr>
+                <th>Actions</th>
 
-<td>{{ r["result_id"] }}</td>
+            </tr>
 
-<td>{{ r["register_no"] }}</td>
+            {% for r in results %}
 
-<td>{{ r["semester"] }}</td>
+            <tr>
 
-<td>{{ r["subject_code"] }}</td>
+                <td>{{ r["result_id"] }}</td>
 
-<td>{{ r["subject_name"] }}</td>
+                <td>{{ r["register_no"] }}</td>
 
-<td>{{ r["internal_mark"] }}</td>
+                <td>{{ r["semester"] }}</td>
 
-<td>{{ r["external_mark"] }}</td>
+                <td>{{ r["subject_code"] }}</td>
 
-<td>{{ r["total_mark"] }}</td>
+                <td>{{ r["subject_name"] }}</td>
 
-<td>{{ r["grade"] }}</td>
+                <td>{{ r["internal_mark"] }}</td>
 
-<td>{{ r["result"] }}</td>
+                <td>{{ r["external_mark"] }}</td>
 
-<td>
+                <td>{{ r["total_mark"] }}</td>
 
-<a href="/edit_result/{{ r['result_id'] }}">
+                <td>{{ r["grade"] }}</td>
 
-<button>
+                <td>{{ r["result"] }}</td>
 
-✏ Edit
+                <td>
 
-</button>
+                    {% if session.get("role") in ["admin", "teacher"] %}
 
-</a>
+                    <a href="/edit_result/{{ r['result_id'] }}">
 
-<a href="/delete_result/{{ r['result_id'] }}"
-onclick="return confirm('Delete this Result?')">
+                        <button>
 
-<button>
+                            ✏ Edit
 
-🗑 Delete
+                        </button>
 
-</button>
+                    </a>
 
-</a>
+                    <a href="/delete_result/{{ r['result_id'] }}" onclick="return confirm('Delete this Result?')">
 
-</td>
+                        <button>
 
-</tr>
+                            🗑 Delete
 
-{% endfor %}
+                        </button>
 
-</table>
+                    </a>
 
-</div>
+                    {% endif %}
+
+                    <a href="/academic_summary/{{ r['register_no'] }}/{{ r['semester'] }}">
+                        Academic Summary
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
 
 </body>
 

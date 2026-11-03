@@ -3,80 +3,97 @@
 
 <head>
 
-<title>Subjects</title>
+    <title>Subjects</title>
 
 </head>
 
 <body>
 
-<h2>Subjects</h2>
+    <h2>Subjects</h2>
 
-<a href="/add_subject">
+    {% if session.get("role") == "admin" %}
 
-<button>
+    <a href="/add_subject">
 
-Add Subject
+        <button>
 
-</button>
+            Add Subject
 
-</a>
+        </button>
 
-<br><br>
+    </a>
 
-<table border="1">
+    {% endif %}
 
-<tr>
+    {% if session.get("role") == "teacher" %}
+    <a href="/teacher"><button type="button">Back to Teacher Dashboard</button></a>
+    {% elif session.get("role") == "admin" %}
+    <a href="/admin"><button type="button">Back to Admin Dashboard</button></a>
+    {% endif %}
 
-<th>ID</th>
-<th>Code</th>
-<th>Name</th>
-<th>Semester</th>
-<th>Credits</th>
-<th>Actions</th>
-</tr>
+    <br><br>
 
-{% for s in subjects %}
+    <table border="1">
 
-<tr>
+        <tr>
 
-<td>{{ s["subject_id"] }}</td>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Credits</th>
+            <th>Actions</th>
+        </tr>
 
-<td>{{ s["subject_code"] }}</td>
+        {% for s in subjects %}
 
-<td>{{ s["subject_name"] }}</td>
+        <tr>
 
-<td>{{ s["semester"] }}</td>
+            <td>{{ s["subject_id"] }}</td>
 
-<td>{{ s["credits"] }}</td>
-<td>
+            <td>{{ s["subject_code"] }}</td>
 
-<a href="/edit_subject/{{ s['subject_id'] }}">
+            <td>{{ s["subject_name"] }}</td>
 
-<button>
+            <td>{{ s["semester"] }}</td>
 
-✏ Edit
+            <td>{{ s["credits"] }}</td>
+            <td>
 
-</button>
+                {% if session.get("role") == "admin" %}
 
-</a>
+                <a href="/edit_subject/{{ s['subject_id'] }}">
 
-<a href="/delete_subject/{{ s['subject_id'] }}"
-onclick="return confirm('Delete this Subject?')">
+                    <button>
 
-<button>
+                        ✏ Edit
 
-🗑 Delete
+                    </button>
 
-</button>
+                </a>
 
-</a>
+                <a href="/delete_subject/{{ s['subject_id'] }}" onclick="return confirm('Delete this Subject?')">
 
-</td>
-</tr>
+                    <button>
 
-{% endfor %}
+                        🗑 Delete
 
-</table>
+                    </button>
+
+                </a>
+
+                {% else %}
+
+                View Only
+
+                {% endif %}
+
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
 </body>
 

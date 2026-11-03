@@ -1,6 +1,11 @@
+"""Database schema setup and seed data."""
+
 import sqlite3
 
-conn = sqlite3.connect("database/student.db")
+from config import DATABASE
+from werkzeug.security import generate_password_hash
+
+conn = sqlite3.connect(DATABASE)
 
 cursor = conn.cursor()
 
@@ -62,7 +67,17 @@ CREATE TABLE IF NOT EXISTS students(
     exam_fee REAL DEFAULT 0,
     revaluation_fee REAL DEFAULT 0,
     
-    hall_ticket_status TEXT DEFAULT 'Not Generated'
+    hall_ticket_status TEXT DEFAULT 'Not Generated',
+
+    hall_ticket_no TEXT DEFAULT '',
+
+    hall_ticket_generated_date TEXT DEFAULT '',
+
+    exam_session TEXT DEFAULT '',
+
+    exam_month TEXT DEFAULT '',
+
+    exam_year INTEGER DEFAULT 0
     
 )
 
@@ -100,6 +115,52 @@ CREATE TABLE IF NOT EXISTS semester_results(
 )
 """)
 
+# ---------------- EXAM REGISTRATION ----------------
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS exam_registration(
+
+    registration_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    register_no TEXT,
+
+    semester INTEGER,
+
+    exam_type TEXT,
+
+    exam_fee REAL,
+
+    registration_date TEXT,
+
+    status TEXT DEFAULT 'Registered'
+
+)
+""")
+
+# ---------------- PAYMENTS TABLE ----------------
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS payments(
+
+    payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    registration_id INTEGER,
+
+    register_no TEXT,
+
+    amount REAL,
+
+    payment_date TEXT,
+
+    payment_mode TEXT DEFAULT 'Mock/Internal',
+
+    transaction_ref TEXT UNIQUE,
+
+    status TEXT DEFAULT 'Success'
+
+)
+""")
+
 # ---------------- SUBJECT TABLE ----------------
 
 cursor.execute("""
@@ -118,15 +179,120 @@ CREATE TABLE IF NOT EXISTS subjects(
 )
 """)
 
+# ---------------- SCHEMA MIGRATIONS ----------------
+
+def add_column_if_missing(table, column, definition):
+    cursor.execute(f"PRAGMA table_info({table})")
+    existing_columns = {row[1] for row in cursor.fetchall()}
+
+    if column not in existing_columns:
+        cursor.execute(
+            f"ALTER TABLE {table} ADD COLUMN {column} {definition}"
+        )
+
+
+add_column_if_missing("semester_results", "credits", "INTEGER DEFAULT 0")
+
+add_column_if_missing("students", "hall_ticket_no", "TEXT DEFAULT ''")
+add_column_if_missing(
+    "students", "hall_ticket_generated_date", "TEXT DEFAULT ''"
+)
+add_column_if_missing("students", "exam_session", "TEXT DEFAULT ''")
+add_column_if_missing("students", "exam_month", "TEXT DEFAULT ''")
+add_column_if_missing("students", "exam_year", "INTEGER DEFAULT 0")
+add_column_if_missing("students", "login_id", "INTEGER")
+
+cursor.execute("""
+CREATE UNIQUE INDEX IF NOT EXISTS idx_students_login_id
+ON students(login_id)
+""")
+
+add_column_if_missing("exam_registration", "amount_paid", "REAL DEFAULT 0")
+add_column_if_missing("exam_registration", "balance_due", "REAL DEFAULT 0")
+add_column_if_missing(
+    "exam_registration", "payment_status", "TEXT DEFAULT 'Unpaid'"
+)
+add_column_if_missing(
+    "exam_registration", "last_payment_date", "TEXT DEFAULT ''"
+)
+add_column_if_missing("exam_registration", "gateway_order_id", "TEXT DEFAULT ''")
+add_column_if_missing("exam_registration", "gateway_session_created_at", "TEXT DEFAULT ''")
+add_column_if_missing("exam_registration", "gateway_payment_id", "TEXT DEFAULT ''")
+add_column_if_missing("exam_registration", "gateway_qr_id", "TEXT DEFAULT ''")
+add_column_if_missing("exam_registration", "gateway_qr_image_url", "TEXT DEFAULT ''")
+add_column_if_missing("payments", "gateway_order_id", "TEXT DEFAULT ''")
+add_column_if_missing("payments", "gateway_payment_id", "TEXT DEFAULT ''")
+add_column_if_missing("payments", "gateway_signature", "TEXT DEFAULT ''")
+
+# Populate credits for existing results where the matching subject is available.
+cursor.execute("""
+UPDATE semester_results
+SET credits = (
+    SELECT credits
+    FROM subjects
+    WHERE subjects.subject_code = semester_results.subject_code
+)
+WHERE EXISTS (
+    SELECT 1
+    FROM subjects
+    WHERE subjects.subject_code = semester_results.subject_code
+)
+""")
+
+# Backfill payment state for existing exam registrations.
+cursor.execute("""
+UPDATE exam_registration
+SET amount_paid = COALESCE(amount_paid, 0)
+""")
+
+cursor.execute("""
+UPDATE exam_registration
+SET balance_due =
+    CASE
+        WHEN COALESCE(payment_status, '') = 'Paid' THEN 0
+        WHEN COALESCE(balance_due, 0) <= 0 THEN
+            CASE
+                WHEN COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0) > 0 THEN
+                    COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0)
+                ELSE 0
+            END
+        ELSE balance_due
+    END
+""")
+
+cursor.execute("""
+UPDATE exam_registration
+SET payment_status =
+    CASE
+        WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
+        ELSE 'Unpaid'
+    END
+WHERE COALESCE(payment_status, '') NOT IN ('Paid', 'Unpaid')
+   OR COALESCE(payment_status, '') = ''
+""")
+
+cursor.execute("""
+UPDATE exam_registration
+SET status =
+    CASE
+        WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
+        ELSE COALESCE(status, 'Registered')
+    END
+""")
+
 # ---------------- DEFAULT LOGIN ----------------
 
 cursor.execute("""
 INSERT OR IGNORE INTO login(id,username,password,role)
 VALUES
-(1,'admin','admin123','admin'),
-(2,'teacher','teacher123','teacher'),
-(3,'student','student123','student')
-""")
+(1,'admin',?,'admin'),
+(2,'teacher',?,'teacher'),
+(3,'student',?,'student')
+""", (
+    generate_password_hash("admin123"),
+    generate_password_hash("teacher123"),
+    generate_password_hash("student123"),
+))
 
 conn.commit()
 conn.close()

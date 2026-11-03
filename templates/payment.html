@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UPI Payment</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+        }
+
+        .card {
+            width: 700px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 18px;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        .msg {
+            background: #fff7e6;
+            border: 1px solid #e7c97f;
+            color: #7a5a15;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .upi-details {
+            margin: 18px 0;
+            padding: 16px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+        }
+
+        .upi-details p {
+            margin: 8px 0;
+        }
+
+        .payment-note {
+            color: #7a5a15;
+            background: #fff7e6;
+            border: 1px solid #e7c97f;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 14px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Exam Fee Payment</h2>
+
+        {% if message %}
+        <div class="msg">{{ message }}</div>
+        {% endif %}
+
+        <table>
+            <tr>
+                <td>Registration ID</td>
+                <td>{{ registration["registration_id"] }}</td>
+            </tr>
+            <tr>
+                <td>Register No</td>
+                <td>{{ registration["register_no"] }}</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{ registration["name"] or "-" }}</td>
+            </tr>
+            <tr>
+                <td>Semester</td>
+                <td>{{ registration["semester"] }}</td>
+            </tr>
+            <tr>
+                <td>Exam Type</td>
+                <td>{{ registration["exam_type"] }}</td>
+            </tr>
+            <tr>
+                <td>Total Fee</td>
+                <td>{{ registration["exam_fee"] }}</td>
+            </tr>
+            <tr>
+                <td>Paid</td>
+                <td>{{ registration["amount_paid"] }}</td>
+            </tr>
+            <tr>
+                <td>Balance Due</td>
+                <td>{{ registration["balance_due"] }}</td>
+            </tr>
+        </table>
+
+        {% if payment_amount > 0 %}
+        <div class="upi-details">
+            <p><strong>Payment Method:</strong> UPI / Google Pay</p>
+            <p><strong>UPI ID:</strong> {{ upi_id }}</p>
+            <p><strong>UPI Number:</strong> {{ upi_number }}</p>
+            <p><strong>Payee:</strong> {{ payee_name }}</p>
+            <p><strong>Amount Due:</strong> ₹ {{ "%.2f"|format(payment_amount) }}</p>
+        </div>
+
+        <div class="payment-note">
+            Payment status remains pending until verified by the existing payment process.
+        </div>
+
+        <a href="{{ upi_link }}" class="btn btn-primary">Pay with UPI</a>
+        {% else %}
+        <div class="payment-note">No Pending Fee</div>
+        {% endif %}
+
+        <a href="/fees"><button type="button" class="btn btn-secondary">Cancel</button></a>
+    </div>
+
+</body>
+
+</html>

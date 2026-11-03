@@ -1,46 +1,109 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Login - Student Analytics</title>
+    <title>{{ login_title or "Login - Student Analytics" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .password-field-wrap {
+            position: relative;
+        }
+
+        .password-field-wrap input {
+            width: 100%;
+            padding-right: 52px;
+            box-sizing: border-box;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #1e3a8a;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .password-toggle:hover {
+            background: #eff6ff;
+        }
+
+        .password-toggle:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 1px;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <h1>Student Analytics System</h1>
+        <h1>{{ login_title or "Student Analytics System" }}</h1>
 
-    <form action="/login" method="POST">
+        <form action="{{ login_action or url_for('student_login') }}" method="POST">
 
-        <label>Username</label>
-        <input type="text" name="username" required>
+            <label>Username</label>
+            <input type="text" name="username" required>
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+            <label>Password</label>
+            <div class="password-field-wrap">
+                <input id="password" type="password" name="password" required>
+                <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password"
+                    aria-pressed="false" title="Show password">
+                    👁
+                </button>
+            </div>
 
-        <label>Login As</label>
+            <button type="submit">Login</button>
+            <br><br>
 
-        <select name="role" required>
+            <a href="/forgot_password">
+                Forgot Password?
+            </a>
+        </form>
 
-            <option value="">Select Role</option>
+        <p>
+            <a href="{{ url_for('admin_login') }}">Admin Login</a>
+            |
+            <a href="{{ url_for('teacher_login') }}">Teacher Login</a>
+            |
+            <a href="{{ url_for('student_login') }}">Student Login</a>
+        </p>
 
-            <option value="admin">Admin</option>
+    </div>
 
-            <option value="teacher">Teacher</option>
+    <script>
+        (function () {
+            var passwordInput = document.getElementById('password');
+            var toggleBtn = document.getElementById('passwordToggle');
 
-            <option value="student">Student</option>
+            if (!passwordInput || !toggleBtn) {
+                return;
+            }
 
-        </select>
-
-        <button type="submit">Login</button>
-           <br><br>
-
-               <a href="/forgot_password">
-                     Forgot Password?
-                </a>
-    </form>
-
-</div>
+            toggleBtn.addEventListener('click', function () {
+                var isHidden = passwordInput.type === 'password';
+                passwordInput.type = isHidden ? 'text' : 'password';
+                toggleBtn.textContent = isHidden ? '🙈' : '👁';
+                toggleBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+                toggleBtn.setAttribute('title', isHidden ? 'Hide password' : 'Show password');
+                toggleBtn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+            });
+        })();
+    </script>
 
 </body>
+
 </html>

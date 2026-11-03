@@ -1,69 +1,429 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-print("APP LOADED SUCCESSFULLY 🚀")
+from datetime import datetime
+import os
+import uuid
 import sqlite3
-import joblib
-import pandas as pd
+from urllib.parse import urlencode
+
+from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from werkzeug.security import check_password_hash, generate_password_hash
+
+try:
+    import razorpay
+except ImportError:
+    razorpay = None
+
+import database as _database
+from config import (
+    DEBUG,
+    SECRET_KEY,
+    UPI_ID,
+    UPI_NUMBER,
+    UPI_PAYEE_NAME,
+)
+from services.grades import calculate_grade
+from services.prediction import predict_student_performance
+from utils.auth import login_required, roles_required, student_identity
+from utils.database import get_connection, get_row_connection
 
 app = Flask(__name__)
-model = joblib.load("models/kmeans_model.pkl")
-scaler = joblib.load("models/scaler.pkl")
-app.secret_key = "studentanalytics"
+
+app.secret_key = SECRET_KEY
+
+PAYMENT_SESSION_SECONDS = 5 * 60
+
+
+def razorpay_client():
+    key_id = os.environ.get("RAZORPAY_KEY_ID")
+    key_secret = os.environ.get("RAZORPAY_KEY_SECRET")
+
+    if razorpay is None or not key_id or not key_secret:
+        return None
+
+    return razorpay.Client(auth=(key_id, key_secret))
 
 
 # ---------------- HOME ----------------
 
 @app.route("/")
 def index():
-    return render_template("login.html")
+    return redirect(url_for("student_login"))
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        return authenticate_login("admin")
+    return render_template(
+        "login.html",
+        login_role="admin",
+        login_title="Admin Login",
+        login_action=url_for("admin_login")
+    )
+
+
+@app.route("/teacher/login", methods=["GET", "POST"])
+def teacher_login():
+    if request.method == "POST":
+        return authenticate_login("teacher")
+    return render_template(
+        "login.html",
+        login_role="teacher",
+        login_title="Teacher Login",
+        login_action=url_for("teacher_login")
+    )
+
+
+@app.route("/student/login", methods=["GET", "POST"])
+def student_login():
+    if request.method == "POST":
+        return authenticate_login("student")
+    return render_template(
+        "login.html",
+        login_role="student",
+        login_title="Student Login",
+        login_action=url_for("student_login")
+    )
 
 
 # ---------------- LOGIN ----------------
 
-@app.route("/login", methods=["POST"])
-def login():
+def authenticate_login(role):
 
     username = request.form["username"]
     password = request.form["password"]
-    role = request.form["role"]
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM login WHERE username=? AND password=? AND role=?",
-        (username, password, role)
+        "SELECT * FROM login WHERE username=? AND role=?",
+        (username, role)
     )
 
     user = cursor.fetchone()
-    conn.close()
 
     if user:
+        stored_password = user["password"]
+        password_matches = (
+            check_password_hash(stored_password, password)
+            if stored_password.startswith(("scrypt:", "pbkdf2:"))
+            else stored_password == password
+        )
+
+        if not password_matches:
+            conn.close()
+            return "Invalid Login", 401
+
+        if not stored_password.startswith(("scrypt:", "pbkdf2:")):
+            cursor.execute(
+                "UPDATE login SET password=? WHERE id=?",
+                (generate_password_hash(password), user["id"])
+            )
+            conn.commit()
 
         session["username"] = username
-        session["role"] = role
+        session["role"] = user["role"]
+        session.pop("student_id", None)
+        session.pop("student_register_no", None)
 
-        if role == "admin":
+        if user["role"] == "admin":
+            conn.close()
             return redirect(url_for("admin"))
 
-        elif role == "teacher":
+        elif user["role"] == "teacher":
+            conn.close()
             return redirect(url_for("teacher"))
 
         else:
-            return redirect(url_for("student"))
+            cursor.execute(
+                "SELECT id, register_no FROM students WHERE login_id=?",
+                (user["id"],)
+            )
+            student = cursor.fetchone()
 
-    return "Invalid Login"
+            if student is not None:
+                session["student_id"] = student["id"]
+                session["student_register_no"] = student["register_no"]
+
+                conn.close()
+                return redirect(url_for("students"))
+
+            conn.close()
+            return "Invalid Login", 401
+
+    conn.close()
+    return "Invalid Login", 401
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    return "Use the role-specific login page.", 400
 
 
 # ---------------- ADMIN ----------------
 
 @app.route("/admin")
+@roles_required("admin")
 def admin():
-    return render_template("admin_dashboard.html")
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM students")
+    total_students = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM login WHERE role='teacher'")
+    total_teachers = cursor.fetchone()[0]
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(amount), 0)
+    FROM payments
+    WHERE status='Success'
+    """)
+    fees_collected = cursor.fetchone()[0]
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(CASE WHEN balance_due > 0 THEN balance_due ELSE 0 END), 0)
+    FROM exam_registration
+    WHERE COALESCE(payment_status, 'Unpaid') != 'Paid'
+       OR COALESCE(balance_due, 0) > 0
+    """)
+    pending_fees = cursor.fetchone()[0]
+
+    conn.close()
+
+    return render_template(
+        "admin_dashboard.html",
+        total_students=total_students,
+        total_teachers=total_teachers,
+        fees_collected=fees_collected,
+        pending_fees=pending_fees,
+    )
+
+
+@app.route("/admin/students")
+@roles_required("admin")
+def admin_students():
+
+    search = request.args.get("search", "")
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    if search:
+        cursor.execute("""
+        SELECT * FROM students
+        WHERE name LIKE ?
+           OR department LIKE ?
+           OR year LIKE ?
+        ORDER BY register_no
+        """, (
+            "%" + search + "%",
+            "%" + search + "%",
+            "%" + search + "%",
+        ))
+    else:
+        cursor.execute("SELECT * FROM students ORDER BY register_no")
+
+    students = cursor.fetchall()
+    conn.close()
+
+    return render_template(
+        "student.html",
+        students=students,
+        show_back_to_dashboard=True,
+    )
+
+
+@app.route("/admin/teachers")
+@roles_required("admin")
+def admin_teachers():
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, username, role FROM login WHERE role='teacher' ORDER BY id"
+    )
+
+    teachers = cursor.fetchall()
+    conn.close()
+
+    return render_template("teacher_management.html", teachers=teachers)
+
+
+@app.route("/admin/fees/collected")
+@roles_required("admin")
+def admin_fees_collected():
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT
+        p.payment_id,
+        s.name,
+        s.register_no,
+        er.semester,
+        er.exam_type,
+        p.amount,
+        p.payment_date,
+        p.transaction_ref
+    FROM payments p
+    LEFT JOIN exam_registration er
+        ON er.registration_id = p.registration_id
+    LEFT JOIN students s
+        ON s.register_no = p.register_no
+    WHERE p.status='Success'
+      AND COALESCE(er.payment_status, '') = 'Paid'
+    ORDER BY p.payment_id DESC
+    """)
+
+    payments = cursor.fetchall()
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(p.amount), 0)
+    FROM payments p
+    LEFT JOIN exam_registration er
+        ON er.registration_id = p.registration_id
+    WHERE p.status='Success'
+      AND COALESCE(er.payment_status, '') = 'Paid'
+    """)
+
+    total_collected = cursor.fetchone()[0]
+    conn.close()
+
+    return render_template(
+        "admin_fees_collected.html",
+        payments=payments,
+        total_collected=total_collected,
+    )
+
+
+@app.route("/admin/fees/pending")
+@roles_required("admin")
+def admin_fees_pending():
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT
+        er.registration_id,
+        s.name,
+        s.register_no,
+        er.semester,
+        er.exam_type,
+        er.exam_fee,
+        er.amount_paid,
+        er.balance_due,
+        er.payment_status
+    FROM exam_registration er
+    LEFT JOIN students s
+        ON s.register_no = er.register_no
+    WHERE COALESCE(er.payment_status, 'Unpaid') != 'Paid'
+       OR COALESCE(er.balance_due, 0) > 0
+    ORDER BY er.registration_id DESC
+    """)
+
+    pending_registrations = cursor.fetchall()
+
+    cursor.execute("""
+    SELECT COALESCE(SUM(CASE WHEN balance_due > 0 THEN balance_due ELSE 0 END), 0)
+    FROM exam_registration
+    WHERE COALESCE(payment_status, 'Unpaid') != 'Paid'
+       OR COALESCE(balance_due, 0) > 0
+    """)
+
+    total_pending = cursor.fetchone()[0]
+    conn.close()
+
+    return render_template(
+        "admin_fees_pending.html",
+        pending_registrations=pending_registrations,
+        total_pending=total_pending,
+    )
+
+
+@app.route("/admin/link_student_login", methods=["POST"])
+@roles_required("admin")
+def link_student_login():
+
+    payload = request.get_json(silent=True) or request.form
+
+    register_no = str(payload.get("register_no", "")).strip()
+    login_id_raw = payload.get("login_id", "")
+
+    if not register_no or login_id_raw == "":
+        return "register_no and login_id are required.", 400
+
+    try:
+        login_id = int(login_id_raw)
+    except (TypeError, ValueError):
+        return "login_id must be a valid integer.", 400
+
+    conn = get_connection()
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, role FROM login WHERE id=?", (login_id,))
+    login_row = cursor.fetchone()
+
+    if login_row is None:
+        conn.close()
+        return "Login account not found.", 404
+
+    if login_row["role"] != "student":
+        conn.close()
+        return "Only student login accounts can be linked.", 400
+
+    cursor.execute(
+        "SELECT id, login_id FROM students WHERE register_no=?",
+        (register_no,)
+    )
+    student = cursor.fetchone()
+
+    if student is None:
+        conn.close()
+        return "Student Not Found", 404
+
+    cursor.execute(
+        "SELECT register_no FROM students WHERE login_id=?",
+        (login_id,)
+    )
+    existing_link = cursor.fetchone()
+
+    if existing_link is not None and existing_link["register_no"] != register_no:
+        conn.close()
+        return "This student login is already linked to another student.", 409
+
+    if student["login_id"] is not None and student["login_id"] != login_id:
+        conn.close()
+        return "This student record is already linked to another login.", 409
+
+    if student["login_id"] == login_id:
+        conn.close()
+        return "Student login is already linked.", 200
+
+    try:
+        cursor.execute(
+            "UPDATE students SET login_id=? WHERE register_no=?",
+            (login_id, register_no)
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        conn.close()
+        return "This student login is already linked to another student.", 409
+
+    conn.close()
+    return "Student login linked successfully.", 200
 
 
 # ---------------- TEACHER ----------------
 
 @app.route("/teacher")
+@roles_required("admin", "teacher")
 def teacher():
     return render_template("teacher_dashboard.html")
 
@@ -71,12 +431,38 @@ def teacher():
 # ---------------- STUDENT ----------------
 
 @app.route("/students")
+@roles_required("admin", "teacher", "student")
 def students():
 
     search = request.args.get("search", "")
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    if session.get("role") == "student":
+
+        identity = student_identity()
+
+        if identity is None:
+            return "Forbidden", 403
+
+        student_id, student_register_no = identity
+
+        conn = get_row_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT * FROM students WHERE id=? AND register_no=? AND login_id IS NOT NULL",
+            (student_id, student_register_no)
+        )
+
+        data = cursor.fetchall()
+
+        conn.close()
+
+        if not data:
+            return "Forbidden", 403
+
+        return render_template("student.html", students=data)
+
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -122,6 +508,7 @@ def students():
 # ---------------- ADD STUDENT ----------------
 
 @app.route("/add_student")
+@roles_required("admin")
 def add_student():
     return render_template("add_student.html")
 
@@ -129,13 +516,15 @@ def add_student():
 # ---------------- SAVE STUDENT ----------------
 
 @app.route("/save_student", methods=["POST"])
+@roles_required("admin")
 def save_student():
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
-    cursor.execute("""
+    try:
+        cursor.execute("""
 
    INSERT INTO students
     (
@@ -156,24 +545,27 @@ def save_student():
 
 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
                    
-    """,(
-    request.form["register_no"],
-    request.form["name"],
-    request.form["department"],
-    request.form["year"],
-    request.form["study_hours"],
-    request.form["attendance"],
-    request.form["assignment"],
-    request.form["internal"],
+        """,(
+        request.form["register_no"],
+        request.form["name"],
+        request.form["department"],
+        request.form["year"],
+        request.form["study_hours"],
+        request.form["attendance"],
+        request.form["assignment"],
+        request.form["internal"],
 
-    "Not Predicted",
-    "Not Generated",
+        "Not Predicted",
+        "Not Generated",
 
-    request.form["student_phone"],
-    request.form["parent_phone"],
-    request.form["email"]
+        request.form["student_phone"],
+        request.form["parent_phone"],
+        request.form["email"]
 
-    ))
+        ))
+    except sqlite3.IntegrityError:
+        conn.close()
+        return "Register number already exists.", 409
 
     conn.commit()
 
@@ -185,10 +577,10 @@ VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
 # ---------------- EDIT STUDENT ----------------
 
 @app.route("/edit_student/<int:id>")
+@roles_required("admin", "teacher")
 def edit_student(id):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -197,14 +589,18 @@ def edit_student(id):
 
     conn.close()
 
+    if student is None:
+        return "Student Not Found", 404
+
     return render_template("edit_student.html", student=student)
 
 # ---------------- UPDATE STUDENT ----------------
 
 @app.route("/update_student/<int:id>", methods=["POST"])
+@roles_required("admin", "teacher")
 def update_student(id):
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -220,7 +616,7 @@ def update_student(id):
     internal_marks=?,
     student_phone=?,
     parent_phone=?,
-    email=?,
+    email=?
     WHERE id=?
     """, (
         
@@ -242,14 +638,15 @@ def update_student(id):
     conn.commit()
     conn.close()
 
-    return redirect("/students")
+    return redirect(url_for("students", message="Student information updated successfully."))
 
 # ---------------- DELETE STUDENT ----------------
 
-@app.route("/delete_student/<int:id>")
+@app.route("/delete_student/<int:id>", methods=["POST"])
+@roles_required("admin")
 def delete_student(id):
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -257,16 +654,20 @@ def delete_student(id):
         (id,)
     )
 
+    if cursor.rowcount == 0:
+        conn.close()
+        return "Student Not Found", 404
+
     conn.commit()
     conn.close()
 
     return redirect("/students")
 
 @app.route("/add_result")
+@roles_required("admin", "teacher")
 def add_result():
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -296,17 +697,18 @@ def add_result():
 
 
 @app.route("/save_result", methods=["POST"])
+@roles_required("admin", "teacher")
 def save_result():
 
     register_no = request.form["register_no"]
     semester = request.form["semester"]
     subject_code = request.form["subject_code"]
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
         """
-        SELECT subject_name
+        SELECT subject_name, credits
         FROM subjects
         WHERE subject_code=?
         """,
@@ -315,7 +717,12 @@ def save_result():
 
     row = cursor.fetchone()
 
+    if row is None:
+        conn.close()
+        return "Subject Not Found", 404
+
     subject_name = row[0]
+    credits = row[1]
 
     conn.close()
 
@@ -323,45 +730,9 @@ def save_result():
     external = float(request.form["external_mark"])
 
     total = internal + external
+    grade, grade_point, result = calculate_grade(total)
 
-    # Grade Calculation
-
-    if total >= 90:
-        grade = "O"
-        grade_point = 10
-        result = "Pass"
-
-    elif total >= 80:
-        grade = "A+"
-        grade_point = 9
-        result = "Pass"
-
-    elif total >= 70:
-        grade = "A"
-        grade_point = 8
-        result = "Pass"
-
-    elif total >= 60:
-        grade = "B+"
-        grade_point = 7
-        result = "Pass"
-
-    elif total >= 50:
-        grade = "B"
-        grade_point = 6
-        result = "Pass"
-
-    elif total >= 45:
-        grade = "C"
-        grade_point = 5
-        result = "Pass"
-
-    else:
-        grade = "RA"
-        grade_point = 0
-        result = "Fail"
-
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
@@ -378,11 +749,12 @@ def save_result():
     total_mark,
     grade,
     grade_point,
+    credits,
     result
 
     )
 
-    VALUES(?,?,?,?,?,?,?,?,?,?)
+    VALUES(?,?,?,?,?,?,?,?,?,?,?)
 
     """,(
 
@@ -394,9 +766,36 @@ def save_result():
     external,
     total,
     grade,
+    grade_point,
+    credits,
     result
 
     ))
+# ---------------- UPDATE ARREAR COUNT ----------------
+
+    cursor.execute("""
+
+    SELECT COUNT(*)
+
+    FROM semester_results
+
+    WHERE register_no=?
+
+    AND result='Fail'
+
+    """,(register_no,))
+
+    arrear_count = cursor.fetchone()[0]
+
+    cursor.execute("""
+
+    UPDATE students
+
+    SET arrear_count=?
+
+    WHERE register_no=?
+
+    """,(arrear_count, register_no))
 
     conn.commit()
 
@@ -405,10 +804,10 @@ def save_result():
     return redirect("/results")
 
 @app.route("/edit_result/<int:id>")
+@roles_required("admin", "teacher")
 def edit_result(id):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -421,12 +820,16 @@ def edit_result(id):
 
     conn.close()
 
+    if result is None:
+        return "Result Not Found", 404
+
     return render_template(
         "edit_result.html",
         result=result
     )
 
 @app.route("/update_result/<int:id>", methods=["POST"])
+@roles_required("admin", "teacher")
 def update_result(id):
 
     register_no = request.form["register_no"]
@@ -438,31 +841,17 @@ def update_result(id):
     external = float(request.form["external_mark"])
 
     total = internal + external
+    grade, grade_point, result = calculate_grade(total)
 
-    if total >= 90:
-        grade = "O"
-        result = "Pass"
-    elif total >= 80:
-        grade = "A+"
-        result = "Pass"
-    elif total >= 70:
-        grade = "A"
-        result = "Pass"
-    elif total >= 60:
-        grade = "B+"
-        result = "Pass"
-    elif total >= 50:
-        grade = "B"
-        result = "Pass"
-    elif total >= 45:
-        grade = "C"
-        result = "Pass"
-    else:
-        grade = "RA"
-        result = "Fail"
-
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
     cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT credits FROM subjects WHERE subject_code=?",
+        (subject_code,)
+    )
+    subject = cursor.fetchone()
+    credits = subject[0] if subject else 0
 
     cursor.execute("""
     UPDATE semester_results
@@ -475,6 +864,8 @@ def update_result(id):
     external_mark=?,
     total_mark=?,
     grade=?,
+    grade_point=?,
+    credits=?,
     result=?
     WHERE result_id=?
     """, (
@@ -487,6 +878,8 @@ def update_result(id):
         external,
         total,
         grade,
+        grade_point,
+        credits,
         result,
         id
 
@@ -497,10 +890,11 @@ def update_result(id):
 
     return redirect("/results")
 
-@app.route("/delete_result/<int:id>")
+@app.route("/delete_result/<int:id>", methods=["POST"])
+@roles_required("admin", "teacher")
 def delete_result(id):
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
@@ -509,16 +903,32 @@ def delete_result(id):
         (id,)
     )
 
+    if cursor.rowcount == 0:
+        conn.close()
+        return "Result Not Found", 404
+
     conn.commit()
     conn.close()
 
     return redirect("/results")
 
 @app.route("/gpa/<register_no>/<int:semester>")
+@roles_required("admin", "teacher", "student")
 def gpa(register_no, semester):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    if session.get("role") == "student":
+
+        identity = student_identity()
+
+        if identity is None:
+            return "Forbidden", 403
+
+        _, student_register_no = identity
+
+        if register_no != student_register_no:
+            return "Forbidden", 403
+
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -557,11 +967,11 @@ def gpa(register_no, semester):
 
 # ---------------- PREDICT ----------------
 
-@app.route("/predict/<int:id>")
+@app.route("/predict/<int:id>", methods=["POST"])
+@roles_required("admin", "teacher")
 def predict(id):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM students WHERE id=?", (id,))
@@ -571,34 +981,15 @@ def predict(id):
         conn.close()
         return "Student Not Found"
 
-    data = [[
-        student["study_hours"],
-        student["attendance"],
-        student["assignment_marks"],
-        student["internal_marks"]
-    ]]
+    try:
+        level, recommendation = predict_student_performance(student)
+    except ValueError as exc:
+        conn.close()
+        return str(exc), 400
+    except FileNotFoundError as exc:
+        conn.close()
+        return str(exc), 500
 
-    scaled_data = scaler.transform(data)
-
-    cluster = int(model.predict(scaled_data)[0])
-
-    if cluster == 0:
-        level = "Excellent"
-        recommendation = "Keep up the great work."
-
-    elif cluster == 1:
-        level = "Good"
-        recommendation = "Practice consistently."
-
-    elif cluster == 2:
-        level = "Average"
-        recommendation = "Increase study hours and attendance."
-
-    else:
-        level = "Need Improvement"
-        recommendation = "Meet your mentor and improve your study plan."
-    
-    
     cursor.execute("""
     UPDATE students
     SET cluster=?, recommendation=?
@@ -611,10 +1002,10 @@ def predict(id):
     return redirect("/students")
 
 @app.route("/results")
+@roles_required("admin", "teacher")
 def results():
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -632,13 +1023,125 @@ def results():
         results=results
     )
 
+@app.route("/exam_registration")
+@roles_required("admin", "teacher")
+def exam_registration():
+
+    conn = get_row_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM students")
+
+    students = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "exam_registration.html",
+        students=students,
+        message=request.args.get("message")
+    )
+
+
+@app.route("/save_exam_registration", methods=["POST"])
+@roles_required("admin", "teacher")
+def save_exam_registration():
+
+    register_no = request.form.get("register_no", "").strip()
+    semester = request.form.get("semester", "").strip()
+    exam_type = request.form.get("exam_type", "").strip()
+    exam_fee = request.form.get("exam_fee", "").strip()
+    registration_date = request.form.get("registration_date", "").strip()
+
+    if not all((register_no, semester, exam_type, exam_fee, registration_date)):
+        return "All exam registration fields are required.", 400
+
+    try:
+        semester = int(semester)
+        exam_fee = float(exam_fee)
+    except ValueError:
+        return "Semester and exam fee must be valid numbers.", 400
+
+    if semester < 1 or semester > 8 or exam_fee < 0:
+        return "Semester or exam fee is invalid.", 400
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT 1 FROM students WHERE register_no=?",
+        (register_no,)
+    )
+
+    if cursor.fetchone() is None:
+        conn.close()
+        return "Student Not Found", 404
+
+    cursor.execute("""
+    SELECT 1
+    FROM exam_registration
+    WHERE register_no=? AND semester=? AND exam_type=?
+    """, (register_no, semester, exam_type))
+
+    if cursor.fetchone() is not None:
+        conn.close()
+        return "Exam registration already exists for this student.", 409
+
+    cursor.execute("""
+    INSERT INTO exam_registration(
+        register_no,
+        semester,
+        exam_type,
+        exam_fee,
+        registration_date,
+        amount_paid,
+        balance_due,
+        payment_status,
+        last_payment_date,
+        status
+    )
+    VALUES(?,?,?,?,?,?,?,?,?,?)
+    """, (
+        register_no,
+        semester,
+        exam_type,
+        exam_fee,
+        registration_date,
+        0,
+        exam_fee,
+        "Unpaid",
+        "",
+        "Registered"
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for(
+        "exam_registration",
+        message="Exam registration saved successfully."
+    ))
+
 # ---------------- ACADEMIC SUMMARY ----------------
 
 @app.route("/academic_summary/<register_no>/<int:semester>")
+@roles_required("admin", "teacher", "student")
 def academic_summary(register_no, semester):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    if session.get("role") == "student":
+
+        identity = student_identity()
+
+        if identity is None:
+            return "Forbidden", 403
+
+        _, student_register_no = identity
+
+        if register_no != student_register_no:
+            return "Forbidden", 403
+
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -650,6 +1153,10 @@ def academic_summary(register_no, semester):
     """, (register_no,))
 
     student = cursor.fetchone()
+
+    if student is None:
+        conn.close()
+        return "Student Not Found"
 
     # Semester Results
     cursor.execute("""
@@ -664,11 +1171,13 @@ def academic_summary(register_no, semester):
     total_points = 0
     pass_count = 0
     fail_count = 0
+    total_marks = 0
 
     for r in results:
 
         total_credits += r["credits"]
         total_points += r["credits"] * r["grade_point"]
+        total_marks += r["total_mark"]
 
         if r["result"] == "Pass":
             pass_count += 1
@@ -680,6 +1189,11 @@ def academic_summary(register_no, semester):
     else:
         gpa = round(total_points / total_credits, 2)
 
+    if len(results) == 0:
+        percentage = 0
+    else:
+        percentage = round(total_marks / len(results), 2)
+
     conn.close()
 
     return render_template(
@@ -690,16 +1204,17 @@ def academic_summary(register_no, semester):
         total_credits=total_credits,
         pass_count=pass_count,
         fail_count=fail_count,
-        gpa=gpa
+        gpa=gpa,
+        percentage=percentage
     )
 
 # ---------------- SUBJECTS ----------------
 
 @app.route("/subjects")
+@roles_required("admin", "teacher")
 def subjects():
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -718,6 +1233,7 @@ def subjects():
 # ---------------- ADD SUBJECT ----------------
 
 @app.route("/add_subject")
+@roles_required("admin")
 def add_subject():
 
     return render_template("add_subject.html")
@@ -726,9 +1242,10 @@ def add_subject():
 # ---------------- SAVE SUBJECT ----------------
 
 @app.route("/save_subject", methods=["POST"])
+@roles_required("admin")
 def save_subject():
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
@@ -761,10 +1278,10 @@ def save_subject():
     return redirect("/subjects")
 
 @app.route("/edit_subject/<int:id>")
+@roles_required("admin")
 def edit_subject(id):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -777,15 +1294,19 @@ def edit_subject(id):
 
     conn.close()
 
+    if subject is None:
+        return "Subject Not Found", 404
+
     return render_template(
         "edit_subject.html",
         subject=subject
     )
 
 @app.route("/update_subject/<int:id>", methods=["POST"])
+@roles_required("admin")
 def update_subject(id):
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
@@ -821,10 +1342,11 @@ def update_subject(id):
 
     return redirect("/subjects")
 
-@app.route("/delete_subject/<int:id>")
+@app.route("/delete_subject/<int:id>", methods=["POST"])
+@roles_required("admin")
 def delete_subject(id):
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
 
     cursor = conn.cursor()
 
@@ -832,6 +1354,10 @@ def delete_subject(id):
         "DELETE FROM subjects WHERE subject_id=?",
         (id,)
     )
+
+    if cursor.rowcount == 0:
+        conn.close()
+        return "Subject Not Found", 404
 
     conn.commit()
 
@@ -842,10 +1368,10 @@ def delete_subject(id):
 # ---------------- ANALYTICS ----------------
 
 @app.route("/analytics")
+@roles_required("admin", "teacher")
 def analytics():
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
     cursor = conn.cursor()
 
     # Total Students
@@ -856,14 +1382,16 @@ def analytics():
     cursor.execute("SELECT COUNT(*) FROM students WHERE cluster='Excellent'")
     excellent = cursor.fetchone()[0]
 
-    cursor.execute("SELECT COUNT(*) FROM students WHERE cluster='Good'")
-    good = cursor.fetchone()[0]
-
     cursor.execute("SELECT COUNT(*) FROM students WHERE cluster='Average'")
     average = cursor.fetchone()[0]
 
-    cursor.execute("SELECT COUNT(*) FROM students WHERE cluster='Need Improvement'")
+    cursor.execute(
+        "SELECT COUNT(*) FROM students WHERE cluster='Need Improvement'"
+    )
     weak = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM students WHERE cluster='Not Predicted'")
+    not_predicted = cursor.fetchone()[0]
 
     conn.close()
 
@@ -871,24 +1399,465 @@ def analytics():
         "analytics.html",
         total_students=total_students,
         excellent=excellent,
-        good=good,
         average=average,
-        weak=weak
+        weak=weak,
+        not_predicted=not_predicted
     )
 
 
 # ---------------- FEES ----------------
 
 @app.route("/fees")
+@roles_required("admin", "student")
 def fees():
-    return "<h1>Fees Management Page</h1>"
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    if session.get("role") == "student":
+        identity = student_identity()
+        if identity is None:
+            conn.close()
+            return "Forbidden", 403
+
+        _, register_no = identity
+        cursor.execute("""
+        SELECT
+            er.registration_id,
+            er.register_no,
+            s.name,
+            s.department,
+            s.year,
+            er.semester,
+            er.exam_type,
+            er.exam_fee,
+            er.amount_paid,
+            er.balance_due,
+            er.payment_status,
+            er.registration_date,
+            er.last_payment_date,
+            (
+                SELECT p.payment_id
+                FROM payments p
+                WHERE p.registration_id = er.registration_id
+                ORDER BY p.payment_id DESC
+                LIMIT 1
+            ) AS last_payment_id
+        FROM exam_registration er
+        LEFT JOIN students s ON s.register_no = er.register_no
+        WHERE er.register_no=?
+        ORDER BY er.registration_id DESC
+        """, (register_no,))
+        registrations = cursor.fetchall()
+        conn.close()
+        return render_template(
+            "fees.html",
+            registrations=registrations,
+            message=request.args.get("message"),
+            student_view=True
+        )
+
+    cursor.execute("""
+    SELECT
+        er.registration_id,
+        er.register_no,
+        s.name,
+        s.department,
+        s.year,
+        er.semester,
+        er.exam_type,
+        er.exam_fee,
+        er.amount_paid,
+        er.balance_due,
+        er.payment_status,
+        er.registration_date,
+        er.last_payment_date,
+        (
+            SELECT p.payment_id
+            FROM payments p
+            WHERE p.registration_id = er.registration_id
+            ORDER BY p.payment_id DESC
+            LIMIT 1
+        ) AS last_payment_id
+    FROM exam_registration er
+    LEFT JOIN students s
+        ON s.register_no = er.register_no
+    ORDER BY er.registration_id DESC
+    """)
+
+    registrations = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "fees.html",
+        registrations=registrations,
+        message=request.args.get("message"),
+        student_view=False
+    )
+
+
+@app.route("/payment/<int:registration_id>")
+@roles_required("student")
+def payment(registration_id):
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT
+        er.registration_id,
+        er.register_no,
+        s.name,
+        s.department,
+        s.year,
+        er.semester,
+        er.exam_type,
+        er.exam_fee,
+        er.amount_paid,
+        er.balance_due,
+        er.payment_status,
+        er.registration_date
+    FROM exam_registration er
+    LEFT JOIN students s
+        ON s.register_no = er.register_no
+    WHERE er.registration_id=?
+    """, (registration_id,))
+
+    registration = cursor.fetchone()
+
+    conn.close()
+
+    if registration is None:
+        return "Exam registration not found.", 404
+
+    identity = student_identity()
+    if identity is None or registration["register_no"] != identity[1]:
+        return "Forbidden", 403
+
+    if registration["payment_status"] == "Paid" or registration["balance_due"] <= 0:
+        return redirect(url_for(
+            "fees",
+            message="Payment already completed for this registration."
+        ))
+
+    balance_due = float(registration["balance_due"])
+    upi_link = ""
+    payment_message = request.args.get("message")
+    if not UPI_ID:
+        payment_message = "Payment details not configured. Contact admin."
+    elif balance_due > 0:
+        upi_link = "upi://pay?" + urlencode({
+            "pa": UPI_ID,
+            "pn": UPI_PAYEE_NAME,
+            "am": f"{balance_due:.2f}",
+            "cu": "INR",
+            "tn": "Exam Fee Payment",
+        })
+
+    return render_template(
+        "payment.html",
+        registration=registration,
+        message=payment_message,
+        upi_id=UPI_ID,
+        upi_number=UPI_NUMBER,
+        payee_name=UPI_PAYEE_NAME,
+        upi_link=upi_link,
+        payment_amount=balance_due
+    )
+
+
+@app.route("/payment/qr/status/<int:registration_id>")
+@roles_required("student")
+def payment_qr_status(registration_id):
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT registration_id, register_no, balance_due, payment_status,
+           gateway_order_id, gateway_session_created_at, gateway_qr_id,
+           gateway_payment_id
+    FROM exam_registration
+    WHERE registration_id=?
+    """, (registration_id,))
+    registration = cursor.fetchone()
+
+    if registration is None:
+        conn.close()
+        return jsonify({"status": "not_found"}), 404
+
+    identity = student_identity()
+    if identity is None or registration["register_no"] != identity[1]:
+        conn.close()
+        return jsonify({"status": "forbidden"}), 403
+
+    if registration["payment_status"] == "Paid" or registration["gateway_payment_id"]:
+        conn.close()
+        return jsonify({"status": "paid"})
+
+    try:
+        created_at = datetime.fromisoformat(registration["gateway_session_created_at"])
+        if (datetime.utcnow() - created_at).total_seconds() >= PAYMENT_SESSION_SECONDS:
+            conn.close()
+            return jsonify({"status": "expired"}), 410
+    except (TypeError, ValueError):
+        conn.close()
+        return jsonify({"status": "invalid_session"}), 400
+
+    if not registration["gateway_qr_id"]:
+        conn.close()
+        return jsonify({"status": "pending"})
+
+    client = razorpay_client()
+    if client is None:
+        conn.close()
+        return jsonify({"status": "gateway_unavailable"}), 503
+
+    try:
+        qr_id = registration["gateway_qr_id"]
+        qr_details = client.get("/v1/payments/qr_codes/" + qr_id)
+        notes = qr_details.get("notes") or {}
+        if (
+            notes.get("registration_id") not in (None, str(registration_id))
+            or notes.get("order_id") not in (None, registration["gateway_order_id"])
+        ):
+            conn.close()
+            return jsonify({"status": "invalid_session"}), 400
+
+        payments_response = client.get(
+            "/v1/payments/qr_codes/" + qr_id + "/payments"
+        )
+        qr_payments = payments_response.get("items", [])
+        expected_amount = int(round(float(registration["balance_due"]) * 100))
+        captured_payment = next(
+            (
+                item for item in qr_payments
+                if item.get("status") == "captured"
+                and item.get("amount") == expected_amount
+                and item.get("currency") == "INR"
+                and item.get("qr_code_id", qr_id) == qr_id
+            ),
+            None
+        )
+    except Exception:
+        conn.close()
+        return jsonify({"status": "pending"})
+
+    if captured_payment is None:
+        conn.close()
+        return jsonify({"status": "pending"})
+
+    payment_id = captured_payment["id"]
+    payment_date = datetime.now().strftime("%Y-%m-%d")
+    amount = float(registration["balance_due"])
+    transaction_ref = "RZP-QR-" + payment_id
+
+    cursor.execute("""
+    INSERT INTO payments(
+        registration_id, register_no, amount, payment_date,
+        payment_mode, transaction_ref, status, gateway_order_id,
+        gateway_payment_id, gateway_signature
+    ) VALUES(?,?,?,?,?,?,?,?,?,?)
+    """, (
+        registration_id, registration["register_no"], amount, payment_date,
+        "Razorpay UPI QR", transaction_ref, "Success",
+        registration["gateway_order_id"], payment_id, ""
+    ))
+    cursor.execute("""
+    UPDATE exam_registration
+    SET amount_paid = COALESCE(amount_paid, 0) + ?, balance_due=0,
+        payment_status='Paid', status='Paid', last_payment_date=?,
+        gateway_payment_id=?
+    WHERE registration_id=? AND payment_status!='Paid'
+    """, (amount, payment_date, payment_id, registration_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "paid", "payment_id": payment_id})
+
+
+@app.route("/save_payment/<int:registration_id>", methods=["POST"])
+@roles_required("student")
+def save_payment(registration_id):
+
+    payment_id = request.form.get("razorpay_payment_id", "").strip()
+    order_id = request.form.get("razorpay_order_id", "").strip()
+    signature = request.form.get("razorpay_signature", "").strip()
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT registration_id, register_no, balance_due, payment_status,
+            gateway_order_id, gateway_session_created_at, gateway_payment_id
+    FROM exam_registration
+    WHERE registration_id=?
+    """, (registration_id,))
+    registration = cursor.fetchone()
+
+    if registration is None:
+        conn.close()
+        return "Exam registration not found.", 404
+
+    identity = student_identity()
+    if identity is None or registration["register_no"] != identity[1]:
+        conn.close()
+        return "Forbidden", 403
+
+    if registration["payment_status"] == "Paid" or registration["balance_due"] <= 0:
+        conn.close()
+        return "Payment already completed for this registration.", 409
+
+    if registration["gateway_payment_id"]:
+        conn.close()
+        return "Payment session has already been completed.", 409
+
+    if not all((payment_id, order_id, signature)):
+        conn.close()
+        return "Incomplete or unverified payment response.", 400
+
+    if order_id != registration["gateway_order_id"]:
+        conn.close()
+        return "Invalid payment order.", 400
+
+    try:
+        created_at = datetime.fromisoformat(registration["gateway_session_created_at"])
+        if (datetime.utcnow() - created_at).total_seconds() >= PAYMENT_SESSION_SECONDS:
+            conn.close()
+            return redirect(url_for("payment", registration_id=registration_id, message="QR Code Expired. Generate a new payment session."))
+    except (TypeError, ValueError):
+        conn.close()
+        return "Invalid payment session.", 400
+
+    client = razorpay_client()
+    if client is None:
+        conn.close()
+        return "Payment gateway is not configured.", 503
+
+    try:
+        client.utility.verify_payment_signature({
+            "razorpay_order_id": order_id,
+            "razorpay_payment_id": payment_id,
+            "razorpay_signature": signature
+        })
+    except razorpay.errors.SignatureVerificationError:
+        conn.close()
+        return redirect(url_for("payment", registration_id=registration_id, message="Payment verification failed. Fee remains pending."))
+
+    try:
+        expected_amount = int(round(float(registration["balance_due"]) * 100))
+        gateway_order = client.order.fetch(order_id)
+        gateway_payment = client.payment.fetch(payment_id)
+        if (
+            gateway_order.get("amount") != expected_amount
+            or gateway_order.get("currency") != "INR"
+            or gateway_payment.get("order_id") != order_id
+            or gateway_payment.get("amount") != expected_amount
+            or gateway_payment.get("currency") != "INR"
+            or gateway_payment.get("status") != "captured"
+        ):
+            conn.close()
+            return redirect(url_for("payment", registration_id=registration_id, message="Payment could not be verified. Fee remains pending."))
+    except Exception:
+        conn.close()
+        return redirect(url_for("payment", registration_id=registration_id, message="Payment verification failed. Fee remains pending."))
+
+    payment_date = datetime.now().strftime("%Y-%m-%d")
+    transaction_ref = "RZP-" + payment_id
+    amount = float(registration["balance_due"])
+
+    cursor.execute("""
+    INSERT INTO payments(
+        registration_id, register_no, amount, payment_date,
+        payment_mode, transaction_ref, status, gateway_order_id,
+        gateway_payment_id, gateway_signature
+    ) VALUES(?,?,?,?,?,?,?,?,?,?)
+    """, (
+        registration_id, registration["register_no"], amount, payment_date,
+        "Razorpay UPI", transaction_ref, "Success", order_id,
+        payment_id, signature
+    ))
+    receipt_id = cursor.lastrowid
+
+    cursor.execute("""
+    UPDATE exam_registration
+    SET amount_paid = COALESCE(amount_paid, 0) + ?, balance_due=0,
+        payment_status='Paid', status='Paid', last_payment_date=?,
+        gateway_payment_id=?
+    WHERE registration_id=? AND payment_status!='Paid'
+    """, (amount, payment_date, payment_id, registration_id))
+
+    conn.commit()
+    conn.close()
+    return redirect(url_for("receipt", payment_id=receipt_id))
+
+
+@app.route("/receipt/<int:payment_id>")
+@roles_required("admin", "student")
+def receipt(payment_id):
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT
+        p.payment_id,
+        p.registration_id,
+        p.register_no,
+        p.amount,
+        p.payment_date,
+        p.payment_mode,
+        p.transaction_ref,
+        p.status AS payment_result,
+        er.semester,
+        er.exam_type,
+        er.exam_fee,
+        er.registration_date,
+        s.name,
+        s.department,
+        s.year
+    FROM payments p
+    LEFT JOIN exam_registration er
+        ON er.registration_id = p.registration_id
+    LEFT JOIN students s
+        ON s.register_no = p.register_no
+    WHERE p.payment_id=?
+    """, (payment_id,))
+
+    payment_data = cursor.fetchone()
+
+    conn.close()
+
+    if payment_data is None:
+        return "Payment receipt not found.", 404
+
+    if session.get("role") == "student":
+        identity = student_identity()
+        if identity is None or payment_data["register_no"] != identity[1]:
+            return "Forbidden", 403
+
+    return render_template(
+        "receipt.html",
+        payment=payment_data
+    )
 
 
 # ---------------- TEACHER MANAGEMENT ----------------
 
 @app.route("/teacher_management")
+@roles_required("admin")
 def teacher_management():
-    return "<h1>Teacher Management Page</h1>"
+    conn = get_row_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, username, role FROM login WHERE role='teacher' ORDER BY id"
+    )
+
+    teachers = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("teacher_management.html", teachers=teachers)
 
 # ---------------- FORGOT PASSWORD ----------------
 @app.route("/forgot_password")
@@ -909,21 +1878,36 @@ def change_password():
     if new_password != confirm_password:
         return "New Password and Confirm Password do not match."
 
-    conn = sqlite3.connect("database/student.db")
+    conn = get_connection()
+    conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM login WHERE username=? AND password=?",
-        (username, old_password)
+        "SELECT * FROM login WHERE username=? AND role IN ('admin', 'teacher', 'student')",
+        (username,)
     )
 
     user = cursor.fetchone()
 
     if user:
+        stored_password = user["password"]
+        password_matches = (
+            check_password_hash(stored_password, old_password)
+            if stored_password.startswith(("scrypt:", "pbkdf2:"))
+            else stored_password == old_password
+        )
+
+        if not password_matches:
+            conn.close()
+            return """
+            <h2>Old Password Incorrect ❌</h2>
+
+            <a href="/forgot_password">Try Again</a>
+            """
 
         cursor.execute(
-            "UPDATE login SET password=? WHERE username=?",
-            (new_password, username)
+            "UPDATE login SET password=? WHERE username=? AND role=?",
+            (generate_password_hash(new_password), username, user["role"])
         )
 
         conn.commit()
@@ -945,10 +1929,142 @@ def change_password():
 # ---------------- PROFILE ----------------
 
 @app.route("/profile/<int:id>")
+@roles_required("admin", "teacher", "student")
 def profile(id):
 
-    conn = sqlite3.connect("database/student.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_row_connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,)
+    )
+
+    student = cursor.fetchone()
+    # Check Exam Fee
+
+    if student is None:
+        conn.close()
+        return "Student Not Found", 404
+
+    if session.get("role") == "student":
+
+        identity = student_identity()
+
+        if identity is None:
+            conn.close()
+            return "Forbidden", 403
+
+        student_id, _ = identity
+
+        if id != student_id:
+            conn.close()
+            return "Forbidden", 403
+
+    conn.close()
+
+    return render_template(
+        "profile.html",
+        student=student
+    )
+# ---------------- GENERATE HALL TICKET ----------------
+
+@app.route("/generate_hallticket/<int:id>", methods=["POST"])
+@roles_required("admin", "teacher")
+def generate_hallticket(id):
+
+    conn = get_row_connection()
+
+    cursor = conn.cursor()
+
+    # Student Details
+    cursor.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,)
+    )
+
+    student = cursor.fetchone()
+
+    if student is None:
+        conn.close()
+        return "Student Not Found", 404
+
+    if student["exam_fee"] > 0:
+        conn.close()
+        return """
+        <h2>Hall Ticket Cannot Be Generated</h2>
+        <h3>Pending Exam Fee</h3>
+        <a href="/students">Go Back</a>
+        """
+
+    cursor.execute("""
+    SELECT COUNT(*) AS pending_count
+    FROM exam_registration
+    WHERE register_no=?
+    AND (
+        COALESCE(payment_status, 'Unpaid') != 'Paid'
+        OR COALESCE(balance_due, 0) > 0
+    )
+    """, (student["register_no"],))
+
+    pending = cursor.fetchone()
+
+    if pending["pending_count"] > 0:
+        conn.close()
+        return """
+        <h2>Hall Ticket Cannot Be Generated</h2>
+        <h3>Pending Exam Registration Fee Payment</h3>
+        <a href="/students">Go Back</a>
+        """
+
+    hall_ticket_no = (
+        "HT"
+        + str(datetime.now().year)
+        + student["register_no"]
+    )
+
+    generated_date = datetime.now().strftime("%d-%m-%Y")
+
+    cursor.execute("""
+
+    UPDATE students
+
+    SET
+
+    hall_ticket_status=?,
+
+    hall_ticket_no=?,
+
+    hall_ticket_generated_date=?
+
+    WHERE id=?
+
+    """,(
+
+    "Generated",
+
+    hall_ticket_no,
+
+    generated_date,
+
+    id
+
+    ))
+
+    conn.commit()
+
+    conn.close()
+
+    return redirect("/students")
+
+# ---------------- HALL TICKET ----------------
+
+@app.route("/hall_ticket/<int:id>")
+@roles_required("admin", "teacher", "student")
+def hall_ticket(id):
+
+    conn = get_row_connection()
 
     cursor = conn.cursor()
 
@@ -961,8 +2077,25 @@ def profile(id):
 
     conn.close()
 
+    if student is None:
+        return "Student Not Found", 404
+
+    if session.get("role") == "student":
+
+        identity = student_identity()
+
+        if identity is None:
+            conn.close()
+            return "Forbidden", 403
+
+        student_id, _ = identity
+
+        if id != student_id:
+            conn.close()
+            return "Forbidden", 403
+
     return render_template(
-        "profile.html",
+        "hall_ticket.html",
         student=student
     )
 
@@ -979,4 +2112,4 @@ def logout():
 # ---------------- RUN ----------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=DEBUG)

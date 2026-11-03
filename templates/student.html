@@ -3,123 +3,566 @@
 
 <head>
     <title>Students</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .student-dashboard-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.25), transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(30, 64, 175, 0.28), transparent 40%),
+                #172554;
+            padding: 28px;
+            box-sizing: border-box;
+        }
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+        .student-dashboard-shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(2, 6, 23, 0.25);
+        }
+
+        .student-dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #dbeafe;
+            margin-bottom: 24px;
+        }
+
+        .student-dashboard-title {
+            margin: 0;
+            font-size: 32px;
+            color: #1e3a8a;
+            letter-spacing: 0.3px;
+        }
+
+        .student-dashboard-subtitle {
+            margin: 8px 0 0;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        .student-identity {
+            background: #e0e7ff;
+            color: #1e3a8a;
+            border: 1px solid #c7d2fe;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .student-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .student-dashboard-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 14px;
+            padding: 18px;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+            min-height: 120px;
+        }
+
+        .student-dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px rgba(30, 58, 138, 0.18);
+            border-color: #93c5fd;
+        }
+
+        .student-card-icon {
+            font-size: 26px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .student-card-title {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .student-card-desc {
+            margin: 8px 0 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        .student-inline-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .student-inline-links a {
+            text-decoration: none;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 4px 8px;
+            color: #1e3a8a;
+            font-size: 13px;
+            font-weight: 600;
+            background: #eff6ff;
+        }
+
+        .student-inline-links a:hover {
+            background: #dbeafe;
+        }
+
+        .student-performance-card {
+            background: #ffffff;
+            border: 1px solid #dbeafe;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .student-performance-title {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .student-performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .student-metric {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .student-metric-label {
+            margin: 0;
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .student-metric-value {
+            margin: 6px 0 0;
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .student-logout-card {
+            background: #fee2e2;
+            border-color: #fecaca;
+        }
+
+        .student-logout-card .student-card-title {
+            color: #991b1b;
+        }
+
+        .student-logout-card .student-card-desc {
+            color: #7f1d1d;
+        }
+
+        @media (max-width: 980px) {
+            .student-dashboard-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .student-dashboard-page {
+                padding: 14px;
+            }
+
+            .student-dashboard-shell {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .student-dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .student-dashboard-title {
+                font-size: 26px;
+            }
+
+            .student-dashboard-grid,
+            .student-performance-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="student-page {% if session.get('role') == 'student' %}student-dashboard-page{% endif %}">
 
-<div class="container">
+    {% if session.get("role") == "student" and students %}
+    {% set me = students[0] %}
 
-<h1>Student List</h1>
-<form action="/students" method="GET">
+    <div class="student-dashboard-shell">
 
-<input type="text"
-name="search"
-placeholder="Search by Name / Department / Year">
+        <header class="student-dashboard-header">
+            <div>
+                <h1 class="student-dashboard-title">Student Dashboard</h1>
+                <p class="student-dashboard-subtitle">Access your profile, semester records, and hall ticket details.
+                </p>
+            </div>
+            {% if session.get('username') %}
+            <div class="student-identity">Signed in: {{ session.get('username') }}</div>
+            {% endif %}
+        </header>
 
-<button type="submit">
+        <section class="student-dashboard-grid">
 
-Search
+            <a class="student-dashboard-card" href="/profile/{{ me['id'] }}">
+                <span class="student-card-icon">👤</span>
+                <h2 class="student-card-title">Profile</h2>
+                <p class="student-card-desc">View your personal and academic profile information.</p>
+            </a>
 
-</button>
+            <a class="student-dashboard-card" href="/hall_ticket/{{ me['id'] }}">
+                <span class="student-card-icon">🎫</span>
+                <h2 class="student-card-title">Hall Ticket</h2>
+                <p class="student-card-desc">Check current hall ticket status and details.</p>
+            </a>
 
-</form>
+            <a class="student-dashboard-card" href="/students">
+                <span class="student-card-icon">📋</span>
+                <h2 class="student-card-title">My Record</h2>
+                <p class="student-card-desc">Review your current data in the student record table.</p>
+            </a>
 
-<br>
-<table border="1" cellpadding="10">
+            <a class="student-dashboard-card" href="/fees">
+                <span class="student-card-icon">💳</span>
+                <h2 class="student-card-title">Fees / Payment</h2>
+                <p class="student-card-desc">View your own exam fees and available payment options.</p>
+            </a>
 
-<tr>
-    <th>ID</th>
-    <th>Register No</th>
-    <th>Name</th>
-    <th>Department</th>
-    <th>Year</th>
-    <th>Attendance</th>
-    <th>Student Phone</th>
-    <th>Parent Phone</th>
-    <th>Email</th>
-    <th>Level</th>
-    <th>Recommendation</th>
-    <th>Action</th>
-    <th>Profile</th>
-</tr>
+            <div class="student-dashboard-card">
+                <span class="student-card-icon">🎓</span>
+                <h2 class="student-card-title">GPA / Results</h2>
+                <p class="student-card-desc">Open GPA summary by semester.</p>
+                <div class="student-inline-links">
+                    <a href="/gpa/{{ me['register_no'] }}/1">Sem 1</a>
+                    <a href="/gpa/{{ me['register_no'] }}/2">Sem 2</a>
+                    <a href="/gpa/{{ me['register_no'] }}/3">Sem 3</a>
+                    <a href="/gpa/{{ me['register_no'] }}/4">Sem 4</a>
+                    <a href="/gpa/{{ me['register_no'] }}/5">Sem 5</a>
+                    <a href="/gpa/{{ me['register_no'] }}/6">Sem 6</a>
+                    <a href="/gpa/{{ me['register_no'] }}/7">Sem 7</a>
+                    <a href="/gpa/{{ me['register_no'] }}/8">Sem 8</a>
+                </div>
+            </div>
 
-{% for s in students %}
+            <div class="student-dashboard-card">
+                <span class="student-card-icon">📘</span>
+                <h2 class="student-card-title">Academic Summary</h2>
+                <p class="student-card-desc">View pass/fail counts and semester performance details.</p>
+                <div class="student-inline-links">
+                    <a href="/academic_summary/{{ me['register_no'] }}/1">Sem 1</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/2">Sem 2</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/3">Sem 3</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/4">Sem 4</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/5">Sem 5</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/6">Sem 6</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/7">Sem 7</a>
+                    <a href="/academic_summary/{{ me['register_no'] }}/8">Sem 8</a>
+                </div>
+            </div>
 
-<tr>
+            <a class="student-dashboard-card student-logout-card" href="/logout">
+                <span class="student-card-icon">🚪</span>
+                <h2 class="student-card-title">Logout</h2>
+                <p class="student-card-desc">Sign out of your student account securely.</p>
+            </a>
 
-<td>{{ s["id"] }}</td>
+        </section>
 
-<td>{{ s["register_no"] }}</td>
+        <section class="student-performance-card">
+            <h2 class="student-performance-title">Performance Snapshot</h2>
+            <div class="student-performance-metrics">
+                <div class="student-metric">
+                    <p class="student-metric-label">Register Number</p>
+                    <p class="student-metric-value">{{ me["register_no"] }}</p>
+                </div>
+                <div class="student-metric">
+                    <p class="student-metric-label">Department</p>
+                    <p class="student-metric-value">{{ me["department"] }}</p>
+                </div>
+                <div class="student-metric">
+                    <p class="student-metric-label">Current Level</p>
+                    <p class="student-metric-value">{{ me["cluster"] }}</p>
+                </div>
+                <div class="student-metric">
+                    <p class="student-metric-label">Recommendation</p>
+                    <p class="student-metric-value">{{ me["recommendation"] }}</p>
+                </div>
+            </div>
+        </section>
 
-<td>{{ s["name"] }}</td>
+        <section class="student-performance-card">
+            <h2 class="student-performance-title">Student Record Details</h2>
+            <div class="student-table-wrap" style="margin-top: 14px;">
+                <table class="student-table" border="1" cellpadding="10">
+                    <tr>
+                        <th>ID</th>
+                        <th>Register No</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Attendance</th>
+                        <th>Student Phone</th>
+                        <th>Parent Phone</th>
+                        <th>Email</th>
+                        <th>Level</th>
+                        <th>Recommendation</th>
+                        <th>Action</th>
+                        <th>Profile</th>
+                        <th>Arrears</th>
+                        <th>Hall Ticket</th>
+                    </tr>
 
-<td>{{ s["department"] }}</td>
+                    <tr>
+                        <td>{{ me["id"] }}</td>
+                        <td>{{ me["register_no"] }}</td>
+                        <td>{{ me["name"] }}</td>
+                        <td>{{ me["department"] }}</td>
+                        <td>{{ me["year"] }}</td>
+                        <td>{{ me["attendance"] }}</td>
+                        <td>{{ me["student_phone"] }}</td>
+                        <td>{{ me["parent_phone"] }}</td>
+                        <td>{{ me["email"] }}</td>
+                        <td>{{ me["cluster"] }}</td>
+                        <td>{{ me["recommendation"] }}</td>
 
-<td>{{ s["year"] }}</td>
+                        <td class="student-actions">
+                            {% if session.get("role") in ["admin", "teacher"] %}
+                            <a class="action-link" href="/predict/{{ me['id'] }}">
+                                <button class="action-btn action-btn-success">Predict</button>
+                            </a>
+                            {% endif %}
 
-<td>{{ s["attendance"] }}</td>
+                            {% if session.get("role") in ["admin", "teacher"] %}
+                            <a class="action-link" href="/edit_student/{{ me['id'] }}">
+                                <button class="action-btn">Edit</button>
+                            </a>
 
-<td>{{ s["student_phone"] }}</td>
+                            {% endif %}
 
-<td>{{ s["parent_phone"] }}</td>
+                            {% if session.get("role") == "admin" %}
+                            <a class="action-link" href="/delete_student/{{ me['id'] }}"
+                                onclick="return confirm('Delete this student?')">
+                                <button class="action-btn action-btn-danger">Delete</button>
+                            </a>
+                            {% endif %}
 
-<td>{{ s["email"] }}</td>
+                            {% if session.get("role") in ["admin", "teacher"] %}
+                            <a class="action-link" href="/generate_hallticket/{{ me['id'] }}">
+                                <button class="action-btn action-btn-secondary">Generate Hall Ticket</button>
+                            </a>
+                            {% endif %}
 
-<td>{{ s["cluster"] }}</td>
+                            <a class="action-link" href="/hall_ticket/{{ me['id'] }}">
+                                <button class="action-btn action-btn-secondary">View Hall Ticket</button>
+                            </a>
+                        </td>
 
-<td>{{ s["recommendation"] }}</td>
-<td>
+                        <td class="student-profile-cell">
+                            <a class="action-link" href="/profile/{{ me['id'] }}">
+                                <button class="action-btn action-btn-profile">👤 View Profile</button>
+                            </a>
+                        </td>
 
-<a href="/profile/{{ s['id'] }}">
+                        <td>{{ me["arrear_count"] }}</td>
+                        <td>{{ me["hall_ticket_status"] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
 
-<button>
+    {% else %}
 
-👤 View Profile
+    <div class="container">
 
-</button>
+        <h1>Student List</h1>
 
-</a>
+        {% if request.args.get("message") %}
+        <p>{{ request.args.get("message") }}</p>
+        {% endif %}
 
-</td>
-<td>
+        <form action="{{ request.path }}" method="GET">
 
-<a href="/edit_student/{{ s['id'] }}">
-<button>Edit</button>
-</a>
+            <input type="text" name="search" placeholder="Search by Name / Department / Year">
 
-<a href="/delete_student/{{ s['id'] }}"
-onclick="return confirm('Delete this student?')">
+            <button type="submit">
 
-<button style="background:red;color:white;">
-Delete
-</button>
+                Search
 
-<a href="/predict/{{ s['id'] }}">
-    <button style="background:green;color:white;">
-        Predict
-    </button>
-</a>
+            </button>
 
-</a>
+        </form>
 
-</td>
+        <br>
+        <div class="student-table-wrap">
+            <table class="student-table" border="1" cellpadding="10">
 
-</tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Register No</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th>Attendance</th>
+                    <th>Student Phone</th>
+                    <th>Parent Phone</th>
+                    <th>Email</th>
+                    <th>Level</th>
+                    <th>Recommendation</th>
+                    <th>Action</th>
+                    <th>Profile</th>
+                    <th>Arrears</th>
+                    <th>Hall Ticket</th>
+                </tr>
 
-{% endfor %}
+                {% for s in students %}
 
-</table>
+                <tr>
 
-<br>
+                    <td>{{ s["id"] }}</td>
 
-<a href="/add_student">
-<button>Add New Student</button>
-</a>
+                    <td>{{ s["register_no"] }}</td>
 
-</div>
+                    <td>{{ s["name"] }}</td>
+
+                    <td>{{ s["department"] }}</td>
+
+                    <td>{{ s["year"] }}</td>
+
+                    <td>{{ s["attendance"] }}</td>
+
+                    <td>{{ s["student_phone"] }}</td>
+
+                    <td>{{ s["parent_phone"] }}</td>
+
+                    <td>{{ s["email"] }}</td>
+
+                    <td>{{ s["cluster"] }}</td>
+
+                    <td>{{ s["recommendation"] }}</td>
+
+                    <td class="student-actions">
+
+                        {% if session.get("role") in ["admin", "teacher"] %}
+
+                        <a class="action-link" href="/predict/{{ s['id'] }}">
+                            <button class="action-btn action-btn-success">
+                                Predict
+                            </button>
+                        </a>
+
+                        {% endif %}
+
+                        {% if session.get("role") in ["admin", "teacher"] %}
+
+                        <a class="action-link" href="/edit_student/{{ s['id'] }}">
+                            <button class="action-btn">Edit</button>
+                        </a>
+
+                        <a class="action-link" href="/delete_student/{{ s['id'] }}"
+                            onclick="return confirm('Delete this student?')">
+                            <button class="action-btn action-btn-danger">
+                                Delete
+                            </button>
+                        </a>
+
+                        {% endif %}
+
+                        {% if session.get("role") in ["admin", "teacher"] %}
+
+                        <a class="action-link" href="/generate_hallticket/{{ s['id'] }}">
+                            <button class="action-btn action-btn-secondary">
+                                Generate Hall Ticket
+                            </button>
+                        </a>
+
+                        {% endif %}
+
+                        <a class="action-link" href="/hall_ticket/{{ s['id'] }}">
+                            <button class="action-btn action-btn-secondary">
+                                View Hall Ticket
+                            </button>
+                        </a>
+
+                    </td>
+
+                    <td class="student-profile-cell">
+
+                        <a class="action-link" href="/profile/{{ s['id'] }}">
+
+                            <button class="action-btn action-btn-profile">
+
+                                👤 View Profile
+
+                            </button>
+
+                        </a>
+
+                    </td>
+
+                    <td>{{ s["arrear_count"] }}</td>
+
+                    <td>{{ s["hall_ticket_status"] }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+            </table>
+        </div>
+
+        <br>
+
+        {% if show_back_to_dashboard %}
+
+        <a class="admin-back-link" href="{{ '/teacher' if session.get('role') == 'teacher' else '/admin' }}">
+            <button>Back to Dashboard</button>
+        </a>
+
+        {% endif %}
+
+        {% if session.get("role") == "admin" and not show_back_to_dashboard %}
+
+        <a href="/add_student">
+            <button>Add New Student</button>
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
 
 </body>
 
