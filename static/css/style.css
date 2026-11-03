@@ -68,6 +68,19 @@ button:hover {
 
 }
 
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
+.btn-danger {
+    background: #dc2626;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
 .student-page .container {
 
     width: 95%;

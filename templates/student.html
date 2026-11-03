@@ -356,9 +356,9 @@
 
                         <td class="student-actions">
                             {% if session.get("role") in ["admin", "teacher"] %}
-                            <a class="action-link" href="/predict/{{ me['id'] }}">
+                            <form class="inline-form" method="post" action="/predict/{{ me['id'] }}">
                                 <button class="action-btn action-btn-success">Predict</button>
-                            </a>
+                            </form>
                             {% endif %}
 
                             {% if session.get("role") in ["admin", "teacher"] %}
@@ -369,16 +369,16 @@
                             {% endif %}
 
                             {% if session.get("role") == "admin" %}
-                            <a class="action-link" href="/delete_student/{{ me['id'] }}"
-                                onclick="return confirm('Delete this student?')">
-                                <button class="action-btn action-btn-danger">Delete</button>
-                            </a>
+                            <form class="inline-form" method="post" action="/delete_student/{{ me['id'] }}"
+                                onsubmit="return confirm('Delete this record?');">
+                                <button class="action-btn action-btn-danger btn-danger" type="submit">Delete</button>
+                            </form>
                             {% endif %}
 
                             {% if session.get("role") in ["admin", "teacher"] %}
-                            <a class="action-link" href="/generate_hallticket/{{ me['id'] }}">
+                            <form class="inline-form" method="post" action="/generate_hallticket/{{ me['id'] }}">
                                 <button class="action-btn action-btn-secondary">Generate Hall Ticket</button>
-                            </a>
+                            </form>
                             {% endif %}
 
                             <a class="action-link" href="/hall_ticket/{{ me['id'] }}">
@@ -474,11 +474,11 @@
 
                         {% if session.get("role") in ["admin", "teacher"] %}
 
-                        <a class="action-link" href="/predict/{{ s['id'] }}">
+                        <form class="inline-form" method="post" action="/predict/{{ s['id'] }}">
                             <button class="action-btn action-btn-success">
                                 Predict
                             </button>
-                        </a>
+                        </form>
 
                         {% endif %}
 
@@ -488,22 +488,22 @@
                             <button class="action-btn">Edit</button>
                         </a>
 
-                        <a class="action-link" href="/delete_student/{{ s['id'] }}"
-                            onclick="return confirm('Delete this student?')">
+                        <form class="inline-form" method="post" action="/delete_student/{{ s['id'] }}"
+                            onsubmit="return confirm('Delete this record?');">
                             <button class="action-btn action-btn-danger">
                                 Delete
                             </button>
-                        </a>
+                        </form>
 
                         {% endif %}
 
                         {% if session.get("role") in ["admin", "teacher"] %}
 
-                        <a class="action-link" href="/generate_hallticket/{{ s['id'] }}">
+                        <form class="inline-form" method="post" action="/generate_hallticket/{{ s['id'] }}">
                             <button class="action-btn action-btn-secondary">
                                 Generate Hall Ticket
                             </button>
-                        </a>
+                        </form>
 
                         {% endif %}
 

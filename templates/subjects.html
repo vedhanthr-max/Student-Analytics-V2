@@ -72,15 +72,16 @@
 
                 </a>
 
-                <a href="/delete_subject/{{ s['subject_id'] }}" onclick="return confirm('Delete this Subject?')">
+                <form class="inline-form" method="post" action="/delete_subject/{{ s['subject_id'] }}"
+                    onsubmit="return confirm('Delete this record?');">
 
-                    <button>
+                    <button class="btn-danger" type="submit">
 
                         🗑 Delete
 
                     </button>
 
-                </a>
+                </form>
 
                 {% else %}
 

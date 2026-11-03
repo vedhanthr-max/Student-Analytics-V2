@@ -159,15 +159,16 @@
 
                     </a>
 
-                    <a href="/delete_result/{{ r['result_id'] }}" onclick="return confirm('Delete this Result?')">
+                    <form class="inline-form" method="post" action="/delete_result/{{ r['result_id'] }}"
+                        onsubmit="return confirm('Delete this record?');">
 
-                        <button>
+                        <button class="btn-danger" type="submit">
 
                             🗑 Delete
 
                         </button>
 
-                    </a>
+                    </form>
 
                     {% endif %}
 
