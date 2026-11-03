@@ -16,6 +16,7 @@
 - [x] F5/F3 gaps: shared print CSS and CSRF coverage
 - [x] B7 gaps: application factory, module split, container files, and route-map comparison
 - [x] Git hygiene: untrack generated files and local database
+- [x] E1: repair mojibake and replace emoji with SVG icons
 
 ### Unverified
 

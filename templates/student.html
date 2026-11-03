@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 
 {% block title %}Students{% endblock %}
 {% block extra_head %}
@@ -260,31 +261,31 @@
         <section class="student-dashboard-grid">
 
             <a class="student-dashboard-card" href="/profile/{{ me['id'] }}">
-                <span class="student-card-icon">ðŸ‘¤</span>
+                <span class="student-card-icon">{{ icon('user') }}</span>
                 <h2 class="student-card-title">Profile</h2>
                 <p class="student-card-desc">View your personal and academic profile information.</p>
             </a>
 
             <a class="student-dashboard-card" href="/hall_ticket/{{ me['id'] }}">
-                <span class="student-card-icon">ðŸŽ«</span>
+                <span class="student-card-icon">{{ icon('ticket') }}</span>
                 <h2 class="student-card-title">Hall Ticket</h2>
                 <p class="student-card-desc">Check current hall ticket status and details.</p>
             </a>
 
             <a class="student-dashboard-card" href="/students">
-                <span class="student-card-icon">ðŸ“‹</span>
+                <span class="student-card-icon">{{ icon('book') }}</span>
                 <h2 class="student-card-title">My Record</h2>
                 <p class="student-card-desc">Review your current data in the student record table.</p>
             </a>
 
             <a class="student-dashboard-card" href="/fees">
-                <span class="student-card-icon">ðŸ’³</span>
+                <span class="student-card-icon">{{ icon('wallet') }}</span>
                 <h2 class="student-card-title">Fees / Payment</h2>
                 <p class="student-card-desc">View your own exam fees and available payment options.</p>
             </a>
 
             <div class="student-dashboard-card">
-                <span class="student-card-icon">ðŸŽ“</span>
+                <span class="student-card-icon">{{ icon('graduation') }}</span>
                 <h2 class="student-card-title">GPA / Results</h2>
                 <p class="student-card-desc">Open GPA summary by semester.</p>
                 <div class="student-inline-links">
@@ -300,7 +301,7 @@
             </div>
 
             <div class="student-dashboard-card">
-                <span class="student-card-icon">ðŸ“˜</span>
+                <span class="student-card-icon">{{ icon('book') }}</span>
                 <h2 class="student-card-title">Academic Summary</h2>
                 <p class="student-card-desc">View pass/fail counts and semester performance details.</p>
                 <div class="student-inline-links">
@@ -316,7 +317,7 @@
             </div>
 
             <a class="student-dashboard-card student-logout-card" href="/logout">
-                <span class="student-card-icon">ðŸšª</span>
+                <span class="student-card-icon">{{ icon('logout') }}</span>
                 <h2 class="student-card-title">Logout</h2>
                 <p class="student-card-desc">Sign out of your student account securely.</p>
             </a>
@@ -417,7 +418,7 @@
 
                         <td class="student-profile-cell">
                             <a class="action-link" href="/profile/{{ me['id'] }}">
-                                <button class="action-btn action-btn-profile">ðŸ‘¤ View Profile</button>
+                                <button class="action-btn action-btn-profile">{{ icon('user') }} View Profile</button>
                             </a>
                         </td>
 
@@ -565,7 +566,7 @@
 
                             <button class="action-btn action-btn-profile">
 
-                                ðŸ‘¤ View Profile
+                                {{ icon('user') }} View Profile
 
                             </button>
 

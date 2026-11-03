@@ -2493,7 +2493,7 @@ def change_password():
         if not password_matches:
             conn.close()
             return """
-            <h2>Old Password Incorrect ❌</h2>
+            <h2>Old Password Incorrect <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></h2>
 
             <a href="/forgot_password">Try Again</a>
             """
@@ -2507,7 +2507,7 @@ def change_password():
         conn.close()
 
         return """
-        <h2>Password Changed Successfully ✅</h2>
+        <h2>Password Changed Successfully <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></h2>
 
         <a href="/">Login Again</a>
         """
@@ -2515,7 +2515,7 @@ def change_password():
     conn.close()
 
     return """
-    <h2>Old Password Incorrect ❌</h2>
+    <h2>Old Password Incorrect <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></h2>
 
     <a href="/forgot_password">Try Again</a>
     """

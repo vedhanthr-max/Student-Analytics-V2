@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 
 {% block title %}Student Profile{% endblock %}
 {% block extra_head %}
@@ -55,7 +56,7 @@ text-align:center;
 {% block content %}
 <div class="card">
 
-<h2>ðŸ‘¨â€ðŸŽ“ Student Profile</h2>
+<h2>{{ icon('graduation') }} Student Profile</h2>
 
 <table border="1">
 
@@ -170,7 +171,7 @@ text-align:center;
 
 <button>
 
-â¬… Back
+{{ icon('x') }} Back
 
 </button>
 

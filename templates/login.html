@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 
 {% block title %}{{ login_title or "Login - Student Analytics" }}{% endblock %}
 {% block extra_head %}
@@ -62,7 +63,7 @@
                 <input id="password" type="password" name="password" required>
                 <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password"
                     aria-pressed="false" title="Show password">
-                    ðŸ‘
+                    {{ icon('user') }}
                 </button>
             </div>
 
@@ -96,7 +97,7 @@
             toggleBtn.addEventListener('click', function () {
                 var isHidden = passwordInput.type === 'password';
                 passwordInput.type = isHidden ? 'text' : 'password';
-                toggleBtn.textContent = isHidden ? 'ðŸ™ˆ' : 'ðŸ‘';
+                toggleBtn.innerHTML = isHidden ? "{{ icon('user') }}" : "{{ icon('x') }}";
                 toggleBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
                 toggleBtn.setAttribute('title', isHidden ? 'Hide password' : 'Show password');
                 toggleBtn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');

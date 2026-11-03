@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 
 {% block title %}Teacher Dashboard{% endblock %}
 {% block extra_head %}
@@ -214,50 +215,50 @@
 
         <section class="teacher-dashboard-grid">
             <a class="teacher-dashboard-card" href="/students">
-                <span class="teacher-card-icon">ðŸ‘¨â€ðŸŽ“</span>
+                <span class="teacher-card-icon">{{ icon('graduation') }}</span>
                 <h2 class="teacher-card-title">View Students</h2>
                 <p class="teacher-card-desc">Browse student profiles, attendance, recommendations, and hall-ticket
                     status.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/results">
-                <span class="teacher-card-icon">ðŸ“</span>
+                <span class="teacher-card-icon">{{ icon('edit') }}</span>
                 <h2 class="teacher-card-title">Results</h2>
                 <p class="teacher-card-desc">View semester result entries and track performance outcomes.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/subjects">
-                <span class="teacher-card-icon">ðŸ“š</span>
+                <span class="teacher-card-icon">{{ icon('book') }}</span>
                 <h2 class="teacher-card-title">Subjects</h2>
                 <p class="teacher-card-desc">Access subject lists, codes, semesters, and academic metadata.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/analytics">
-                <span class="teacher-card-icon">ðŸ“Š</span>
+                <span class="teacher-card-icon">{{ icon('chart') }}</span>
                 <h2 class="teacher-card-title">Analytics</h2>
                 <p class="teacher-card-desc">Review student clusters and overall academic distribution insights.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/add_result">
-                <span class="teacher-card-icon">âž•</span>
+                <span class="teacher-card-icon">{{ icon('plus') }}</span>
                 <h2 class="teacher-card-title">Add Result</h2>
                 <p class="teacher-card-desc">Enter new result records for students using the current workflow.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/exam_registration">
-                <span class="teacher-card-icon">ðŸ—“ï¸</span>
+                <span class="teacher-card-icon">{{ icon('calendar') }}</span>
                 <h2 class="teacher-card-title">Exam Registration</h2>
                 <p class="teacher-card-desc">Register students for upcoming examinations.</p>
             </a>
 
             <a class="teacher-dashboard-card" href="/students">
-                <span class="teacher-card-icon">ðŸŽ«</span>
+                <span class="teacher-card-icon">{{ icon('ticket') }}</span>
                 <h2 class="teacher-card-title">Hall Tickets</h2>
                 <p class="teacher-card-desc">Open student records to view and manage hall tickets.</p>
             </a>
 
             <a class="teacher-dashboard-card teacher-logout-card" href="/logout">
-                <span class="teacher-card-icon">ðŸšª</span>
+                <span class="teacher-card-icon">{{ icon('logout') }}</span>
                 <h2 class="teacher-card-title">Logout</h2>
                 <p class="teacher-card-desc">Sign out of the teacher portal securely.</p>
             </a>

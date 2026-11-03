@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% from '_icons.html' import icon %}
 
 {% block title %}Semester Results{% endblock %}
 {% block extra_head %}
@@ -93,7 +94,7 @@
 
             <button>
 
-                âž• Add Result
+                {{ icon('plus') }} Add Result
 
             </button>
 
@@ -183,19 +184,19 @@
 
                         <button>
 
-                            âœ Edit
+                            {{ icon('edit') }} Edit
 
                         </button>
 
                     </a>
 
                     <form class="inline-form" method="post" action="/delete_result/{{ r['result_id'] }}"
-                        onsubmit="return confirm('Delete this record?');">
+                            {{ icon('trash') }} Delete
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                         <button class="btn-danger" type="submit">
 
-                            ðŸ—‘ Delete
+                            {{ icon('trash') }} Delete
 
                         </button>
 

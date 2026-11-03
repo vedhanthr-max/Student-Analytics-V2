@@ -202,13 +202,13 @@
 
             <a class="admin-card-link" href="{{ url_for('admin_fees_collected') }}">
                 <h2 class="admin-card-title">Fees Collected</h2>
-                <p class="admin-card-value">â‚¹ {{ fees_collected }}</p>
+                <p class="admin-card-value">₹ {{ fees_collected }}</p>
                 <p class="admin-card-desc">Track successful and completed fee payments.</p>
             </a>
 
             <a class="admin-card-link" href="{{ url_for('admin_fees_pending') }}">
                 <h2 class="admin-card-title">Pending Fees</h2>
-                <p class="admin-card-value">â‚¹ {{ pending_fees }}</p>
+                <p class="admin-card-value">₹ {{ pending_fees }}</p>
                 <p class="admin-card-desc">Monitor unpaid balances and pending dues.</p>
             </a>
 
