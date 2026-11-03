@@ -1,0 +1,7 @@
+{
+  "k": 2,
+  "silhouette_score": 0.5854738820462827,
+  "sample_count": 5,
+  "source": "dataset/students.csv",
+  "training_time": 1.690335
+}
