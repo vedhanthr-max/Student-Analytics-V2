@@ -19,10 +19,22 @@ Change the default passwords before deploying.
 
 ## Project structure
 
-- `app.py`: Flask routes and application startup
-- `blueprints.py`: grouped route blueprints with compatibility endpoint aliases
+- `app.py`: thin Flask entry point
+- `app/`: application factory, route-group blueprints, and legacy route implementation
 - `database.py`: SQLite schema initialization and migrations
 - `services/`: grade and prediction services
 - `templates/`: Jinja2 pages
 - `static/`: CSS and frontend assets
 - `dataset/` and `models/`: training data and model artifacts
+
+## Application layout
+
+`app.py` is the production entry point and exposes the Flask application
+created by `create_app()`. The factory registers six route modules:
+authentication, administration, teacher/academic workflows, student
+workflows, payments, and analytics.
+
+Short endpoint aliases are registered alongside blueprint endpoints so
+existing templates, redirects, and integrations keep their original names
+and URL paths. The legacy route implementation remains in `app/legacy.py`
+during this incremental migration.

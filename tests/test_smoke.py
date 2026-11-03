@@ -15,9 +15,10 @@ shutil.copy2(PROJECT_ROOT / "database" / "student.db", TEST_DATABASE)
 os.environ["STUDENT_DB_PATH"] = str(TEST_DATABASE)
 os.environ["SECRET_KEY"] = "test-secret"
 
-from app import app
+from app import create_app
 from services.grades import calculate_grade
 
+app = create_app({"TESTING": True})
 
 def _prepare_student_login():
     conn = sqlite3.connect(TEST_DATABASE)
