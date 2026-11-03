@@ -1,72 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}Add Semester Result{% endblock %}
-{% block extra_head %}
-
-
-
-    <style>
-        body {
-            font-family: Arial;
-            background: #f2f2f2;
-        }
-
-        .container {
-
-            width: 500px;
-
-            margin: auto;
-
-            margin-top: 30px;
-
-            background: white;
-
-            padding: 30px;
-
-            border-radius: 10px;
-
-            box-shadow: 0px 0px 10px gray;
-
-        }
-
-        h2 {
-
-            text-align: center;
-
-        }
-
-        input {
-
-            width: 100%;
-
-            padding: 10px;
-
-            margin-top: 10px;
-
-            margin-bottom: 10px;
-
-        }
-
-        button {
-
-            width: 100%;
-
-            padding: 10px;
-
-        }
-    </style>
-
-
-{% endblock %}
+{% block extra_head %}{% endblock %}
 {% block content %}
-<div class="container">
-
-        <h2>Add Semester Result</h2>
+<div class="card form-card">
+    <div class="card-header"><h2>Add Semester Result</h2></div>
+    <div class="card-body">
 
         <form action="/save_result" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-            <select name="register_no" required>
+        <div class="form-grid">
+        <div class="field"><label for="register_no">Student</label>
+            <select id="register_no" name="register_no" required>
 
                 <option value="">Select Student</option>
 
@@ -81,10 +26,10 @@
                 {% endfor %}
 
             </select>
+        </div>
+        <div class="field"><label for="semester">Semester</label>
 
-            <label>Semester</label>
-
-            <select name="semester" required>
+            <select id="semester" name="semester" required>
 
                 <option value="">Select Semester</option>
 
@@ -98,12 +43,9 @@
                 <option value="8">Semester 8</option>
 
             </select>
-
-            <br><br>
-
-            <label>Subject</label>
-
-            <select name="subject_code" required>
+        </div>
+        <div class="field"><label for="subject_code">Subject</label>
+            <select id="subject_code" name="subject_code" required>
 
                 <option value="">Select Subject</option>
 
@@ -118,21 +60,13 @@
                 {% endfor %}
 
             </select>
-
-            <br><br>
-            <input type="number" step="0.1" name="internal_mark" placeholder="Internal Mark" required>
-
-            <input type="number" step="0.1" name="external_mark" placeholder="External Mark" required>
-
-            <button>
-
-                Save Result
-
-            </button>
+        </div>
+        <div class="field"><label for="internal_mark">Internal Mark</label><input id="internal_mark" type="number" step="0.1" name="internal_mark" placeholder="Internal Mark" required></div>
+        <div class="field"><label for="external_mark">External Mark</label><input id="external_mark" type="number" step="0.1" name="external_mark" placeholder="External Mark" required></div>
+        </div>
+            <div class="form-actions"><a class="btn btn-ghost" href="/results">Cancel</a><button type="submit">Save Result</button></div>
 
         </form>
-
-        <a href="/results"><button type="button">Cancel</button></a>
-
+    </div>
     </div>
 {% endblock %}

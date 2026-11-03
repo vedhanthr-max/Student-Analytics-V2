@@ -2,87 +2,48 @@
 {% from '_icons.html' import icon %}
 
 {% block title %}{{ login_title or "Login - Student Analytics" }}{% endblock %}
-{% block extra_head %}
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        .password-field-wrap {
-            position: relative;
-        }
-
-        .password-field-wrap input {
-            width: 100%;
-            padding-right: 52px;
-            box-sizing: border-box;
-            margin-left: 0;
-            margin-right: 0;
-        }
-
-        .password-toggle {
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            color: #1e3a8a;
-            font-size: 18px;
-            line-height: 1;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .password-toggle:hover {
-            background: #eff6ff;
-        }
-
-        .password-toggle:focus-visible {
-            outline: 2px solid #2563eb;
-            outline-offset: 1px;
-        }
-    </style>
-
-{% endblock %}
 {% block content %}
-<div class="container">
-
-        <h1>{{ login_title or "Student Analytics System" }}</h1>
-
+<div class="login-shell">
+    <section class="login-brand-panel">
+        <h1>Student Analytics</h1>
+        <p>One calm workspace for student records, performance, and campus operations.</p>
+        <ul class="feature-list">
+            <li>{{ icon('chart') }} Track performance patterns</li>
+            <li>{{ icon('users') }} Keep every student record organized</li>
+            <li>{{ icon('check') }} Make confident academic decisions</li>
+        </ul>
+    </section>
+    <section class="login-form-panel">
+        <div class="login-card card">
+        <h2>{{ login_title or "Welcome back" }}</h2>
+        <p class="topbar-subtitle">Sign in to continue to your workspace.</p>
         <form action="{{ login_action or url_for('student_login') }}" method="POST">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-            <label>Username</label>
-            <input type="text" name="username" required>
-
-            <label>Password</label>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="field">
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" required>
+            </div>
+            <div class="field">
+            <label for="password">Password</label>
             <div class="password-field-wrap">
                 <input id="password" type="password" name="password" required>
                 <button id="passwordToggle" class="password-toggle" type="button" aria-label="Show password"
-                    aria-pressed="false" title="Show password">
-                    {{ icon('user') }}
+                    aria-pressed="false" title="Show password">{{ icon('user') }}
                 </button>
             </div>
-
-            <button type="submit">Login</button>
-            <br><br>
-
-            <a href="/forgot_password">
-                Forgot password? Contact admin
-            </a>
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+            <div class="login-links"><a href="/forgot_password">Forgot password? Contact admin</a></div>
         </form>
-
-        <p>
+        <p class="login-links">
             <a href="{{ url_for('admin_login') }}">Admin Login</a>
             |
             <a href="{{ url_for('teacher_login') }}">Teacher Login</a>
             |
             <a href="{{ url_for('student_login') }}">Student Login</a>
         </p>
-
+        </div>
+    </section>
     </div>
 
     <script>

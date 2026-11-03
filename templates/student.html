@@ -4,7 +4,7 @@
 {% block title %}Students{% endblock %}
 {% block extra_head %}
 
-    <style>
+    {#
         .pagination {
             display: flex;
             align-items: center;
@@ -29,12 +29,12 @@
         .pagination a:hover {
             background: #dbeafe;
         }
-    </style>
+    #}
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+    {#
         .student-dashboard-page {
             min-height: 100vh;
             background:
@@ -238,7 +238,7 @@
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+    #}
 
 {% endblock %}
 {% block content %}
@@ -348,7 +348,7 @@
 
         <section class="student-performance-card">
             <h2 class="student-performance-title">Student Record Details</h2>
-            <div class="student-table-wrap" style="margin-top: 14px;">
+            <div class="student-table-wrap">
                 <table class="student-table" border="1" cellpadding="10">
                     <tr>
                         <th>ID</th>

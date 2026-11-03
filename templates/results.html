@@ -2,85 +2,7 @@
 {% from '_icons.html' import icon %}
 
 {% block title %}Semester Results{% endblock %}
-{% block extra_head %}
-
-
-
-    <style>
-        body {
-            font-family: Arial;
-            background: #f2f2f2;
-        }
-
-        .container {
-
-            width: 95%;
-
-            margin: auto;
-
-            margin-top: 30px;
-
-            background: white;
-
-            padding: 20px;
-
-            border-radius: 10px;
-
-        }
-
-        table {
-
-            width: 100%;
-
-            border-collapse: collapse;
-
-        }
-
-        th,
-        td {
-
-            border: 1px solid gray;
-
-            padding: 10px;
-
-            text-align: center;
-
-        }
-
-        th {
-
-            background: #2c3e50;
-
-            color: white;
-
-        }
-
-        button {
-
-            padding: 6px 12px;
-
-        }
-
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .pagination a {
-            padding: 8px 12px;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            background: #eff6ff;
-            color: #1e3a8a;
-            text-decoration: none;
-        }
-    </style>
-
-
-{% endblock %}
+{% block extra_head %}{% endblock %}
 {% block content %}
 <div class="container">
 
@@ -124,7 +46,8 @@
 
         <br><br>
 
-        <table>
+        <div class="table-wrap">
+        <table class="table">
 
             <tr>
 
@@ -215,6 +138,7 @@
             {% endfor %}
 
         </table>
+        </div>
 
         {% if total_pages > 1 %}
         <nav class="pagination" aria-label="Result pages">

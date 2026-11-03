@@ -8,9 +8,11 @@
 
 {% endblock %}
 {% block content %}
-<h2>Edit Subject</h2>
+<div class="card form-card">
+<div class="card-header"><h2>Edit Subject</h2></div>
+<div class="card-body">
 
-    <form action="/update_subject/{{ subject['subject_id'] }}" method="POST">
+    <form class="form-grid" action="/update_subject/{{ subject['subject_id'] }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <input type="text" name="subject_code" value="{{ subject['subject_code'] }}" required>
@@ -29,5 +31,7 @@
 
     </form>
 
-    <a href="/subjects"><button type="button">Cancel</button></a>
+    <div class="form-actions"><a class="btn btn-ghost" href="/subjects">Cancel</a></div>
+</div>
+</div>
 {% endblock %}

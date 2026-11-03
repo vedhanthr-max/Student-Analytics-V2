@@ -2,94 +2,8 @@
 
 {% block title %}Analytics Dashboard{% endblock %}
 {% block extra_head %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
-        .analytics-shell {
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-
-        .analytics-header {
-            margin-bottom: 20px;
-        }
-
-        .analytics-header h1 {
-            margin: 0;
-            color: #1e3a8a;
-        }
-
-        .analytics-header p {
-            color: #475569;
-        }
-
-        .analytics-cards,
-        .analytics-charts {
-            display: grid;
-            gap: 14px;
-        }
-
-        .analytics-cards {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            margin-bottom: 22px;
-        }
-
-        .analytics-charts {
-            grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
-        }
-
-        .analytics-card,
-        .analytics-chart {
-            background: #ffffff;
-            border: 1px solid #dbeafe;
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.08);
-        }
-
-        .analytics-card h2,
-        .analytics-chart h2 {
-            margin-top: 0;
-            color: #1e3a8a;
-        }
-
-        .analytics-card h2 {
-            font-size: 14px;
-        }
-
-        .analytics-card strong {
-            display: block;
-            margin-top: 8px;
-            color: #1e3a8a;
-            font-size: 28px;
-        }
-
-        .analytics-chart canvas {
-            width: 100% !important;
-            max-height: 360px;
-        }
-
-        .analytics-back {
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 900px) {
-            .analytics-cards {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-
-            .analytics-charts {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 620px) {
-            .analytics-cards {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
 {% endblock %}
 {% block content %}
 <div class="analytics-shell">
@@ -100,10 +14,10 @@
 
     <section class="analytics-cards" aria-label="Performance totals">
         <div class="analytics-card"><h2>Total Students</h2><strong>{{ total_students }}</strong></div>
-        <div class="analytics-card"><h2>Excellent</h2><strong>{{ excellent }}</strong></div>
-        <div class="analytics-card"><h2>Average</h2><strong>{{ average }}</strong></div>
-        <div class="analytics-card"><h2>Need Improvement</h2><strong>{{ weak }}</strong></div>
-        <div class="analytics-card"><h2>Not Predicted</h2><strong>{{ not_predicted }}</strong></div>
+        <div class="analytics-card"><h2>Excellent</h2><strong><span class="badge badge-excellent">{{ excellent }}</span></strong></div>
+        <div class="analytics-card"><h2>Average</h2><strong><span class="badge badge-average">{{ average }}</span></strong></div>
+        <div class="analytics-card"><h2>Need Improvement</h2><strong><span class="badge badge-need">{{ weak }}</span></strong></div>
+        <div class="analytics-card"><h2>Not Predicted</h2><strong><span class="badge badge-muted">{{ not_predicted }}</span></strong></div>
     </section>
 
     <section class="analytics-charts">

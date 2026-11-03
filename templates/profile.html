@@ -2,63 +2,14 @@
 {% from '_icons.html' import icon %}
 
 {% block title %}Student Profile{% endblock %}
-{% block extra_head %}
-
-
-
-<style>
-
-body{
-font-family:Arial;
-background:#ecf0f1;
-}
-
-.card{
-
-width:750px;
-
-margin:auto;
-
-margin-top:30px;
-
-background:white;
-
-padding:30px;
-
-border-radius:10px;
-
-box-shadow:0px 0px 10px gray;
-
-}
-
-table{
-
-width:100%;
-
-}
-
-td{
-
-padding:10px;
-
-}
-
-h2{
-
-text-align:center;
-
-}
-
-</style>
-
-
-{% endblock %}
+{% block extra_head %}{% endblock %}
 {% block content %}
 <div class="card">
 
 <h2>{{ icon('graduation') }} Student Profile</h2>
 
-<table border="1">
+<div class="table-wrap">
+<table class="table">
 
 <tr>
 <td>Register No</td>
@@ -164,6 +115,7 @@ text-align:center;
 </tr>
 
 </table>
+</div>
 
 <br>
 

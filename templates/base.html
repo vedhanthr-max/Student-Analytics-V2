@@ -10,6 +10,55 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    {% from '_icons.html' import icon %}
+    <div class="app-shell">
+    {% if session.get("role") %}
+    <aside class="sidebar" id="app-sidebar">
+        <a class="brand" href="{{ url_for('index') }}">
+            <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="m6 10v5c3 2 9 2 12 0v-5M20 8v6"/>
+            </svg>
+            Student Analytics
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="app-navigation" aria-label="Toggle navigation">
+            {{ icon('search') }}
+        </button>
+        <nav class="site-nav" id="app-navigation" aria-label="Main navigation">
+            <p class="nav-section">Workspace</p>
+        {% if session.get("role") == "admin" %}
+            <a href="{{ url_for('admin') }}">{{ icon('home') }} Dashboard</a>
+            <a href="{{ url_for('admin_students') }}">{{ icon('users') }} Students</a>
+            <a href="{{ url_for('admin_teachers') }}">{{ icon('users') }} Teachers</a>
+            <a href="{{ url_for('subjects') }}">{{ icon('book') }} Subjects</a>
+            <a href="{{ url_for('results') }}">{{ icon('chart') }} Results</a>
+        {% elif session.get("role") == "teacher" %}
+            <a href="{{ url_for('teacher') }}">{{ icon('home') }} Dashboard</a>
+            <a href="{{ url_for('students') }}">{{ icon('users') }} Students</a>
+            <a href="{{ url_for('subjects') }}">{{ icon('book') }} Subjects</a>
+            <a href="{{ url_for('results') }}">{{ icon('chart') }} Results</a>
+        {% elif session.get("role") == "student" %}
+            <a href="{{ url_for('students') }}">{{ icon('home') }} Dashboard</a>
+            <a href="{{ url_for('fees') }}">{{ icon('wallet') }} Fees</a>
+        {% endif %}
+        </nav>
+        <div class="sidebar-footer">Secure academic workspace</div>
+    </aside>
+    {% endif %}
+    <div class="main-shell">
+    {% if session.get("role") %}
+    <header class="topbar">
+        <div>
+            <h1 class="topbar-title">{% block page_heading %}Student Analytics{% endblock %}</h1>
+            <p class="topbar-subtitle">A clear view of academic progress and administration.</p>
+        </div>
+        <div class="topbar-user">
+            <span class="avatar" aria-hidden="true">{{ session.get("username", "U")[:1]|upper }}</span>
+            <span class="role-pill">{{ session.get("role") }}</span>
+            <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">{{ icon('logout') }} Logout</a>
+        </div>
+    </header>
+    {% else %}
     <header class="site-header">
         <a class="site-brand" href="{{ url_for('index') }}">Student Analytics</a>
         {% if session.get("role") %}
@@ -33,14 +82,30 @@
         </nav>
         {% endif %}
     </header>
+    {% endif %}
 
     {% include "_flash.html" %}
 
-    <main class="page-content">
+    <main class="page-content" id="main-content">
         {% block content %}{% endblock %}
     </main>
 
     <footer class="site-footer">Student Analytics</footer>
+    </div>
+    </div>
+    {% if session.get("role") %}
+    <script>
+        (function () {
+            var sidebar = document.getElementById("app-sidebar");
+            var toggle = document.querySelector(".menu-toggle");
+            if (!sidebar || !toggle) return;
+            toggle.addEventListener("click", function () {
+                var open = sidebar.classList.toggle("is-open");
+                toggle.setAttribute("aria-expanded", open ? "true" : "false");
+            });
+        }());
+    </script>
+    {% endif %}
 </body>
 
 </html>
