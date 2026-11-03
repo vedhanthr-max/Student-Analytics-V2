@@ -1,14 +1,24 @@
 from datetime import datetime
 from datetime import timedelta
+import csv
+import io
 import logging
+import math
 import os
 import uuid
 import sqlite3
 from urllib.parse import urlencode
 
-from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from flask import Flask, jsonify, render_template, request, redirect, send_file, url_for, session
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
+
+try:
+    from reportlab.lib.pagesizes import A4
+    from reportlab.pdfgen import canvas
+except ImportError:
+    A4 = None
+    canvas = None
 
 try:
     from dotenv import load_dotenv
@@ -137,6 +147,44 @@ def _record_login_failure(key):
 
 def _clear_login_failures(key):
     LOGIN_ATTEMPTS.pop(key, None)
+
+
+def _pagination_values():
+    try:
+        page = max(1, int(request.args.get("page", 1)))
+        per_page = min(100, max(1, int(request.args.get("per_page", 10))))
+    except (TypeError, ValueError):
+        page, per_page = 1, 10
+    return page, per_page
+
+
+def _total_pages(total, per_page):
+    return max(1, math.ceil(total / per_page))
+
+
+def _read_csv_upload(field_name):
+    upload = request.files.get(field_name)
+    if upload is None or not upload.filename:
+        return None, ["CSV file is required."]
+    if request.content_length and request.content_length > 2 * 1024 * 1024:
+        return None, ["CSV file exceeds the 2 MB limit."]
+
+    content = upload.stream.read(2 * 1024 * 1024 + 1)
+    if len(content) > 2 * 1024 * 1024:
+        return None, ["CSV file exceeds the 2 MB limit."]
+    try:
+        text = content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return None, ["CSV file must be UTF-8 encoded."]
+    return csv.DictReader(io.StringIO(text)), []
+
+
+def _json_import_result(errors, inserted=0, dry_run=False):
+    return jsonify({
+        "dry_run": dry_run,
+        "inserted": inserted,
+        "errors": errors,
+    }), 400 if errors and not dry_run else 200
 
 
 def razorpay_client():
@@ -329,24 +377,42 @@ def admin():
 def admin_students():
 
     search = request.args.get("search", "")
+    page, per_page = _pagination_values()
+    offset = (page - 1) * per_page
 
     conn = get_row_connection()
     cursor = conn.cursor()
 
     if search:
+        filters = (
+            "%" + search + "%",
+            "%" + search + "%",
+            "%" + search + "%",
+        )
+        cursor.execute("""
+        SELECT COUNT(*)
+        FROM students
+        WHERE name LIKE ? OR department LIKE ? OR year LIKE ?
+        """, filters)
+        total = cursor.fetchone()[0]
         cursor.execute("""
         SELECT * FROM students
         WHERE name LIKE ?
            OR department LIKE ?
            OR year LIKE ?
         ORDER BY register_no
+        LIMIT ? OFFSET ?
         """, (
-            "%" + search + "%",
-            "%" + search + "%",
-            "%" + search + "%",
+            *filters,
+            per_page,
+            offset,
         ))
     else:
-        cursor.execute("SELECT * FROM students ORDER BY register_no")
+        total = cursor.execute("SELECT COUNT(*) FROM students").fetchone()[0]
+        cursor.execute(
+            "SELECT * FROM students ORDER BY register_no LIMIT ? OFFSET ?",
+            (per_page, offset),
+        )
 
     students = cursor.fetchall()
     conn.close()
@@ -355,7 +421,211 @@ def admin_students():
         "student.html",
         students=students,
         show_back_to_dashboard=True,
+        page=page,
+        per_page=per_page,
+        total_pages=_total_pages(total, per_page),
     )
+
+
+@app.route("/admin/import/students", methods=["POST"])
+@roles_required("admin")
+def import_students():
+    reader, errors = _read_csv_upload("file")
+    dry_run = request.values.get("dry_run") == "1"
+    expected_headers = {
+        "register_no", "name", "department", "year", "study_hours",
+        "attendance", "assignment_marks", "internal_marks",
+        "student_phone", "parent_phone", "email",
+    }
+    if reader is None:
+        return _json_import_result(errors, dry_run=dry_run)
+    if set(reader.fieldnames or []) != expected_headers:
+        return _json_import_result(
+            ["CSV header must contain the required student columns."],
+            dry_run=dry_run,
+        )
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    seen = set()
+    rows = []
+    for row_number, row in enumerate(reader, start=2):
+        register_no = (row.get("register_no") or "").strip()
+        if not register_no:
+            errors.append(f"Row {row_number}: register_no is required.")
+            continue
+        if register_no in seen:
+            errors.append(f"Row {row_number}: duplicate register_no in file.")
+            continue
+        seen.add(register_no)
+        try:
+            values = (
+                float(row["study_hours"]),
+                float(row["attendance"]),
+                float(row["assignment_marks"]),
+                float(row["internal_marks"]),
+            )
+        except (KeyError, TypeError, ValueError):
+            errors.append(f"Row {row_number}: feature values must be numbers.")
+            continue
+        cursor.execute(
+            "SELECT 1 FROM students WHERE register_no=?",
+            (register_no,),
+        )
+        if cursor.fetchone() is not None:
+            errors.append(f"Row {row_number}: register_no already exists.")
+            continue
+        rows.append((row, values))
+
+    if errors:
+        conn.close()
+        return _json_import_result(errors, dry_run=dry_run)
+    if dry_run:
+        conn.close()
+        return _json_import_result([], inserted=len(rows), dry_run=True)
+
+    try:
+        for row, values in rows:
+            cursor.execute(
+                """
+                INSERT INTO students(
+                    register_no, name, department, year,
+                    study_hours, attendance, assignment_marks, internal_marks,
+                    cluster, recommendation, student_phone, parent_phone, email
+                ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """,
+                (
+                    row["register_no"].strip(),
+                    row["name"].strip(),
+                    row["department"].strip(),
+                    row["year"].strip(),
+                    *values,
+                    "Not Predicted",
+                    "Not Generated",
+                    row["student_phone"].strip(),
+                    row["parent_phone"].strip(),
+                    row["email"].strip(),
+                ),
+            )
+        conn.commit()
+    except sqlite3.IntegrityError as exc:
+        conn.rollback()
+        conn.close()
+        return _json_import_result([f"Import failed: {exc}"])
+    conn.close()
+    logger.info("Admin action=import_students username=%s count=%s", session.get("username"), len(rows))
+    return _json_import_result([], inserted=len(rows))
+
+
+@app.route("/teacher/import/results", methods=["POST"])
+@roles_required("teacher")
+def import_results():
+    reader, errors = _read_csv_upload("file")
+    dry_run = request.values.get("dry_run") == "1"
+    expected_headers = {
+        "register_no", "semester", "subject_code",
+        "internal_mark", "external_mark",
+    }
+    if reader is None:
+        return _json_import_result(errors, dry_run=dry_run)
+    if set(reader.fieldnames or []) != expected_headers:
+        return _json_import_result(
+            ["CSV header must contain the required result columns."],
+            dry_run=dry_run,
+        )
+
+    conn = get_connection()
+    cursor = conn.cursor()
+    seen = set()
+    rows = []
+    for row_number, row in enumerate(reader, start=2):
+        key = (
+            (row.get("register_no") or "").strip(),
+            (row.get("semester") or "").strip(),
+            (row.get("subject_code") or "").strip(),
+        )
+        try:
+            semester = int(key[1])
+            internal, external = parse_marks(
+                row["internal_mark"],
+                row["external_mark"],
+            )
+        except (KeyError, ValueError) as exc:
+            errors.append(f"Row {row_number}: {exc}")
+            continue
+        if key in seen:
+            errors.append(f"Row {row_number}: duplicate result in file.")
+            continue
+        seen.add(key)
+        cursor.execute(
+            "SELECT 1 FROM students WHERE register_no=?",
+            (key[0],),
+        )
+        if cursor.fetchone() is None:
+            errors.append(f"Row {row_number}: student does not exist.")
+            continue
+        cursor.execute(
+            "SELECT subject_name, credits FROM subjects WHERE subject_code=?",
+            (key[2],),
+        )
+        subject = cursor.fetchone()
+        if subject is None:
+            errors.append(f"Row {row_number}: subject does not exist.")
+            continue
+        cursor.execute(
+            """
+            SELECT 1 FROM semester_results
+            WHERE register_no=? AND semester=? AND subject_code=?
+            """,
+            (key[0], semester, key[2]),
+        )
+        if cursor.fetchone() is not None:
+            errors.append(f"Row {row_number}: result already exists.")
+            continue
+        grade, grade_point, result = calculate_grade(internal + external)
+        rows.append((
+            key[0], semester, key[2], subject[0], internal, external,
+            internal + external, grade, grade_point, subject[1], result,
+        ))
+
+    if errors:
+        conn.close()
+        return _json_import_result(errors, dry_run=dry_run)
+    if dry_run:
+        conn.close()
+        return _json_import_result([], inserted=len(rows), dry_run=True)
+
+    try:
+        cursor.executemany(
+            """
+            INSERT INTO semester_results(
+                register_no, semester, subject_code, subject_name,
+                internal_mark, external_mark, total_mark, grade,
+                grade_point, credits, result
+            ) VALUES(?,?,?,?,?,?,?,?,?,?,?)
+            """,
+            rows,
+        )
+        for register_no, *_ in rows:
+            cursor.execute(
+                """
+                UPDATE students
+                SET arrear_count=(
+                    SELECT COUNT(*) FROM semester_results
+                    WHERE register_no=? AND result='Fail'
+                )
+                WHERE register_no=?
+                """,
+                (register_no, register_no),
+            )
+        conn.commit()
+    except sqlite3.IntegrityError as exc:
+        conn.rollback()
+        conn.close()
+        return _json_import_result([f"Import failed: {exc}"])
+    conn.close()
+    logger.info("Teacher action=import_results username=%s count=%s", session.get("username"), len(rows))
+    return _json_import_result([], inserted=len(rows))
 
 
 @app.route("/admin/teachers")
@@ -559,6 +829,8 @@ def teacher():
 def students():
 
     search = request.args.get("search", "")
+    page, per_page = _pagination_values()
+    offset = (page - 1) * per_page
 
     if session.get("role") == "student":
 
@@ -573,8 +845,12 @@ def students():
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM students WHERE id=? AND register_no=? AND login_id IS NOT NULL",
-            (student_id, student_register_no)
+            """
+            SELECT * FROM students
+            WHERE id=? AND register_no=? AND login_id IS NOT NULL
+            LIMIT ? OFFSET ?
+            """,
+            (student_id, student_register_no, per_page, offset)
         )
 
         data = cursor.fetchall()
@@ -584,14 +860,30 @@ def students():
         if not data:
             return "Forbidden", 403
 
-        return render_template("student.html", students=data)
+        return render_template(
+            "student.html",
+            students=data,
+            page=page,
+            per_page=per_page,
+            total_pages=1,
+        )
 
     conn = get_row_connection()
 
     cursor = conn.cursor()
 
     if search:
-
+        filters = (
+            "%" + search + "%",
+            "%" + search + "%",
+            "%" + search + "%",
+        )
+        cursor.execute("""
+        SELECT COUNT(*)
+        FROM students
+        WHERE name LIKE ? OR department LIKE ? OR year LIKE ?
+        """, filters)
+        total = cursor.fetchone()[0]
         cursor.execute("""
 
         SELECT * FROM students
@@ -604,29 +896,30 @@ def students():
 
         OR year LIKE ?
 
+        LIMIT ? OFFSET ?
+
         """,
 
-        (
-
-        "%" + search + "%",
-
-        "%" + search + "%",
-
-        "%" + search + "%"
-
-        ))
+        (*filters, per_page, offset))
 
     else:
-
-        cursor.execute("SELECT * FROM students")
+        total = cursor.execute("SELECT COUNT(*) FROM students").fetchone()[0]
+        cursor.execute(
+            "SELECT * FROM students LIMIT ? OFFSET ?",
+            (per_page, offset),
+        )
 
     data = cursor.fetchall()
 
     conn.close()
 
-    return render_template("student.html",
-
-                           students=data)
+    return render_template(
+        "student.html",
+        students=data,
+        page=page,
+        per_page=per_page,
+        total_pages=_total_pages(total, per_page),
+    )
 
 
 # ---------------- ADD STUDENT ----------------
@@ -1155,14 +1448,18 @@ def predict(id):
 @roles_required("admin", "teacher")
 def results():
 
+    page, per_page = _pagination_values()
+    offset = (page - 1) * per_page
     conn = get_row_connection()
 
     cursor = conn.cursor()
 
+    total = cursor.execute("SELECT COUNT(*) FROM semester_results").fetchone()[0]
     cursor.execute("""
     SELECT * FROM semester_results
     ORDER BY register_no, semester
-    """)
+    LIMIT ? OFFSET ?
+    """, (per_page, offset))
 
     results = cursor.fetchall()
 
@@ -1170,7 +1467,10 @@ def results():
 
     return render_template(
         "results.html",
-        results=results
+        results=results,
+        page=page,
+        per_page=per_page,
+        total_pages=_total_pages(total, per_page),
     )
 
 @app.route("/exam_registration")
@@ -1627,6 +1927,84 @@ def fees():
     )
 
 
+@app.route("/admin/fees/<int:registration_id>/confirm-upi", methods=["POST"])
+@roles_required("admin")
+def confirm_upi(registration_id):
+    transaction_ref = request.form.get("transaction_ref", "").strip()
+    if not transaction_ref:
+        return "UPI transaction reference is required.", 400
+
+    conn = get_row_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT registration_id, register_no, balance_due, payment_status
+        FROM exam_registration
+        WHERE registration_id=?
+        """,
+        (registration_id,),
+    )
+    registration = cursor.fetchone()
+    if registration is None:
+        conn.close()
+        return "Exam registration not found.", 404
+    if registration["payment_status"] == "Paid" or registration["balance_due"] <= 0:
+        conn.close()
+        return "Payment is already completed.", 409
+
+    cursor.execute(
+        "SELECT 1 FROM payments WHERE transaction_ref=?",
+        (transaction_ref,),
+    )
+    if cursor.fetchone() is not None:
+        conn.close()
+        return "Transaction reference already exists.", 409
+
+    amount = float(registration["balance_due"])
+    payment_date = datetime.now().strftime("%Y-%m-%d")
+    try:
+        cursor.execute(
+            """
+            INSERT INTO payments(
+                registration_id, register_no, amount, payment_date,
+                payment_mode, transaction_ref, status
+            ) VALUES(?,?,?,?,?,?,?)
+            """,
+            (
+                registration_id,
+                registration["register_no"],
+                amount,
+                payment_date,
+                "UPI Manual",
+                transaction_ref,
+                "Success",
+            ),
+        )
+        cursor.execute(
+            """
+            UPDATE exam_registration
+            SET amount_paid=COALESCE(amount_paid, 0) + ?,
+                balance_due=0, payment_status='Paid',
+                status='Paid', last_payment_date=?
+            WHERE registration_id=?
+            """,
+            (amount, payment_date, registration_id),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        conn.close()
+        return "Transaction reference already exists.", 409
+    conn.close()
+    logger.info(
+        "Payment event=manual_upi_success admin=%s registration_id=%s transaction_ref=%s",
+        session.get("username"),
+        registration_id,
+        transaction_ref,
+    )
+    return redirect(url_for("fees", message="UPI payment confirmed."))
+
+
 @app.route("/payment/<int:registration_id>")
 @roles_required("student")
 def payment(registration_id):
@@ -1980,6 +2358,50 @@ def receipt(payment_id):
     )
 
 
+@app.route("/receipt/<int:payment_id>.pdf")
+@roles_required("admin", "student")
+def receipt_pdf(payment_id):
+    conn = get_row_connection()
+    payment_data = conn.execute(
+        """
+        SELECT
+            p.payment_id, p.registration_id, p.register_no, p.amount,
+            p.payment_date, p.payment_mode, p.transaction_ref,
+            p.status AS payment_result, er.semester, er.exam_type,
+            er.exam_fee, er.registration_date, s.name, s.department, s.year
+        FROM payments p
+        LEFT JOIN exam_registration er ON er.registration_id = p.registration_id
+        LEFT JOIN students s ON s.register_no = p.register_no
+        WHERE p.payment_id=?
+        """,
+        (payment_id,),
+    ).fetchone()
+    conn.close()
+    if payment_data is None:
+        return "Payment receipt not found.", 404
+
+    if session.get("role") == "student":
+        identity = student_identity()
+        if identity is None or payment_data["register_no"] != identity[1]:
+            return "Forbidden", 403
+
+    return _pdf_response(
+        "Payment Receipt",
+        [
+            ("Payment ID", payment_data["payment_id"]),
+            ("Registration ID", payment_data["registration_id"]),
+            ("Register No", payment_data["register_no"]),
+            ("Name", payment_data["name"]),
+            ("Amount", payment_data["amount"]),
+            ("Payment Date", payment_data["payment_date"]),
+            ("Payment Mode", payment_data["payment_mode"]),
+            ("Transaction Reference", payment_data["transaction_ref"]),
+            ("Status", payment_data["payment_result"]),
+        ],
+        f"receipt_{payment_id}.pdf",
+    )
+
+
 # ---------------- TEACHER MANAGEMENT ----------------
 
 @app.route("/teacher_management")
@@ -2231,6 +2653,67 @@ def hall_ticket(id):
         "hall_ticket.html",
         student=student
     )
+
+
+def _pdf_response(title, lines, filename):
+    if canvas is None or A4 is None:
+        return "PDF support is not installed.", 503
+
+    output = io.BytesIO()
+    document = canvas.Canvas(output, pagesize=A4)
+    _, height = A4
+    document.setTitle(title)
+    document.setFont("Helvetica-Bold", 16)
+    document.drawString(50, height - 60, title)
+    document.setFont("Helvetica", 11)
+    y = height - 95
+    for label, value in lines:
+        document.drawString(50, y, f"{label}: {value}")
+        y -= 22
+        if y < 50:
+            document.showPage()
+            y = height - 60
+    document.save()
+    output.seek(0)
+    return send_file(
+        output,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=filename,
+    )
+
+
+@app.route("/hall_ticket/<int:id>.pdf")
+@roles_required("admin", "teacher", "student")
+def hall_ticket_pdf(id):
+    conn = get_row_connection()
+    student = conn.execute(
+        "SELECT * FROM students WHERE id=?",
+        (id,),
+    ).fetchone()
+    conn.close()
+    if student is None:
+        return "Student Not Found", 404
+
+    if session.get("role") == "student":
+        identity = student_identity()
+        if identity is None or identity[0] != id:
+            return "Forbidden", 403
+
+    return _pdf_response(
+        "Hall Ticket",
+        [
+            ("Register No", student["register_no"]),
+            ("Name", student["name"]),
+            ("Department", student["department"]),
+            ("Year", student["year"]),
+            ("Hall Ticket No", student["hall_ticket_no"]),
+            ("Generated Date", student["hall_ticket_generated_date"]),
+            ("Status", student["hall_ticket_status"]),
+        ],
+        f"hall_ticket_{id}.pdf",
+    )
+
 
 # ---------------- LOGOUT ----------------
 
