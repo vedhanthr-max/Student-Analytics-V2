@@ -1,5 +1,6 @@
 from collections.abc import Mapping
 
+from config import DEBUG, get_secret_key
 from .admin import ENDPOINTS as ADMIN_ENDPOINTS, blueprint as admin_blueprint
 from .analytics import ENDPOINTS as ANALYTICS_ENDPOINTS, blueprint as analytics_blueprint
 from .auth import ENDPOINTS as AUTH_ENDPOINTS, blueprint as auth_blueprint
@@ -54,11 +55,14 @@ def create_app(config=None):
 
         _legacy_app = legacy.app
         register_blueprints(_legacy_app)
+    debug = _legacy_app.config.get("DEBUG", DEBUG)
     if config:
         if isinstance(config, Mapping):
             _legacy_app.config.update(config)
         else:
             _legacy_app.config.from_object(config)
+        debug = _legacy_app.config.get("DEBUG", debug)
+    _legacy_app.config["SECRET_KEY"] = get_secret_key(debug=debug)
     return _legacy_app
 
 

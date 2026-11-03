@@ -21,14 +21,6 @@ except ImportError:
     canvas = None
 
 try:
-    from dotenv import load_dotenv
-except ImportError:
-    load_dotenv = None
-
-if load_dotenv is not None:
-    load_dotenv()
-
-try:
     import razorpay
 except ImportError:
     razorpay = None
@@ -36,7 +28,6 @@ except ImportError:
 from database import init_db
 from config import (
     DEBUG,
-    SECRET_KEY,
     UPI_ID,
     UPI_NUMBER,
     UPI_PAYEE_NAME,
@@ -54,7 +45,6 @@ app = Flask(
     static_folder=os.path.join(_PROJECT_ROOT, "static"),
 )
 
-app.secret_key = SECRET_KEY
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",

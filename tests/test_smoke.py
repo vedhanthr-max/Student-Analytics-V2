@@ -2,6 +2,8 @@ import os
 import re
 import shutil
 import sqlite3
+import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -90,6 +92,41 @@ def test_post_without_csrf_is_rejected():
         data={"username": "admin", "password": "admin123"},
     )
     assert response.status_code == 400
+
+
+def _run_secret_key_check(debug):
+    child_env = os.environ.copy()
+    child_env["PYTHON_DOTENV_DISABLED"] = "1"
+    child_env["SECRET_KEY"] = ""
+    if debug:
+        child_env["FLASK_DEBUG"] = "1"
+    else:
+        child_env.pop("FLASK_DEBUG", None)
+    child_env["STUDENT_DB_PATH"] = str(TEST_DATABASE)
+    code = (
+        "from app import create_app\n"
+        "app = create_app({'TESTING': True})\n"
+        "print(app.test_client().get('/student/login').status_code)\n"
+    )
+    return subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=PROJECT_ROOT,
+        env=child_env,
+        capture_output=True,
+        text=True,
+    )
+
+
+def test_empty_secret_key_uses_generated_development_key():
+    result = _run_secret_key_check(debug=True)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip().endswith("200")
+
+
+def test_empty_secret_key_fails_in_production():
+    result = _run_secret_key_check(debug=False)
+    assert result.returncode != 0
+    assert "SECRET_KEY must be set in production." in result.stderr
 
 
 def test_login_rate_limit():
