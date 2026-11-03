@@ -6,6 +6,6 @@
 - [x] B4 + F3: CSRF, sessions, rate limiting, logging, and frontend security
 - [x] B5: Better ML
 - [x] B6: PDF, CSV import, pagination, and manual UPI confirmation
-- [ ] F4: Dashboards, charts, and pagination UI
+- [x] F4: Dashboards, charts, and pagination UI
 - [ ] F5: PDF and print buttons
 - [ ] B7: Blueprint refactor

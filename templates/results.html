@@ -59,6 +59,23 @@
             padding: 6px 12px;
 
         }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .pagination a {
+            padding: 8px 12px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
     </style>
 
 
@@ -183,6 +200,18 @@
             {% endfor %}
 
         </table>
+
+        {% if total_pages > 1 %}
+        <nav class="pagination" aria-label="Result pages">
+            {% if page > 1 %}
+            <a href="{{ url_for('results', page=page - 1, per_page=per_page) }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page }} of {{ total_pages }}</span>
+            {% if page < total_pages %}
+            <a href="{{ url_for('results', page=page + 1, per_page=per_page) }}">Next</a>
+            {% endif %}
+        </nav>
+        {% endif %}
 
     </div>
 {% endblock %}

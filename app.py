@@ -819,7 +819,20 @@ def link_student_login():
 @app.route("/teacher")
 @roles_required("admin", "teacher")
 def teacher():
-    return render_template("teacher_dashboard.html")
+    conn = get_row_connection()
+    cursor = conn.cursor()
+    total_students = cursor.execute("SELECT COUNT(*) FROM students").fetchone()[0]
+    total_results = cursor.execute(
+        "SELECT COUNT(*) FROM semester_results"
+    ).fetchone()[0]
+    total_subjects = cursor.execute("SELECT COUNT(*) FROM subjects").fetchone()[0]
+    conn.close()
+    return render_template(
+        "teacher_dashboard.html",
+        total_students=total_students,
+        total_results=total_results,
+        total_subjects=total_subjects,
+    )
 
 
 # ---------------- STUDENT ----------------

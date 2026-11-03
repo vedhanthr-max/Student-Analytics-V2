@@ -3,6 +3,33 @@
 {% block title %}Students{% endblock %}
 {% block extra_head %}
 
+    <style>
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .pagination a {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            background: #dbeafe;
+        }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -541,9 +568,19 @@
                 {% endfor %}
 
             </table>
-
-            </table>
         </div>
+
+        {% if total_pages > 1 %}
+        <nav class="pagination" aria-label="Student list pages">
+            {% if page > 1 %}
+            <a href="{{ url_for('admin_students' if session.get('role') == 'admin' else 'students', page=page - 1, per_page=per_page, search=request.args.get('search', '')) }}">Previous</a>
+            {% endif %}
+            <span>Page {{ page }} of {{ total_pages }}</span>
+            {% if page < total_pages %}
+            <a href="{{ url_for('admin_students' if session.get('role') == 'admin' else 'students', page=page + 1, per_page=per_page, search=request.args.get('search', '')) }}">Next</a>
+            {% endif %}
+        </nav>
+        {% endif %}
 
         <br>
 
