@@ -20,6 +20,7 @@ Change the default passwords before deploying.
 ## Project structure
 
 - `app.py`: Flask routes and application startup
+- `blueprints.py`: grouped route blueprints with compatibility endpoint aliases
 - `database.py`: SQLite schema initialization and migrations
 - `services/`: grade and prediction services
 - `templates/`: Jinja2 pages

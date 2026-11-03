@@ -43,6 +43,7 @@ from config import (
 )
 from services.grades import calculate_grade, compute_gpa, compute_summary, parse_marks
 from services.prediction import predict_student_performance
+from blueprints import register_blueprints, route
 from utils.auth import login_required, roles_required, student_identity
 from utils.database import get_connection, get_row_connection
 
@@ -199,12 +200,12 @@ def razorpay_client():
 
 # ---------------- HOME ----------------
 
-@app.route("/")
+@route("/")
 def index():
     return redirect(url_for("student_login"))
 
 
-@app.route("/admin/login", methods=["GET", "POST"])
+@route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
         return authenticate_login("admin")
@@ -216,7 +217,7 @@ def admin_login():
     )
 
 
-@app.route("/teacher/login", methods=["GET", "POST"])
+@route("/teacher/login", methods=["GET", "POST"])
 def teacher_login():
     if request.method == "POST":
         return authenticate_login("teacher")
@@ -228,7 +229,7 @@ def teacher_login():
     )
 
 
-@app.route("/student/login", methods=["GET", "POST"])
+@route("/student/login", methods=["GET", "POST"])
 def student_login():
     if request.method == "POST":
         return authenticate_login("student")
@@ -327,14 +328,14 @@ def authenticate_login(role):
     return "Invalid Login", 401
 
 
-@app.route("/login", methods=["POST"])
+@route("/login", methods=["POST"])
 def login():
     return "Use the role-specific login page.", 400
 
 
 # ---------------- ADMIN ----------------
 
-@app.route("/admin")
+@route("/admin")
 @roles_required("admin")
 def admin():
     conn = get_row_connection()
@@ -372,7 +373,7 @@ def admin():
     )
 
 
-@app.route("/admin/students")
+@route("/admin/students")
 @roles_required("admin")
 def admin_students():
 
@@ -427,7 +428,7 @@ def admin_students():
     )
 
 
-@app.route("/admin/import/students", methods=["POST"])
+@route("/admin/import/students", methods=["POST"])
 @roles_required("admin")
 def import_students():
     reader, errors = _read_csv_upload("file")
@@ -517,7 +518,7 @@ def import_students():
     return _json_import_result([], inserted=len(rows))
 
 
-@app.route("/teacher/import/results", methods=["POST"])
+@route("/teacher/import/results", methods=["POST"])
 @roles_required("teacher")
 def import_results():
     reader, errors = _read_csv_upload("file")
@@ -628,7 +629,7 @@ def import_results():
     return _json_import_result([], inserted=len(rows))
 
 
-@app.route("/admin/teachers")
+@route("/admin/teachers")
 @roles_required("admin")
 def admin_teachers():
 
@@ -645,7 +646,7 @@ def admin_teachers():
     return render_template("teacher_management.html", teachers=teachers)
 
 
-@app.route("/admin/fees/collected")
+@route("/admin/fees/collected")
 @roles_required("admin")
 def admin_fees_collected():
 
@@ -693,7 +694,7 @@ def admin_fees_collected():
     )
 
 
-@app.route("/admin/fees/pending")
+@route("/admin/fees/pending")
 @roles_required("admin")
 def admin_fees_pending():
 
@@ -738,7 +739,7 @@ def admin_fees_pending():
     )
 
 
-@app.route("/admin/link_student_login", methods=["POST"])
+@route("/admin/link_student_login", methods=["POST"])
 @roles_required("admin")
 def link_student_login():
 
@@ -816,7 +817,7 @@ def link_student_login():
 
 # ---------------- TEACHER ----------------
 
-@app.route("/teacher")
+@route("/teacher")
 @roles_required("admin", "teacher")
 def teacher():
     conn = get_row_connection()
@@ -837,7 +838,7 @@ def teacher():
 
 # ---------------- STUDENT ----------------
 
-@app.route("/students")
+@route("/students")
 @roles_required("admin", "teacher", "student")
 def students():
 
@@ -937,7 +938,7 @@ def students():
 
 # ---------------- ADD STUDENT ----------------
 
-@app.route("/add_student")
+@route("/add_student")
 @roles_required("admin")
 def add_student():
     return render_template("add_student.html")
@@ -945,7 +946,7 @@ def add_student():
 
 # ---------------- SAVE STUDENT ----------------
 
-@app.route("/save_student", methods=["POST"])
+@route("/save_student", methods=["POST"])
 @roles_required("admin")
 def save_student():
 
@@ -1007,7 +1008,7 @@ VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
 
 # ---------------- EDIT STUDENT ----------------
 
-@app.route("/edit_student/<int:id>")
+@route("/edit_student/<int:id>")
 @roles_required("admin", "teacher")
 def edit_student(id):
 
@@ -1027,7 +1028,7 @@ def edit_student(id):
 
 # ---------------- UPDATE STUDENT ----------------
 
-@app.route("/update_student/<int:id>", methods=["POST"])
+@route("/update_student/<int:id>", methods=["POST"])
 @roles_required("admin", "teacher")
 def update_student(id):
 
@@ -1074,7 +1075,7 @@ def update_student(id):
 
 # ---------------- DELETE STUDENT ----------------
 
-@app.route("/delete_student/<int:id>", methods=["POST"])
+@route("/delete_student/<int:id>", methods=["POST"])
 @roles_required("admin")
 def delete_student(id):
 
@@ -1096,7 +1097,7 @@ def delete_student(id):
     logger.info("Admin action=delete_student username=%s student_id=%s", session.get("username"), id)
     return redirect("/students")
 
-@app.route("/add_result")
+@route("/add_result")
 @roles_required("admin", "teacher")
 def add_result():
 
@@ -1129,7 +1130,7 @@ def add_result():
     )
 
 
-@app.route("/save_result", methods=["POST"])
+@route("/save_result", methods=["POST"])
 @roles_required("admin", "teacher")
 def save_result():
 
@@ -1249,7 +1250,7 @@ def save_result():
     logger.info("Admin action=add_result username=%s register_no=%s subject_code=%s", session.get("username"), register_no, subject_code)
     return redirect("/results")
 
-@app.route("/edit_result/<int:id>")
+@route("/edit_result/<int:id>")
 @roles_required("admin", "teacher")
 def edit_result(id):
 
@@ -1274,7 +1275,7 @@ def edit_result(id):
         result=result
     )
 
-@app.route("/update_result/<int:id>", methods=["POST"])
+@route("/update_result/<int:id>", methods=["POST"])
 @roles_required("admin", "teacher")
 def update_result(id):
 
@@ -1355,7 +1356,7 @@ def update_result(id):
     logger.info("Admin action=edit_result username=%s result_id=%s", session.get("username"), id)
     return redirect("/results")
 
-@app.route("/delete_result/<int:id>", methods=["POST"])
+@route("/delete_result/<int:id>", methods=["POST"])
 @roles_required("admin", "teacher")
 def delete_result(id):
 
@@ -1378,7 +1379,7 @@ def delete_result(id):
     logger.info("Admin action=delete_result username=%s result_id=%s", session.get("username"), id)
     return redirect("/results")
 
-@app.route("/gpa/<register_no>/<int:semester>")
+@route("/gpa/<register_no>/<int:semester>")
 @roles_required("admin", "teacher", "student")
 def gpa(register_no, semester):
 
@@ -1423,7 +1424,7 @@ def gpa(register_no, semester):
 
 # ---------------- PREDICT ----------------
 
-@app.route("/predict/<int:id>", methods=["POST"])
+@route("/predict/<int:id>", methods=["POST"])
 @roles_required("admin", "teacher")
 def predict(id):
 
@@ -1457,7 +1458,7 @@ def predict(id):
 
     return redirect("/students")
 
-@app.route("/results")
+@route("/results")
 @roles_required("admin", "teacher")
 def results():
 
@@ -1486,7 +1487,7 @@ def results():
         total_pages=_total_pages(total, per_page),
     )
 
-@app.route("/exam_registration")
+@route("/exam_registration")
 @roles_required("admin", "teacher")
 def exam_registration():
 
@@ -1507,7 +1508,7 @@ def exam_registration():
     )
 
 
-@app.route("/save_exam_registration", methods=["POST"])
+@route("/save_exam_registration", methods=["POST"])
 @roles_required("admin", "teacher")
 def save_exam_registration():
 
@@ -1589,7 +1590,7 @@ def save_exam_registration():
 
 # ---------------- ACADEMIC SUMMARY ----------------
 
-@app.route("/academic_summary/<register_no>/<int:semester>")
+@route("/academic_summary/<register_no>/<int:semester>")
 @roles_required("admin", "teacher", "student")
 def academic_summary(register_no, semester):
 
@@ -1650,7 +1651,7 @@ def academic_summary(register_no, semester):
 
 # ---------------- SUBJECTS ----------------
 
-@app.route("/subjects")
+@route("/subjects")
 @roles_required("admin", "teacher")
 def subjects():
 
@@ -1672,7 +1673,7 @@ def subjects():
 
 # ---------------- ADD SUBJECT ----------------
 
-@app.route("/add_subject")
+@route("/add_subject")
 @roles_required("admin")
 def add_subject():
 
@@ -1681,7 +1682,7 @@ def add_subject():
 
 # ---------------- SAVE SUBJECT ----------------
 
-@app.route("/save_subject", methods=["POST"])
+@route("/save_subject", methods=["POST"])
 @roles_required("admin")
 def save_subject():
 
@@ -1718,7 +1719,7 @@ def save_subject():
     logger.info("Admin action=add_subject username=%s subject_code=%s", session.get("username"), request.form["subject_code"])
     return redirect("/subjects")
 
-@app.route("/edit_subject/<int:id>")
+@route("/edit_subject/<int:id>")
 @roles_required("admin")
 def edit_subject(id):
 
@@ -1743,7 +1744,7 @@ def edit_subject(id):
         subject=subject
     )
 
-@app.route("/update_subject/<int:id>", methods=["POST"])
+@route("/update_subject/<int:id>", methods=["POST"])
 @roles_required("admin")
 def update_subject(id):
 
@@ -1784,7 +1785,7 @@ def update_subject(id):
     logger.info("Admin action=edit_subject username=%s subject_id=%s", session.get("username"), id)
     return redirect("/subjects")
 
-@app.route("/delete_subject/<int:id>", methods=["POST"])
+@route("/delete_subject/<int:id>", methods=["POST"])
 @roles_required("admin")
 def delete_subject(id):
 
@@ -1810,7 +1811,7 @@ def delete_subject(id):
 
 # ---------------- ANALYTICS ----------------
 
-@app.route("/analytics")
+@route("/analytics")
 @roles_required("admin", "teacher")
 def analytics():
 
@@ -1850,7 +1851,7 @@ def analytics():
 
 # ---------------- FEES ----------------
 
-@app.route("/fees")
+@route("/fees")
 @roles_required("admin", "student")
 def fees():
 
@@ -1940,7 +1941,7 @@ def fees():
     )
 
 
-@app.route("/admin/fees/<int:registration_id>/confirm-upi", methods=["POST"])
+@route("/admin/fees/<int:registration_id>/confirm-upi", methods=["POST"])
 @roles_required("admin")
 def confirm_upi(registration_id):
     transaction_ref = request.form.get("transaction_ref", "").strip()
@@ -2018,7 +2019,7 @@ def confirm_upi(registration_id):
     return redirect(url_for("fees", message="UPI payment confirmed."))
 
 
-@app.route("/payment/<int:registration_id>")
+@route("/payment/<int:registration_id>")
 @roles_required("student")
 def payment(registration_id):
 
@@ -2088,7 +2089,7 @@ def payment(registration_id):
     )
 
 
-@app.route("/payment/qr/status/<int:registration_id>")
+@route("/payment/qr/status/<int:registration_id>")
 @roles_required("student")
 def payment_qr_status(registration_id):
 
@@ -2201,7 +2202,7 @@ def payment_qr_status(registration_id):
     return jsonify({"status": "paid", "payment_id": payment_id})
 
 
-@app.route("/save_payment/<int:registration_id>", methods=["POST"])
+@route("/save_payment/<int:registration_id>", methods=["POST"])
 @roles_required("student")
 def save_payment(registration_id):
 
@@ -2321,7 +2322,7 @@ def save_payment(registration_id):
     return redirect(url_for("receipt", payment_id=receipt_id))
 
 
-@app.route("/receipt/<int:payment_id>")
+@route("/receipt/<int:payment_id>")
 @roles_required("admin", "student")
 def receipt(payment_id):
 
@@ -2371,7 +2372,7 @@ def receipt(payment_id):
     )
 
 
-@app.route("/receipt/<int:payment_id>.pdf")
+@route("/receipt/<int:payment_id>.pdf")
 @roles_required("admin", "student")
 def receipt_pdf(payment_id):
     conn = get_row_connection()
@@ -2417,7 +2418,7 @@ def receipt_pdf(payment_id):
 
 # ---------------- TEACHER MANAGEMENT ----------------
 
-@app.route("/teacher_management")
+@route("/teacher_management")
 @roles_required("admin")
 def teacher_management():
     conn = get_row_connection()
@@ -2435,14 +2436,14 @@ def teacher_management():
     return render_template("teacher_management.html", teachers=teachers)
 
 # ---------------- FORGOT PASSWORD ----------------
-@app.route("/forgot_password")
+@route("/forgot_password")
 def forgot_password():
 
     return render_template("forgot_password.html")
 
 # ---------------- CHANGE PASSWORD ----------------
 
-@app.route("/change_password", methods=["POST"])
+@route("/change_password", methods=["POST"])
 def change_password():
 
     username = request.form["username"]
@@ -2503,7 +2504,7 @@ def change_password():
     """
 # ---------------- PROFILE ----------------
 
-@app.route("/profile/<int:id>")
+@route("/profile/<int:id>")
 @roles_required("admin", "teacher", "student")
 def profile(id):
 
@@ -2545,7 +2546,7 @@ def profile(id):
     )
 # ---------------- GENERATE HALL TICKET ----------------
 
-@app.route("/generate_hallticket/<int:id>", methods=["POST"])
+@route("/generate_hallticket/<int:id>", methods=["POST"])
 @roles_required("admin", "teacher")
 def generate_hallticket(id):
 
@@ -2628,7 +2629,7 @@ def generate_hallticket(id):
 
 # ---------------- HALL TICKET ----------------
 
-@app.route("/hall_ticket/<int:id>")
+@route("/hall_ticket/<int:id>")
 @roles_required("admin", "teacher", "student")
 def hall_ticket(id):
 
@@ -2696,7 +2697,7 @@ def _pdf_response(title, lines, filename):
     )
 
 
-@app.route("/hall_ticket/<int:id>.pdf")
+@route("/hall_ticket/<int:id>.pdf")
 @roles_required("admin", "teacher", "student")
 def hall_ticket_pdf(id):
     conn = get_row_connection()
@@ -2730,7 +2731,7 @@ def hall_ticket_pdf(id):
 
 # ---------------- LOGOUT ----------------
 
-@app.route("/logout")
+@route("/logout")
 def logout():
 
     session.clear()
@@ -2739,6 +2740,8 @@ def logout():
 
 
 # ---------------- RUN ----------------
+
+register_blueprints(app)
 
 if __name__ == "__main__":
     app.run(debug=DEBUG)

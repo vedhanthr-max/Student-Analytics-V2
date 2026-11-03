@@ -8,4 +8,4 @@
 - [x] B6: PDF, CSV import, pagination, and manual UPI confirmation
 - [x] F4: Dashboards, charts, and pagination UI
 - [x] F5: PDF and print buttons
-- [ ] B7: Blueprint refactor
+- [x] B7: Blueprint refactor
