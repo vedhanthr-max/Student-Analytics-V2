@@ -45,26 +45,11 @@
             color: #fff;
         }
 
-        @media print {
-            .actions {
-                display: none;
-            }
-
-            body {
-                background: #fff;
-            }
-
-            .receipt {
-                box-shadow: none;
-                margin: 0;
-                width: 100%;
-            }
-        }
     </style>
 
 {% endblock %}
 {% block content %}
-<div class="receipt">
+<div class="print-document receipt">
         <h2>Exam Fee Payment Receipt</h2>
         <p><strong>Receipt ID:</strong> {{ payment["payment_id"] }}</p>
 

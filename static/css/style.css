@@ -493,11 +493,103 @@ label {
 
 }
 
+.hall-ticket {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+}
+
+.hall-ticket-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.hall-ticket-actions a,
+.hall-ticket-actions button {
+    padding: 9px 13px;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1e3a8a;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.receipt {
+    width: 760px;
+    max-width: calc(100% - 24px);
+    margin: 24px auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.receipt table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.receipt td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.receipt .actions {
+    margin-top: 16px;
+}
+
+.receipt .btn {
+    width: auto;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #2c3e50;
+    color: #fff;
+}
+
 @media (max-width: 767px) {
     .site-header {
         align-items: flex-start;
         flex-direction: column;
         padding: 12px 16px;
+    }
+
+    @media print {
+        body:has(.print-document) {
+            background: #fff;
+        }
+
+        body:has(.print-document) .site-header,
+        body:has(.print-document) .site-footer,
+        body:has(.print-document) .flash-banner,
+        body:has(.print-document) .hall-ticket-actions,
+        body:has(.print-document) .actions {
+            display: none;
+        }
+
+        body:has(.print-document) .page-content {
+            min-height: 0;
+        }
+
+        .hall-ticket {
+            border: 0;
+            padding: 0;
+        }
+
+        .receipt {
+            box-shadow: none;
+            margin: 0;
+            width: 100%;
+            max-width: none;
+        }
     }
 
     .site-nav {
