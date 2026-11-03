@@ -5,296 +5,301 @@ import sqlite3
 from config import DATABASE
 from werkzeug.security import generate_password_hash
 
-conn = sqlite3.connect(DATABASE)
 
-cursor = conn.cursor()
+def init_db():
+    conn = sqlite3.connect(DATABASE)
 
-# ---------------- LOGIN TABLE ----------------
+    cursor = conn.cursor()
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS login(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT,
-    password TEXT,
-    role TEXT
-)
-""")
+    # ---------------- LOGIN TABLE ----------------
 
-# ---------------- STUDENT TABLE ----------------
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS login(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        password TEXT,
+        role TEXT
+    )
+    """)
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS students(
+    # ---------------- STUDENT TABLE ----------------
 
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS students(
 
-    register_no TEXT UNIQUE NOT NULL,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    name TEXT,
-    department TEXT,
-    year TEXT,
+        register_no TEXT UNIQUE NOT NULL,
 
-    study_hours REAL,
-    attendance REAL,
-    assignment_marks REAL,
-    internal_marks REAL,
+        name TEXT,
+        department TEXT,
+        year TEXT,
 
-    cluster TEXT,
-    recommendation TEXT,
+        study_hours REAL,
+        attendance REAL,
+        assignment_marks REAL,
+        internal_marks REAL,
 
-    student_phone TEXT,
-    parent_phone TEXT,
-    email TEXT,
-    
-    parent_meeting TEXT DEFAULT 'Not Attended',
-    meeting_date TEXT DEFAULT '-',
-    teacher_remarks TEXT DEFAULT '-',
+        cluster TEXT,
+        recommendation TEXT,
 
-    photo TEXT DEFAULT '',
+        student_phone TEXT,
+        parent_phone TEXT,
+        email TEXT,
 
-    student_status TEXT DEFAULT 'Active',
-    
-    semester1 REAL DEFAULT 0,
-    semester2 REAL DEFAULT 0,
-    semester3 REAL DEFAULT 0,
-    semester4 REAL DEFAULT 0,
-    semester5 REAL DEFAULT 0,
-    semester6 REAL DEFAULT 0,
-    semester7 REAL DEFAULT 0,
-    semester8 REAL DEFAULT 0,
+        parent_meeting TEXT DEFAULT 'Not Attended',
+        meeting_date TEXT DEFAULT '-',
+        teacher_remarks TEXT DEFAULT '-',
 
-    arrear_count INTEGER DEFAULT 0,
+        photo TEXT DEFAULT '',
 
-    exam_fee REAL DEFAULT 0,
-    revaluation_fee REAL DEFAULT 0,
-    
-    hall_ticket_status TEXT DEFAULT 'Not Generated',
+        student_status TEXT DEFAULT 'Active',
 
-    hall_ticket_no TEXT DEFAULT '',
+        semester1 REAL DEFAULT 0,
+        semester2 REAL DEFAULT 0,
+        semester3 REAL DEFAULT 0,
+        semester4 REAL DEFAULT 0,
+        semester5 REAL DEFAULT 0,
+        semester6 REAL DEFAULT 0,
+        semester7 REAL DEFAULT 0,
+        semester8 REAL DEFAULT 0,
 
-    hall_ticket_generated_date TEXT DEFAULT '',
+        arrear_count INTEGER DEFAULT 0,
 
-    exam_session TEXT DEFAULT '',
+        exam_fee REAL DEFAULT 0,
+        revaluation_fee REAL DEFAULT 0,
 
-    exam_month TEXT DEFAULT '',
+        hall_ticket_status TEXT DEFAULT 'Not Generated',
 
-    exam_year INTEGER DEFAULT 0
-    
-)
+        hall_ticket_no TEXT DEFAULT '',
 
-""")
+        hall_ticket_generated_date TEXT DEFAULT '',
 
-# ---------------- SEMESTER RESULTS----------------
+        exam_session TEXT DEFAULT '',
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS semester_results(
+        exam_month TEXT DEFAULT '',
 
-    result_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        exam_year INTEGER DEFAULT 0
 
-    register_no TEXT,
+    )
 
-    semester INTEGER,
+    """)
 
-    subject_code TEXT,
+    # ---------------- SEMESTER RESULTS----------------
 
-    subject_name TEXT,
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS semester_results(
 
-    internal_mark REAL,
+        result_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    external_mark REAL,
+        register_no TEXT,
 
-    total_mark REAL,
+        semester INTEGER,
 
-    grade TEXT,
+        subject_code TEXT,
 
-    grade_point REAL DEFAULT 0,
+        subject_name TEXT,
 
-    credits INTEGER DEFAULT 0,
-                        
-    result TEXT
+        internal_mark REAL,
 
-)
-""")
+        external_mark REAL,
 
-# ---------------- EXAM REGISTRATION ----------------
+        total_mark REAL,
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS exam_registration(
+        grade TEXT,
 
-    registration_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        grade_point REAL DEFAULT 0,
 
-    register_no TEXT,
+        credits INTEGER DEFAULT 0,
 
-    semester INTEGER,
+        result TEXT
 
-    exam_type TEXT,
+    )
+    """)
 
-    exam_fee REAL,
+    # ---------------- EXAM REGISTRATION ----------------
 
-    registration_date TEXT,
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS exam_registration(
 
-    status TEXT DEFAULT 'Registered'
+        registration_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-)
-""")
+        register_no TEXT,
 
-# ---------------- PAYMENTS TABLE ----------------
+        semester INTEGER,
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS payments(
+        exam_type TEXT,
 
-    payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        exam_fee REAL,
 
-    registration_id INTEGER,
+        registration_date TEXT,
 
-    register_no TEXT,
+        status TEXT DEFAULT 'Registered'
 
-    amount REAL,
+    )
+    """)
 
-    payment_date TEXT,
+    # ---------------- PAYMENTS TABLE ----------------
 
-    payment_mode TEXT DEFAULT 'Mock/Internal',
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS payments(
 
-    transaction_ref TEXT UNIQUE,
+        payment_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-    status TEXT DEFAULT 'Success'
+        registration_id INTEGER,
 
-)
-""")
+        register_no TEXT,
 
-# ---------------- SUBJECT TABLE ----------------
+        amount REAL,
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS subjects(
+        payment_date TEXT,
 
-    subject_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        payment_mode TEXT DEFAULT 'Mock/Internal',
 
-    subject_code TEXT UNIQUE,
+        transaction_ref TEXT UNIQUE,
 
-    subject_name TEXT,
+        status TEXT DEFAULT 'Success'
 
-    semester INTEGER,
+    )
+    """)
 
-    credits INTEGER
+    # ---------------- SUBJECT TABLE ----------------
 
-)
-""")
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS subjects(
 
-# ---------------- SCHEMA MIGRATIONS ----------------
+        subject_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
-def add_column_if_missing(table, column, definition):
-    cursor.execute(f"PRAGMA table_info({table})")
-    existing_columns = {row[1] for row in cursor.fetchall()}
+        subject_code TEXT UNIQUE,
 
-    if column not in existing_columns:
-        cursor.execute(
-            f"ALTER TABLE {table} ADD COLUMN {column} {definition}"
-        )
+        subject_name TEXT,
 
+        semester INTEGER,
 
-add_column_if_missing("semester_results", "credits", "INTEGER DEFAULT 0")
+        credits INTEGER
 
-add_column_if_missing("students", "hall_ticket_no", "TEXT DEFAULT ''")
-add_column_if_missing(
-    "students", "hall_ticket_generated_date", "TEXT DEFAULT ''"
-)
-add_column_if_missing("students", "exam_session", "TEXT DEFAULT ''")
-add_column_if_missing("students", "exam_month", "TEXT DEFAULT ''")
-add_column_if_missing("students", "exam_year", "INTEGER DEFAULT 0")
-add_column_if_missing("students", "login_id", "INTEGER")
+    )
+    """)
 
-cursor.execute("""
-CREATE UNIQUE INDEX IF NOT EXISTS idx_students_login_id
-ON students(login_id)
-""")
+    # ---------------- SCHEMA MIGRATIONS ----------------
 
-add_column_if_missing("exam_registration", "amount_paid", "REAL DEFAULT 0")
-add_column_if_missing("exam_registration", "balance_due", "REAL DEFAULT 0")
-add_column_if_missing(
-    "exam_registration", "payment_status", "TEXT DEFAULT 'Unpaid'"
-)
-add_column_if_missing(
-    "exam_registration", "last_payment_date", "TEXT DEFAULT ''"
-)
-add_column_if_missing("exam_registration", "gateway_order_id", "TEXT DEFAULT ''")
-add_column_if_missing("exam_registration", "gateway_session_created_at", "TEXT DEFAULT ''")
-add_column_if_missing("exam_registration", "gateway_payment_id", "TEXT DEFAULT ''")
-add_column_if_missing("exam_registration", "gateway_qr_id", "TEXT DEFAULT ''")
-add_column_if_missing("exam_registration", "gateway_qr_image_url", "TEXT DEFAULT ''")
-add_column_if_missing("payments", "gateway_order_id", "TEXT DEFAULT ''")
-add_column_if_missing("payments", "gateway_payment_id", "TEXT DEFAULT ''")
-add_column_if_missing("payments", "gateway_signature", "TEXT DEFAULT ''")
+    def add_column_if_missing(table, column, definition):
+        cursor.execute(f"PRAGMA table_info({table})")
+        existing_columns = {row[1] for row in cursor.fetchall()}
 
-# Populate credits for existing results where the matching subject is available.
-cursor.execute("""
-UPDATE semester_results
-SET credits = (
-    SELECT credits
-    FROM subjects
-    WHERE subjects.subject_code = semester_results.subject_code
-)
-WHERE EXISTS (
-    SELECT 1
-    FROM subjects
-    WHERE subjects.subject_code = semester_results.subject_code
-)
-""")
+        if column not in existing_columns:
+            cursor.execute(
+                f"ALTER TABLE {table} ADD COLUMN {column} {definition}"
+            )
 
-# Backfill payment state for existing exam registrations.
-cursor.execute("""
-UPDATE exam_registration
-SET amount_paid = COALESCE(amount_paid, 0)
-""")
 
-cursor.execute("""
-UPDATE exam_registration
-SET balance_due =
-    CASE
-        WHEN COALESCE(payment_status, '') = 'Paid' THEN 0
-        WHEN COALESCE(balance_due, 0) <= 0 THEN
-            CASE
-                WHEN COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0) > 0 THEN
-                    COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0)
-                ELSE 0
-            END
-        ELSE balance_due
-    END
-""")
+    add_column_if_missing("semester_results", "credits", "INTEGER DEFAULT 0")
 
-cursor.execute("""
-UPDATE exam_registration
-SET payment_status =
-    CASE
-        WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
-        ELSE 'Unpaid'
-    END
-WHERE COALESCE(payment_status, '') NOT IN ('Paid', 'Unpaid')
-   OR COALESCE(payment_status, '') = ''
-""")
+    add_column_if_missing("students", "hall_ticket_no", "TEXT DEFAULT ''")
+    add_column_if_missing(
+        "students", "hall_ticket_generated_date", "TEXT DEFAULT ''"
+    )
+    add_column_if_missing("students", "exam_session", "TEXT DEFAULT ''")
+    add_column_if_missing("students", "exam_month", "TEXT DEFAULT ''")
+    add_column_if_missing("students", "exam_year", "INTEGER DEFAULT 0")
+    add_column_if_missing("students", "login_id", "INTEGER")
 
-cursor.execute("""
-UPDATE exam_registration
-SET status =
-    CASE
-        WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
-        ELSE COALESCE(status, 'Registered')
-    END
-""")
+    cursor.execute("""
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_students_login_id
+    ON students(login_id)
+    """)
 
-# ---------------- DEFAULT LOGIN ----------------
+    add_column_if_missing("exam_registration", "amount_paid", "REAL DEFAULT 0")
+    add_column_if_missing("exam_registration", "balance_due", "REAL DEFAULT 0")
+    add_column_if_missing(
+        "exam_registration", "payment_status", "TEXT DEFAULT 'Unpaid'"
+    )
+    add_column_if_missing(
+        "exam_registration", "last_payment_date", "TEXT DEFAULT ''"
+    )
+    add_column_if_missing("exam_registration", "gateway_order_id", "TEXT DEFAULT ''")
+    add_column_if_missing("exam_registration", "gateway_session_created_at", "TEXT DEFAULT ''")
+    add_column_if_missing("exam_registration", "gateway_payment_id", "TEXT DEFAULT ''")
+    add_column_if_missing("exam_registration", "gateway_qr_id", "TEXT DEFAULT ''")
+    add_column_if_missing("exam_registration", "gateway_qr_image_url", "TEXT DEFAULT ''")
+    add_column_if_missing("payments", "gateway_order_id", "TEXT DEFAULT ''")
+    add_column_if_missing("payments", "gateway_payment_id", "TEXT DEFAULT ''")
+    add_column_if_missing("payments", "gateway_signature", "TEXT DEFAULT ''")
 
-cursor.execute("""
-INSERT OR IGNORE INTO login(id,username,password,role)
-VALUES
-(1,'admin',?,'admin'),
-(2,'teacher',?,'teacher'),
-(3,'student',?,'student')
-""", (
-    generate_password_hash("admin123"),
-    generate_password_hash("teacher123"),
-    generate_password_hash("student123"),
-))
+    # Populate credits for existing results where the matching subject is available.
+    cursor.execute("""
+    UPDATE semester_results
+    SET credits = (
+        SELECT credits
+        FROM subjects
+        WHERE subjects.subject_code = semester_results.subject_code
+    )
+    WHERE EXISTS (
+        SELECT 1
+        FROM subjects
+        WHERE subjects.subject_code = semester_results.subject_code
+    )
+    """)
 
-conn.commit()
-conn.close()
+    # Backfill payment state for existing exam registrations.
+    cursor.execute("""
+    UPDATE exam_registration
+    SET amount_paid = COALESCE(amount_paid, 0)
+    """)
 
-print("Database Created Successfully")
+    cursor.execute("""
+    UPDATE exam_registration
+    SET balance_due =
+        CASE
+            WHEN COALESCE(payment_status, '') = 'Paid' THEN 0
+            WHEN COALESCE(balance_due, 0) <= 0 THEN
+                CASE
+                    WHEN COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0) > 0 THEN
+                        COALESCE(exam_fee, 0) - COALESCE(amount_paid, 0)
+                    ELSE 0
+                END
+            ELSE balance_due
+        END
+    """)
+
+    cursor.execute("""
+    UPDATE exam_registration
+    SET payment_status =
+        CASE
+            WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
+            ELSE 'Unpaid'
+        END
+    WHERE COALESCE(payment_status, '') NOT IN ('Paid', 'Unpaid')
+       OR COALESCE(payment_status, '') = ''
+    """)
+
+    cursor.execute("""
+    UPDATE exam_registration
+    SET status =
+        CASE
+            WHEN COALESCE(balance_due, 0) <= 0 THEN 'Paid'
+            ELSE COALESCE(status, 'Registered')
+        END
+    """)
+
+    # ---------------- DEFAULT LOGIN ----------------
+
+    cursor.execute("""
+    INSERT OR IGNORE INTO login(id,username,password,role)
+    VALUES
+    (1,'admin',?,'admin'),
+    (2,'teacher',?,'teacher'),
+    (3,'student',?,'student')
+    """, (
+        generate_password_hash("admin123"),
+        generate_password_hash("teacher123"),
+        generate_password_hash("student123"),
+    ))
+
+    conn.commit()
+    conn.close()
+
+    print("Database Created Successfully")
+
+if __name__ == "__main__":
+    init_db()

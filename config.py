@@ -5,7 +5,10 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DATABASE = os.path.join(BASE_DIR, "database", "student.db")
+DATABASE = os.environ.get(
+    "STUDENT_DB_PATH",
+    os.path.join(BASE_DIR, "database", "student.db"),
+)
 MODEL_PATH = os.path.join(BASE_DIR, "models", "kmeans_model.pkl")
 SCALER_PATH = os.path.join(BASE_DIR, "models", "scaler.pkl")
 

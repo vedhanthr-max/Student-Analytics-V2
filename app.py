@@ -8,11 +8,19 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, s
 from werkzeug.security import check_password_hash, generate_password_hash
 
 try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
+
+if load_dotenv is not None:
+    load_dotenv()
+
+try:
     import razorpay
 except ImportError:
     razorpay = None
 
-import database as _database
+from database import init_db
 from config import (
     DEBUG,
     SECRET_KEY,
@@ -24,6 +32,8 @@ from services.grades import calculate_grade, compute_gpa, compute_summary, parse
 from services.prediction import predict_student_performance
 from utils.auth import login_required, roles_required, student_identity
 from utils.database import get_connection, get_row_connection
+
+init_db()
 
 app = Flask(__name__)
 

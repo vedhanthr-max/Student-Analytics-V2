@@ -1,7 +1,7 @@
 - [x] B1: Backend run-safety and security
 - [x] B2: Cluster label mapping and validation
 - [x] F1: POST action buttons
-- [ ] B3: Project hygiene and tests
+- [x] B3: Project hygiene and tests
 - [ ] F2: Template cleanup and base layout
 - [ ] B4 + F3: CSRF, sessions, rate limiting, logging, and frontend security
 - [ ] B5: Better ML
