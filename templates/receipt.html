@@ -129,7 +129,10 @@
 
         <div class="actions">
             <button class="btn" onclick="window.print()">Print Receipt</button>
-            <a href="/fees"><button class="btn" type="button">Back to Fees</button></a>
+            <a href="{{ url_for('receipt_pdf', payment_id=payment['payment_id']) }}">
+                <button class="btn" type="button">Download PDF</button>
+            </a>
+            <a href="{{ url_for('fees') }}"><button class="btn" type="button">Back to Fees</button></a>
         </div>
     </div>
 {% endblock %}

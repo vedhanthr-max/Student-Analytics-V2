@@ -7,5 +7,5 @@
 - [x] B5: Better ML
 - [x] B6: PDF, CSV import, pagination, and manual UPI confirmation
 - [x] F4: Dashboards, charts, and pagination UI
-- [ ] F5: PDF and print buttons
+- [x] F5: PDF and print buttons
 - [ ] B7: Blueprint refactor

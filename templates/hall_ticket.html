@@ -3,12 +3,52 @@
 {% block title %}Hall Ticket{% endblock %}
 {% block extra_head %}
 
+    <style>
+        .hall-ticket {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 28px;
+            background: #fff;
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+        }
 
+        .hall-ticket-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 24px;
+        }
 
+        .hall-ticket-actions a,
+        .hall-ticket-actions button {
+            padding: 9px 13px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #1e3a8a;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media print {
+            .site-header,
+            .site-footer,
+            .hall-ticket-actions {
+                display: none;
+            }
+
+            .hall-ticket {
+                border: 0;
+                padding: 0;
+            }
+        }
+    </style>
 
 {% endblock %}
 {% block content %}
-<h1 align="center">
+<div class="hall-ticket">
+    <h1 align="center">
         COLLEGE EXAMINATION HALL TICKET
     </h1>
 
@@ -48,5 +88,10 @@
         Principal Signature
     </h3>
 
-    <a href="/students"><button type="button">Back to Students</button></a>
+    <div class="hall-ticket-actions">
+        <button type="button" onclick="window.print()">Print Hall Ticket</button>
+        <a href="{{ url_for('hall_ticket_pdf', id=student['id']) }}">Download PDF</a>
+        <a href="{{ url_for('students') }}">Back to Students</a>
+    </div>
+</div>
 {% endblock %}
