@@ -1,10 +1,13 @@
 from datetime import datetime
+from datetime import timedelta
+import logging
 import os
 import uuid
 import sqlite3
 from urllib.parse import urlencode
 
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from flask_wtf.csrf import CSRFError, CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 
 try:
@@ -33,13 +36,107 @@ from services.prediction import predict_student_performance
 from utils.auth import login_required, roles_required, student_identity
 from utils.database import get_connection, get_row_connection
 
-init_db()
-
 app = Flask(__name__)
 
 app.secret_key = SECRET_KEY
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
+)
+
+csrf = CSRFProtect(app)
+
+os.makedirs(os.path.join(os.path.dirname(__file__), "logs"), exist_ok=True)
+logger = logging.getLogger("student_analytics")
+logger.setLevel(logging.INFO)
+if not logger.handlers:
+    handler = logging.FileHandler(os.path.join(os.path.dirname(__file__), "logs", "app.log"))
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    logger.addHandler(handler)
+
+init_db()
 
 PAYMENT_SESSION_SECONDS = 5 * 60
+LOGIN_ATTEMPTS = {}
+SESSION_IDLE_SECONDS = 30 * 60
+
+
+@app.before_request
+def enforce_session_idle_timeout():
+    if "username" not in session:
+        return None
+
+    now = datetime.utcnow().timestamp()
+    last_activity = session.get("last_activity")
+    if last_activity is not None and now - last_activity > SESSION_IDLE_SECONDS:
+        session.clear()
+        return redirect(url_for("index"))
+
+    session.permanent = True
+    session["last_activity"] = now
+    return None
+
+
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "same-origin"
+    return response
+
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(error):
+    return "Invalid CSRF token.", 400
+
+
+@app.errorhandler(403)
+def handle_forbidden(error):
+    return "Forbidden", 403
+
+
+@app.errorhandler(404)
+def handle_not_found(error):
+    return "Not Found", 404
+
+
+@app.errorhandler(405)
+def handle_method_not_allowed(error):
+    return "Method Not Allowed", 405
+
+
+@app.errorhandler(500)
+def handle_internal_error(error):
+    logger.exception("Unhandled server error")
+    return "Internal Server Error", 500
+
+
+def _login_key():
+    return request.remote_addr or "unknown", request.form.get("username", "").strip()
+
+
+def _login_is_locked(key):
+    attempt = LOGIN_ATTEMPTS.get(key)
+    if attempt is None:
+        return False
+    now = datetime.utcnow().timestamp()
+    if attempt["locked_until"] > now:
+        return True
+    if attempt["locked_until"]:
+        LOGIN_ATTEMPTS.pop(key, None)
+    return False
+
+
+def _record_login_failure(key):
+    attempt = LOGIN_ATTEMPTS.setdefault(key, {"count": 0, "locked_until": 0})
+    attempt["count"] += 1
+    if attempt["count"] >= 5:
+        attempt["locked_until"] = datetime.utcnow().timestamp() + 15 * 60
+
+
+def _clear_login_failures(key):
+    LOGIN_ATTEMPTS.pop(key, None)
 
 
 def razorpay_client():
@@ -101,6 +198,11 @@ def authenticate_login(role):
 
     username = request.form["username"]
     password = request.form["password"]
+    login_key = _login_key()
+
+    if _login_is_locked(login_key):
+        logger.warning("Login locked ip=%s username=%s role=%s", login_key[0], username, role)
+        return "Too many failed login attempts. Try again later.", 429
 
     conn = get_connection()
     conn.row_factory = sqlite3.Row
@@ -123,6 +225,10 @@ def authenticate_login(role):
 
         if not password_matches:
             conn.close()
+            _record_login_failure(login_key)
+            logger.warning("Login failure ip=%s username=%s role=%s", login_key[0], username, role)
+            if _login_is_locked(login_key):
+                return "Too many failed login attempts. Try again later.", 429
             return "Invalid Login", 401
 
         if not stored_password.startswith(("scrypt:", "pbkdf2:")):
@@ -134,6 +240,9 @@ def authenticate_login(role):
 
         session["username"] = username
         session["role"] = user["role"]
+        session.permanent = True
+        _clear_login_failures(login_key)
+        logger.info("Login success ip=%s username=%s role=%s", login_key[0], username, role)
         session.pop("student_id", None)
         session.pop("student_register_no", None)
 
@@ -163,6 +272,10 @@ def authenticate_login(role):
             return "Invalid Login", 401
 
     conn.close()
+    _record_login_failure(login_key)
+    logger.warning("Login failure ip=%s username=%s role=%s", login_key[0], username, role)
+    if _login_is_locked(login_key):
+        return "Too many failed login attempts. Try again later.", 429
     return "Invalid Login", 401
 
 
@@ -427,6 +540,7 @@ def link_student_login():
         return "This student login is already linked to another student.", 409
 
     conn.close()
+    logger.info("Admin action=link_student username=%s register_no=%s", session.get("username"), register_no)
     return "Student login linked successfully.", 200
 
 
@@ -581,6 +695,7 @@ VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
 
     conn.close()
 
+    logger.info("Admin action=add_student username=%s register_no=%s", session.get("username"), request.form["register_no"])
     return redirect("/students")
 
 
@@ -648,6 +763,7 @@ def update_student(id):
     conn.commit()
     conn.close()
 
+    logger.info("Admin action=edit_student username=%s student_id=%s", session.get("username"), id)
     return redirect(url_for("students", message="Student information updated successfully."))
 
 # ---------------- DELETE STUDENT ----------------
@@ -671,6 +787,7 @@ def delete_student(id):
     conn.commit()
     conn.close()
 
+    logger.info("Admin action=delete_student username=%s student_id=%s", session.get("username"), id)
     return redirect("/students")
 
 @app.route("/add_result")
@@ -823,6 +940,7 @@ def save_result():
 
     conn.close()
 
+    logger.info("Admin action=add_result username=%s register_no=%s subject_code=%s", session.get("username"), register_no, subject_code)
     return redirect("/results")
 
 @app.route("/edit_result/<int:id>")
@@ -928,6 +1046,7 @@ def update_result(id):
     conn.commit()
     conn.close()
 
+    logger.info("Admin action=edit_result username=%s result_id=%s", session.get("username"), id)
     return redirect("/results")
 
 @app.route("/delete_result/<int:id>", methods=["POST"])
@@ -950,6 +1069,7 @@ def delete_result(id):
     conn.commit()
     conn.close()
 
+    logger.info("Admin action=delete_result username=%s result_id=%s", session.get("username"), id)
     return redirect("/results")
 
 @app.route("/gpa/<register_no>/<int:semester>")
@@ -1148,6 +1268,7 @@ def save_exam_registration():
     conn.commit()
     conn.close()
 
+    logger.info("Admin action=add_exam_registration username=%s register_no=%s", session.get("username"), register_no)
     return redirect(url_for(
         "exam_registration",
         message="Exam registration saved successfully."
@@ -1281,6 +1402,7 @@ def save_subject():
 
     conn.close()
 
+    logger.info("Admin action=add_subject username=%s subject_code=%s", session.get("username"), request.form["subject_code"])
     return redirect("/subjects")
 
 @app.route("/edit_subject/<int:id>")
@@ -1346,6 +1468,7 @@ def update_subject(id):
 
     conn.close()
 
+    logger.info("Admin action=edit_subject username=%s subject_id=%s", session.get("username"), id)
     return redirect("/subjects")
 
 @app.route("/delete_subject/<int:id>", methods=["POST"])
@@ -1369,6 +1492,7 @@ def delete_subject(id):
 
     conn.close()
 
+    logger.info("Admin action=delete_subject username=%s subject_id=%s", session.get("username"), id)
     return redirect("/subjects")
 
 # ---------------- ANALYTICS ----------------
@@ -1678,6 +1802,11 @@ def payment_qr_status(registration_id):
     """, (amount, payment_date, payment_id, registration_id))
     conn.commit()
     conn.close()
+    logger.info(
+        "Payment event=razorpay_qr_success registration_id=%s payment_id=%s",
+        registration_id,
+        payment_id,
+    )
     return jsonify({"status": "paid", "payment_id": payment_id})
 
 
@@ -1793,6 +1922,11 @@ def save_payment(registration_id):
 
     conn.commit()
     conn.close()
+    logger.info(
+        "Payment event=razorpay_success registration_id=%s payment_id=%s",
+        registration_id,
+        payment_id,
+    )
     return redirect(url_for("receipt", payment_id=receipt_id))
 
 
@@ -2054,6 +2188,7 @@ def generate_hallticket(id):
 
     conn.close()
 
+    logger.info("Admin action=generate_hallticket username=%s student_id=%s", session.get("username"), id)
     return redirect("/students")
 
 # ---------------- HALL TICKET ----------------

@@ -11,6 +11,7 @@
         <h1>Add Subject</h1>
 
         <form action="{{ url_for('save_subject') }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="text" name="subject_code" placeholder="Subject Code" required>
             <input type="text" name="subject_name" placeholder="Subject Name" required>
             <input type="number" name="semester" min="1" max="8" placeholder="Semester" required>

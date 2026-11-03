@@ -356,6 +356,7 @@
                         <td class="student-actions">
                             {% if session.get("role") in ["admin", "teacher"] %}
                             <form class="inline-form" method="post" action="/predict/{{ me['id'] }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button class="action-btn action-btn-success">Predict</button>
                             </form>
                             {% endif %}
@@ -370,12 +371,14 @@
                             {% if session.get("role") == "admin" %}
                             <form class="inline-form" method="post" action="/delete_student/{{ me['id'] }}"
                                 onsubmit="return confirm('Delete this record?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button class="action-btn action-btn-danger btn-danger" type="submit">Delete</button>
                             </form>
                             {% endif %}
 
                             {% if session.get("role") in ["admin", "teacher"] %}
                             <form class="inline-form" method="post" action="/generate_hallticket/{{ me['id'] }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button class="action-btn action-btn-secondary">Generate Hall Ticket</button>
                             </form>
                             {% endif %}
@@ -472,6 +475,7 @@
                         {% if session.get("role") in ["admin", "teacher"] %}
 
                         <form class="inline-form" method="post" action="/predict/{{ s['id'] }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button class="action-btn action-btn-success">
                                 Predict
                             </button>
@@ -487,6 +491,7 @@
 
                         <form class="inline-form" method="post" action="/delete_student/{{ s['id'] }}"
                             onsubmit="return confirm('Delete this record?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button class="action-btn action-btn-danger">
                                 Delete
                             </button>
@@ -497,6 +502,7 @@
                         {% if session.get("role") in ["admin", "teacher"] %}
 
                         <form class="inline-form" method="post" action="/generate_hallticket/{{ s['id'] }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <button class="action-btn action-btn-secondary">
                                 Generate Hall Ticket
                             </button>

@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import sqlite3
 import tempfile
@@ -37,9 +38,18 @@ _prepare_student_login()
 
 
 def _login(client, role, username, password):
+    login_page = client.get(f"/{role}/login")
+    csrf_token = re.search(
+        rb'name="csrf_token" value="([^"]+)"',
+        login_page.data,
+    ).group(1).decode()
     return client.post(
         f"/{role}/login",
-        data={"username": username, "password": password},
+        data={
+            "username": username,
+            "password": password,
+            "csrf_token": csrf_token,
+        },
         follow_redirects=False,
     )
 
@@ -73,9 +83,33 @@ def test_delete_student_get_is_not_allowed():
     assert app.test_client().get("/delete_student/1").status_code == 405
 
 
+def test_post_without_csrf_is_rejected():
+    response = app.test_client().post(
+        "/admin/login",
+        data={"username": "admin", "password": "admin123"},
+    )
+    assert response.status_code == 400
+
+
+def test_login_rate_limit():
+    client = app.test_client()
+    responses = [
+        _login(client, "admin", "rate-limit-user", "wrong")
+        for _ in range(6)
+    ]
+    assert [response.status_code for response in responses[:4]] == [401] * 4
+    assert responses[4].status_code == 429
+    assert responses[5].status_code == 429
+
+
 def test_invalid_marks_return_400():
     client = app.test_client()
     _login(client, "admin", "admin", "admin123")
+    form_page = client.get("/add_result")
+    csrf_token = re.search(
+        rb'name="csrf_token" value="([^"]+)"',
+        form_page.data,
+    ).group(1).decode()
     response = client.post(
         "/save_result",
         data={
@@ -84,6 +118,7 @@ def test_invalid_marks_return_400():
             "subject_code": "SMOKE",
             "internal_mark": "abc",
             "external_mark": "20",
+            "csrf_token": csrf_token,
         },
     )
     assert response.status_code == 400

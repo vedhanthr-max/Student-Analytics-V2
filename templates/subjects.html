@@ -73,6 +73,7 @@
 
                 <form class="inline-form" method="post" action="/delete_subject/{{ s['subject_id'] }}"
                     onsubmit="return confirm('Delete this record?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                     <button class="btn-danger" type="submit">
 

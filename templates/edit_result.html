@@ -9,6 +9,7 @@
 <h2>Edit Semester Result</h2>
 
     <form action="/update_result/{{ result['result_id'] }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         Register No<br>
         <input type="text" name="register_no" value="{{ result['register_no'] }}"><br><br>

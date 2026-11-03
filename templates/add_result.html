@@ -64,6 +64,7 @@
         <h2>Add Semester Result</h2>
 
         <form action="/save_result" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <select name="register_no" required>
 

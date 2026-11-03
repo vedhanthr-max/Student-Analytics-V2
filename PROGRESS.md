@@ -3,7 +3,7 @@
 - [x] F1: POST action buttons
 - [x] B3: Project hygiene and tests
 - [x] F2: Template cleanup and base layout
-- [ ] B4 + F3: CSRF, sessions, rate limiting, logging, and frontend security
+- [x] B4 + F3: CSRF, sessions, rate limiting, logging, and frontend security
 - [ ] B5: Better ML
 - [ ] B6: PDF, CSV import, pagination, and manual UPI confirmation
 - [ ] F4: Dashboards, charts, and pagination UI

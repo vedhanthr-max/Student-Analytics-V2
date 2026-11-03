@@ -11,6 +11,7 @@
 <h2>Edit Subject</h2>
 
     <form action="/update_subject/{{ subject['subject_id'] }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <input type="text" name="subject_code" value="{{ subject['subject_code'] }}" required>
 
