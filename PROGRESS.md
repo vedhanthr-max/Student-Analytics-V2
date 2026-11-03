@@ -15,7 +15,7 @@
 - [x] F4 gaps: charts, analytics data, profile explanations, CSV previews, and responsive layout
 - [x] F5/F3 gaps: shared print CSS and CSRF coverage
 - [x] B7 gaps: application factory, module split, container files, and route-map comparison
-- [ ] Git hygiene: untrack generated files and local database
+- [x] Git hygiene: untrack generated files and local database
 
 ### Unverified
 
