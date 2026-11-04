@@ -44,12 +44,30 @@ def test_ui_contract_matches_previous_templates():
         actual = _contract(path.read_text(encoding="utf-8"))
         expected = _contract(_head_template(path))
         if path.name == "teacher_management.html":
-            assert actual[1] == sorted(expected[1] + ["add_teacher"])
+            assert actual == expected
+        elif path.name == "add_subject.html":
+            assert actual[1] == expected[1]
             assert actual[0] == [(
-                "{{ url_for('add_teacher') }}",
+                "{{ url_for('save_subject') }}",
                 "post",
-                ("confirm_password", "csrf_token", "password", "username"),
+                ("credits", "csrf_token", "department", "semester", "subject_code", "subject_name"),
             )]
+        elif path.name == "edit_subject.html":
+            assert actual[1] == expected[1]
+            assert actual[0] == [(
+                "/update_subject/{{ subject['subject_id'] }}",
+                "post",
+                ("credits", "csrf_token", "department", "semester", "subject_code", "subject_name"),
+            )]
+        elif path.name == "teacher_dashboard.html":
+            assert actual[0] == expected[0]
+            assert actual[1] == sorted(expected[1] + ["/add_subject"])
+        elif path.name == "subjects.html":
+            assert actual[1] == expected[1]
+            assert actual[0] == [
+                ("/delete_subject/{{ s['subject_id'] }}", "post", ("csrf_token",)),
+                ("/subjects", "get", ("department", "search")),
+            ]
         else:
             assert actual == expected, path.name
 

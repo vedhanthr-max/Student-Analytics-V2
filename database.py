@@ -195,6 +195,7 @@ def init_db(db_path=None):
 
 
     add_column_if_missing("semester_results", "credits", "INTEGER DEFAULT 0")
+    add_column_if_missing("subjects", "department", "TEXT DEFAULT ''")
 
     add_column_if_missing("students", "hall_ticket_no", "TEXT DEFAULT ''")
     add_column_if_missing(

@@ -12,12 +12,28 @@
 <div class="card-header"><h2>Edit Subject</h2></div>
 <div class="card-body">
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-banner" role="alert">
+        {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
     <form class="form-grid" action="/update_subject/{{ subject['subject_id'] }}" method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <input type="text" name="subject_code" value="{{ subject['subject_code'] }}" required>
 
         <input type="text" name="subject_name" value="{{ subject['subject_name'] }}" required>
+
+        <label for="department">Department</label>
+        <select id="department" name="department" required>
+            <option value="">Select department</option>
+            {% for department in departments %}
+            <option value="{{ department }}" {% if subject['department'] == department %}selected{% endif %}>{{ department }}</option>
+            {% endfor %}
+        </select>
 
         <input type="number" name="semester" value="{{ subject['semester'] }}" required>
 

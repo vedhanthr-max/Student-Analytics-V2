@@ -28,6 +28,7 @@ except ImportError:
 
 from database import init_db
 from config import (
+    DEPARTMENTS,
     DEBUG,
     UPI_ID,
     UPI_NUMBER,
@@ -1654,8 +1655,23 @@ def subjects():
     conn = get_row_connection()
 
     cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM subjects ORDER BY semester")
+    department = request.args.get("department", "").strip()
+    search = request.args.get("search", "").strip()
+    conditions = []
+    parameters = []
+    if department in DEPARTMENTS:
+        conditions.append("department=?")
+        parameters.append(department)
+    elif department:
+        department = ""
+    if search:
+        conditions.append("(subject_code LIKE ? OR subject_name LIKE ?)")
+        parameters.extend((f"%{search}%", f"%{search}%"))
+    where = f" WHERE {' AND '.join(conditions)}" if conditions else ""
+    cursor.execute(
+        f"SELECT * FROM subjects{where} ORDER BY department, semester, subject_code",
+        parameters,
+    )
 
     subjects = cursor.fetchall()
 
@@ -1663,60 +1679,86 @@ def subjects():
 
     return render_template(
         "subjects.html",
-        subjects=subjects
+        subjects=subjects,
+        departments=DEPARTMENTS,
+        selected_department=department,
+        search=search,
     )
 
 
 # ---------------- ADD SUBJECT ----------------
 
 @route("/add_subject")
-@roles_required("admin")
+@roles_required("admin", "teacher")
 def add_subject():
 
-    return render_template("add_subject.html")
+    return render_template("add_subject.html", departments=DEPARTMENTS)
 
+
+def _subject_form_values():
+    department = request.form.get("department", "").strip()
+    subject_code = request.form.get("subject_code", "").strip()
+    subject_name = request.form.get("subject_name", "").strip()
+    semester = request.form.get("semester", "").strip()
+    credits = request.form.get("credits", "").strip()
+    if department not in DEPARTMENTS:
+        return None, "Department is required."
+    if re.fullmatch(r"[A-Za-z0-9-]{1,20}", subject_code) is None:
+        return None, "Subject code is required and may contain only letters, digits, and hyphens."
+    if not subject_name:
+        return None, "Subject name is required."
+    try:
+        semester_value = int(semester)
+    except ValueError:
+        return None, "Semester must be an integer from 1 to 8."
+    if not 1 <= semester_value <= 8:
+        return None, "Semester must be an integer from 1 to 8."
+    try:
+        credits_value = int(credits)
+    except ValueError:
+        return None, "Credits must be an integer from 0 to 10."
+    if not 0 <= credits_value <= 10:
+        return None, "Credits must be an integer from 0 to 10."
+    return (department, subject_code, subject_name, semester_value, credits_value), None
 
 # ---------------- SAVE SUBJECT ----------------
 
 @route("/save_subject", methods=["POST"])
-@roles_required("admin")
+@roles_required("admin", "teacher")
 def save_subject():
 
+    values, error = _subject_form_values()
+    if error:
+        flash(error)
+        return redirect(url_for("add_subject"))
+
     conn = get_connection()
-
-    cursor = conn.cursor()
-
-    cursor.execute("""
-
-    INSERT INTO subjects(
-
-    subject_code,
-    subject_name,
-    semester,
-    credits
-
+    try:
+        conn.execute(
+            """
+            INSERT INTO subjects(
+                subject_code, subject_name, department, semester, credits
+            ) VALUES(?,?,?,?,?)
+            """,
+            (values[1], values[2], values[0], values[3], values[4]),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        flash("Subject code already exists.")
+        return redirect(url_for("add_subject"))
+    finally:
+        conn.close()
+    logger.info(
+        "%s created subject %s in %s",
+        session.get("username"),
+        values[1],
+        values[0],
     )
-
-    VALUES(?,?,?,?)
-
-    """,(
-
-    request.form["subject_code"],
-    request.form["subject_name"],
-    request.form["semester"],
-    request.form["credits"]
-
-    ))
-
-    conn.commit()
-
-    conn.close()
-
-    logger.info("Admin action=add_subject username=%s subject_code=%s", session.get("username"), request.form["subject_code"])
-    return redirect("/subjects")
+    return redirect(url_for("subjects"))
 
 @route("/edit_subject/<int:id>")
-@roles_required("admin")
+@roles_required("admin", "teacher")
 def edit_subject(id):
 
     conn = get_row_connection()
@@ -1735,51 +1777,43 @@ def edit_subject(id):
     if subject is None:
         return "Subject Not Found", 404
 
-    return render_template(
-        "edit_subject.html",
-        subject=subject
-    )
+    return render_template("edit_subject.html", subject=subject, departments=DEPARTMENTS)
 
 @route("/update_subject/<int:id>", methods=["POST"])
-@roles_required("admin")
+@roles_required("admin", "teacher")
 def update_subject(id):
 
+    values, error = _subject_form_values()
+    if error:
+        flash(error)
+        return redirect(url_for("edit_subject", id=id))
+
     conn = get_connection()
-
-    cursor = conn.cursor()
-
-    cursor.execute("""
-
-    UPDATE subjects
-
-    SET
-
-    subject_code=?,
-
-    subject_name=?,
-
-    semester=?,
-
-    credits=?
-
-    WHERE subject_id=?
-
-    """,(
-
-    request.form["subject_code"],
-    request.form["subject_name"],
-    request.form["semester"],
-    request.form["credits"],
-    id
-
-    ))
-
-    conn.commit()
-
-    conn.close()
-
-    logger.info("Admin action=edit_subject username=%s subject_id=%s", session.get("username"), id)
-    return redirect("/subjects")
+    try:
+        cursor = conn.execute(
+            """
+            UPDATE subjects
+            SET subject_code=?, subject_name=?, department=?, semester=?, credits=?
+            WHERE subject_id=?
+            """,
+            (values[1], values[2], values[0], values[3], values[4], id),
+        )
+        if cursor.rowcount == 0:
+            conn.rollback()
+            return "Subject Not Found", 404
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        flash("Subject code already exists.")
+        return redirect(url_for("edit_subject", id=id))
+    finally:
+        conn.close()
+    logger.info(
+        "%s updated subject %s",
+        session.get("username"),
+        values[1],
+    )
+    return redirect(url_for("subjects"))
 
 @route("/delete_subject/<int:id>", methods=["POST"])
 @roles_required("admin")

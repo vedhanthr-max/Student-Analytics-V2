@@ -23,6 +23,8 @@ SCALER_PATH = os.path.join(BASE_DIR, "models", "scaler.pkl")
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("FLASK_DEBUG") == "1"
 
+DEPARTMENTS = ("CSE", "IT", "ECE", "EEE", "MECH", "CIVIL", "AI&DS")
+
 UPI_ID = os.environ.get("UPI_ID", "")
 UPI_NUMBER = os.environ.get("UPI_NUMBER", "")
 UPI_PAYEE_NAME = os.environ.get("UPI_PAYEE_NAME", "")
