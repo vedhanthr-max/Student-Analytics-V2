@@ -8,6 +8,48 @@
         <p>Teachers are sourced from the existing login table. No separate teacher table exists in the current database.
         </p>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-banner" role="alert">
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="card form-card teacher-create-card">
+            <div class="card-header">
+                <h2>Create teacher login</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('add_teacher') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="teacher-username">Username</label>
+                            <input id="teacher-username" name="username" type="text"
+                                minlength="3" maxlength="32" pattern="[A-Za-z0-9_.]+"
+                                required>
+                        </div>
+                        <div class="field">
+                            <label for="teacher-password">Password</label>
+                            <input id="teacher-password" name="password" type="password"
+                                minlength="8" required>
+                        </div>
+                        <div class="field">
+                            <label for="teacher-confirm-password">Confirm password</label>
+                            <input id="teacher-confirm-password" name="confirm_password"
+                                type="password" minlength="8" required>
+                        </div>
+                        <div class="field field-submit">
+                            <button type="submit">Create teacher</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         {% if teachers %}
         <div class="table-wrap">
         <table class="table">

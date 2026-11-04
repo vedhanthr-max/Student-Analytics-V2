@@ -16,4 +16,5 @@ ENDPOINTS = {
     "update_student",
     "delete_student",
     "teacher_management",
+    "add_teacher",
 }

@@ -5,11 +5,12 @@ import io
 import logging
 import math
 import os
+import re
 import uuid
 import sqlite3
 from urllib.parse import urlencode
 
-from flask import Flask, jsonify, render_template, request, redirect, send_file, url_for, session
+from flask import Flask, flash, jsonify, render_template, request, redirect, send_file, url_for, session
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -2451,6 +2452,47 @@ def teacher_management():
     conn.close()
 
     return render_template("teacher_management.html", teachers=teachers)
+
+
+@route("/admin/teachers/add", methods=["POST"])
+@roles_required("admin")
+def add_teacher():
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not username:
+        flash("Username is required.")
+    elif re.fullmatch(r"[A-Za-z0-9_.]{3,32}", username) is None:
+        flash("Username must be 3 to 32 characters using only letters, digits, underscores, or dots.")
+    elif not password:
+        flash("Password is required.")
+    elif len(password) < 8:
+        flash("Password must be at least 8 characters.")
+    elif password != confirm_password:
+        flash("Passwords do not match.")
+    else:
+        conn = get_connection()
+        try:
+            existing = conn.execute(
+                "SELECT 1 FROM login WHERE username=? AND role='teacher'",
+                (username,),
+            ).fetchone()
+            if existing:
+                flash("Teacher username already exists.")
+            else:
+                # The same username is allowed for another role because login checks both fields.
+                conn.execute(
+                    "INSERT INTO login (username, password, role) VALUES (?, ?, 'teacher')",
+                    (username, generate_password_hash(password)),
+                )
+                conn.commit()
+                flash("Teacher account created.")
+                logger.info("Admin %s created teacher %s", session.get("username"), username)
+        finally:
+            conn.close()
+
+    return redirect(url_for("teacher_management"))
 
 # ---------------- FORGOT PASSWORD ----------------
 @route("/forgot_password")

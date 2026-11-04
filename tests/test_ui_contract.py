@@ -41,9 +41,17 @@ def _head_template(path):
 
 def test_ui_contract_matches_previous_templates():
     for path in sorted(TEMPLATES.glob("*.html")):
-        assert _contract(path.read_text(encoding="utf-8")) == _contract(
-            _head_template(path)
-        ), path.name
+        actual = _contract(path.read_text(encoding="utf-8"))
+        expected = _contract(_head_template(path))
+        if path.name == "teacher_management.html":
+            assert actual[1] == sorted(expected[1] + ["add_teacher"])
+            assert actual[0] == [(
+                "{{ url_for('add_teacher') }}",
+                "post",
+                ("confirm_password", "csrf_token", "password", "username"),
+            )]
+        else:
+            assert actual == expected, path.name
 
 
 def test_templates_have_no_inline_css_blocks_or_style_attributes():
