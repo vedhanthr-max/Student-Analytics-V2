@@ -125,6 +125,25 @@ def _login_key():
     return request.remote_addr or "unknown", request.form.get("username", "").strip()
 
 
+def _login_page(role):
+    return render_template(
+        "login.html",
+        login_role=role,
+        login_title=f"{role.title()} Login",
+        login_action=url_for(f"{role}_login"),
+    )
+
+
+def _log_login_attempt(role, username, result):
+    logger.info(
+        "Login attempt role=%s username=%s result=%s ip=%s",
+        role,
+        username,
+        result,
+        request.remote_addr or "unknown",
+    )
+
+
 def _login_is_locked(key):
     attempt = LOGIN_ATTEMPTS.get(key)
     if attempt is None:
@@ -207,49 +226,34 @@ def index():
 def admin_login():
     if request.method == "POST":
         return authenticate_login("admin")
-    return render_template(
-        "login.html",
-        login_role="admin",
-        login_title="Admin Login",
-        login_action=url_for("admin_login")
-    )
+    return _login_page("admin")
 
 
 @route("/teacher/login", methods=["GET", "POST"])
 def teacher_login():
     if request.method == "POST":
         return authenticate_login("teacher")
-    return render_template(
-        "login.html",
-        login_role="teacher",
-        login_title="Teacher Login",
-        login_action=url_for("teacher_login")
-    )
+    return _login_page("teacher")
 
 
 @route("/student/login", methods=["GET", "POST"])
 def student_login():
     if request.method == "POST":
         return authenticate_login("student")
-    return render_template(
-        "login.html",
-        login_role="student",
-        login_title="Student Login",
-        login_action=url_for("student_login")
-    )
+    return _login_page("student")
 
 
 # ---------------- LOGIN ----------------
 
 def authenticate_login(role):
-
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
     login_key = _login_key()
 
     if _login_is_locked(login_key):
-        logger.warning("Login locked ip=%s username=%s role=%s", login_key[0], username, role)
-        return "Too many failed login attempts. Try again later.", 429
+        _log_login_attempt(role, username, "locked")
+        flash("Too many failed attempts. Try again in 15 minutes.")
+        return _login_page(role), 429
 
     conn = get_connection()
     conn.row_factory = sqlite3.Row
@@ -273,10 +277,13 @@ def authenticate_login(role):
         if not password_matches:
             conn.close()
             _record_login_failure(login_key)
-            logger.warning("Login failure ip=%s username=%s role=%s", login_key[0], username, role)
             if _login_is_locked(login_key):
-                return "Too many failed login attempts. Try again later.", 429
-            return "Invalid Login", 401
+                _log_login_attempt(role, username, "locked")
+                flash("Too many failed attempts. Try again in 15 minutes.")
+                return _login_page(role), 429
+            _log_login_attempt(role, username, "invalid")
+            flash("Invalid username or password.")
+            return _login_page(role), 401
 
         if not stored_password.startswith(("scrypt:", "pbkdf2:")):
             cursor.execute(
@@ -289,16 +296,17 @@ def authenticate_login(role):
         session["role"] = user["role"]
         session.permanent = True
         _clear_login_failures(login_key)
-        logger.info("Login success ip=%s username=%s role=%s", login_key[0], username, role)
         session.pop("student_id", None)
         session.pop("student_register_no", None)
 
         if user["role"] == "admin":
             conn.close()
+            _log_login_attempt(role, username, "success")
             return redirect(url_for("admin"))
 
         elif user["role"] == "teacher":
             conn.close()
+            _log_login_attempt(role, username, "success")
             return redirect(url_for("teacher"))
 
         else:
@@ -313,17 +321,25 @@ def authenticate_login(role):
                 session["student_register_no"] = student["register_no"]
 
                 conn.close()
+                _log_login_attempt(role, username, "success")
                 return redirect(url_for("students"))
 
             conn.close()
-            return "Invalid Login", 401
+            session.pop("username", None)
+            session.pop("role", None)
+            _log_login_attempt(role, username, "unlinked")
+            flash("This account is not linked to a student record. Contact the admin.")
+            return _login_page(role), 401
 
     conn.close()
     _record_login_failure(login_key)
-    logger.warning("Login failure ip=%s username=%s role=%s", login_key[0], username, role)
     if _login_is_locked(login_key):
-        return "Too many failed login attempts. Try again later.", 429
-    return "Invalid Login", 401
+        _log_login_attempt(role, username, "locked")
+        flash("Too many failed attempts. Try again in 15 minutes.")
+        return _login_page(role), 429
+    _log_login_attempt(role, username, "invalid")
+    flash("Invalid username or password.")
+    return _login_page(role), 401
 
 
 @route("/login", methods=["POST"])
