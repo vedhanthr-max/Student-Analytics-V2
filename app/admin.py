@@ -17,4 +17,8 @@ ENDPOINTS = {
     "delete_student",
     "teacher_management",
     "add_teacher",
+    "create_student_login",
+    "create_student_logins",
+    "reset_student_login_password",
+    "assign_fees",
 }

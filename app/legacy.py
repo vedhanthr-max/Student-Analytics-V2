@@ -6,6 +6,7 @@ import logging
 import math
 import os
 import re
+import secrets
 import uuid
 import sqlite3
 from urllib.parse import urlencode
@@ -425,6 +426,141 @@ def admin_students():
     )
 
 
+@route("/admin/students/<register_no>/create-login", methods=["POST"])
+@roles_required("admin")
+def create_student_login(register_no):
+    conn = get_connection()
+    try:
+        student = conn.execute(
+            "SELECT id, login_id FROM students WHERE register_no=?",
+            (register_no,),
+        ).fetchone()
+        if student is None:
+            return "Student Not Found", 404
+        if student[1] is not None:
+            flash("Login already exists.")
+            return redirect(url_for("admin_students"))
+
+        username = register_no
+        if conn.execute(
+            "SELECT 1 FROM login WHERE username=?",
+            (username,),
+        ).fetchone():
+            flash("Student username already exists.")
+            return redirect(url_for("admin_students"))
+
+        temporary_password = secrets.token_urlsafe(9)
+        cursor = conn.execute(
+            "INSERT INTO login(username, password, role) VALUES (?, ?, 'student')",
+            (username, generate_password_hash(temporary_password)),
+        )
+        conn.execute(
+            "UPDATE students SET login_id=? WHERE register_no=?",
+            (cursor.lastrowid, register_no),
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        flash("Student username already exists.")
+        return redirect(url_for("admin_students"))
+    finally:
+        conn.close()
+
+    flash(f"Student login created. Temporary password: {temporary_password}")
+    return redirect(url_for("admin_students"))
+
+
+@route("/admin/students/<register_no>/reset-login-password", methods=["POST"])
+@roles_required("admin")
+def reset_student_login_password(register_no):
+    conn = get_connection()
+    try:
+        student = conn.execute(
+            "SELECT login_id FROM students WHERE register_no=?",
+            (register_no,),
+        ).fetchone()
+        if student is None:
+            return "Student Not Found", 404
+        if student[0] is None:
+            flash("This student has no login account. Create one first.")
+            return redirect(url_for("admin_students"))
+
+        new_password = secrets.token_urlsafe(9)
+        cursor = conn.execute(
+            """
+            UPDATE login
+            SET password=?
+            WHERE id=? AND role='student'
+            """,
+            (generate_password_hash(new_password), student[0]),
+        )
+        if cursor.rowcount == 0:
+            flash("Student login account was not found.")
+            return redirect(url_for("admin_students"))
+        conn.commit()
+    finally:
+        conn.close()
+
+    flash(f"Student password reset. New password: {new_password}")
+    logger.info(
+        "admin %s reset password for student %s",
+        session.get("username"),
+        register_no,
+    )
+    return redirect(url_for("admin_students"))
+
+
+@route("/admin/students/create-logins", methods=["POST"])
+@roles_required("admin")
+def create_student_logins():
+    if request.form.get("confirm") != "yes":
+        flash("Confirm the bulk login creation before continuing.")
+        return redirect(url_for("admin_students"))
+
+    conn = get_connection()
+    credentials = []
+    try:
+        students = conn.execute(
+            "SELECT register_no FROM students WHERE login_id IS NULL ORDER BY register_no"
+        ).fetchall()
+        for (register_no,) in students:
+            if conn.execute(
+                "SELECT 1 FROM login WHERE username=?",
+                (register_no,),
+            ).fetchone():
+                continue
+            temporary_password = secrets.token_urlsafe(9)
+            cursor = conn.execute(
+                "INSERT INTO login(username, password, role) VALUES (?, ?, 'student')",
+                (register_no, generate_password_hash(temporary_password)),
+            )
+            conn.execute(
+                "UPDATE students SET login_id=? WHERE register_no=?",
+                (cursor.lastrowid, register_no),
+            )
+            credentials.append((register_no, register_no, temporary_password))
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.rollback()
+        flash("A student username already exists.")
+        return redirect(url_for("admin_students"))
+    finally:
+        conn.close()
+
+    output = io.StringIO(newline="")
+    writer = csv.writer(output, lineterminator="\n")
+    writer.writerow(("register_no", "username", "temporary password"))
+    writer.writerows(credentials)
+    response = send_file(
+        io.BytesIO(output.getvalue().encode("utf-8")),
+        mimetype="text/csv",
+        as_attachment=True,
+        download_name="student-logins.csv",
+    )
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
+
 @route("/admin/import/students", methods=["POST"])
 @roles_required("admin")
 def import_students():
@@ -734,6 +870,60 @@ def admin_fees_pending():
         pending_registrations=pending_registrations,
         total_pending=total_pending,
     )
+
+
+@route("/admin/fees/assign", methods=["POST"])
+@roles_required("admin")
+def assign_fees():
+    semester_raw = request.form.get("semester", "").strip()
+    exam_type = request.form.get("exam_type", "").strip()
+    exam_fee_raw = request.form.get("exam_fee", "").strip()
+    registration_date = request.form.get("registration_date", "").strip()
+    try:
+        semester = int(semester_raw)
+        exam_fee = float(exam_fee_raw)
+    except ValueError:
+        flash("Semester and exam fee must be valid numbers.")
+        return redirect(url_for("admin_fees_pending"))
+    if not 1 <= semester <= 8 or exam_fee < 0:
+        flash("Semester or exam fee is invalid.")
+        return redirect(url_for("admin_fees_pending"))
+    if not exam_type or not registration_date:
+        flash("Exam type and registration date are required.")
+        return redirect(url_for("admin_fees_pending"))
+
+    conn = get_connection()
+    try:
+        students = conn.execute(
+            "SELECT register_no FROM students ORDER BY register_no"
+        ).fetchall()
+        for (register_no,) in students:
+            exists = conn.execute(
+                """
+                SELECT 1 FROM exam_registration
+                WHERE register_no=? AND semester=? AND exam_type=?
+                """,
+                (register_no, semester, exam_type),
+            ).fetchone()
+            if exists:
+                continue
+            conn.execute(
+                """
+                INSERT INTO exam_registration(
+                    register_no, semester, exam_type, exam_fee, registration_date,
+                    amount_paid, balance_due, payment_status, status
+                ) VALUES (?, ?, ?, ?, ?, 0, ?, 'Unpaid', 'Registered')
+                """,
+                (register_no, semester, exam_type, exam_fee, registration_date, exam_fee),
+            )
+        conn.commit()
+    except sqlite3.Error:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+    flash("Fees assigned.")
+    return redirect(url_for("admin_fees_pending"))
 
 
 @route("/admin/link_student_login", methods=["POST"])
@@ -2684,6 +2874,28 @@ def generate_hallticket(id):
         return """
         <h2>Hall Ticket Cannot Be Generated</h2>
         <h3>Pending Exam Registration Fee Payment</h3>
+        <a href="/students">Go Back</a>
+        """
+
+    try:
+        requested_semester = int(request.form.get("semester", ""))
+    except ValueError:
+        requested_semester = 0
+    cursor.execute(
+        """
+        SELECT 1
+        FROM exam_registration
+        WHERE register_no=? AND semester=?
+          AND payment_status='Paid' AND COALESCE(balance_due, 0)=0
+        LIMIT 1
+        """,
+        (student["register_no"], requested_semester),
+    )
+    if cursor.fetchone() is None:
+        conn.close()
+        return """
+        <h2>Hall Ticket Cannot Be Generated</h2>
+        <h3>No paid exam registration for the requested semester</h3>
         <a href="/students">Go Back</a>
         """
 

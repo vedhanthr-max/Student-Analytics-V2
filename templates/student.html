@@ -284,6 +284,12 @@
                 <p class="student-card-desc">View your own exam fees and available payment options.</p>
             </a>
 
+            <a class="student-dashboard-card" href="/forgot_password">
+                <span class="student-card-icon">{{ icon('edit') }}</span>
+                <h2 class="student-card-title">Change Password</h2>
+                <p class="student-card-desc">Update your student login password.</p>
+            </a>
+
             <div class="student-dashboard-card">
                 <span class="student-card-icon">{{ icon('graduation') }}</span>
                 <h2 class="student-card-title">GPA / Results</h2>
@@ -407,6 +413,10 @@
                             {% if session.get("role") in ["admin", "teacher"] %}
                             <form class="inline-form" method="post" action="/generate_hallticket/{{ me['id'] }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <label for="my-hall-ticket-semester">Semester</label>
+                                <select id="my-hall-ticket-semester" name="semester" required>
+                                    {% for semester in range(1, 9) %}<option value="{{ semester }}">{{ semester }}</option>{% endfor %}
+                                </select>
                                 <button class="action-btn action-btn-secondary">Generate Hall Ticket</button>
                             </form>
                             {% endif %}
@@ -436,6 +446,14 @@
 
         <h1>Student List</h1>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-banner" role="alert">
+            {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
 
 
         <form action="{{ request.path }}" method="GET">
@@ -451,6 +469,15 @@
         </form>
 
         {% if session.get("role") == "admin" %}
+        <section class="csv-import-panel">
+            <h2>Student login accounts</h2>
+            <form method="post" action="{{ url_for('create_student_logins') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <label><input type="checkbox" name="confirm" value="yes" required>
+                    Create accounts for every student without a login</label>
+                <button type="submit">Create all student logins</button>
+            </form>
+        </section>
         <section class="csv-import-panel">
             <h2>Import Students</h2>
             <form class="csv-import-form" action="{{ url_for('import_students') }}" method="post"
@@ -484,6 +511,7 @@
                     <th>Profile</th>
                     <th>Arrears</th>
                     <th>Hall Ticket</th>
+                    {% if session.get("role") == "admin" %}<th>Login</th>{% endif %}
                 </tr>
 
                 {% for s in students %}
@@ -545,6 +573,10 @@
 
                         <form class="inline-form" method="post" action="/generate_hallticket/{{ s['id'] }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <label for="hall-ticket-semester-{{ s['id'] }}">Semester</label>
+                            <select id="hall-ticket-semester-{{ s['id'] }}" name="semester" required>
+                                {% for semester in range(1, 9) %}<option value="{{ semester }}">{{ semester }}</option>{% endfor %}
+                            </select>
                             <button class="action-btn action-btn-secondary">
                                 Generate Hall Ticket
                             </button>
@@ -577,7 +609,24 @@
                     <td>{{ s["arrear_count"] }}</td>
 
                     <td>{{ s["hall_ticket_status"] }}</td>
-
+                    {% if session.get("role") == "admin" %}
+                    <td>
+                        {% if s["login_id"] is none %}
+                        <form class="inline-form" method="post"
+                            action="{{ url_for('create_student_login', register_no=s['register_no']) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit">Create login</button>
+                        </form>
+                        {% else %}
+                        <form class="inline-form" method="post"
+                            action="{{ url_for('reset_student_login_password', register_no=s['register_no']) }}"
+                            onsubmit="return confirm('Reset this student\\'s password? The old password will stop working.');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit">Reset password</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    {% endif %}
                 </tr>
 
                 {% endfor %}

@@ -7,6 +7,36 @@
         <h2>Pending Fees</h2>
         <p><strong>Total Pending:</strong> ₹ {{ total_pending }}</p>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash-banner" role="alert">
+            {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <div class="card form-card fee-assignment-card">
+            <div class="card-header"><h3>Assign exam fees</h3></div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('assign_fees') }}" class="form-grid">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="field"><label for="fee-semester">Semester</label>
+                        <input id="fee-semester" name="semester" type="number" min="1" max="8" required>
+                    </div>
+                    <div class="field"><label for="fee-exam-type">Exam type</label>
+                        <input id="fee-exam-type" name="exam_type" type="text" required>
+                    </div>
+                    <div class="field"><label for="fee-amount">Exam fee</label>
+                        <input id="fee-amount" name="exam_fee" type="number" min="0" step="0.01" required>
+                    </div>
+                    <div class="field"><label for="fee-registration-date">Registration date</label>
+                        <input id="fee-registration-date" name="registration_date" type="date" required>
+                    </div>
+                    <div class="field field-wide"><button type="submit">Assign fees</button></div>
+                </form>
+            </div>
+        </div>
+
         {% if pending_registrations %}
         <div class="table-wrap">
         <table class="table">
