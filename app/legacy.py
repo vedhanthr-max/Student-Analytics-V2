@@ -144,6 +144,13 @@ def _log_login_attempt(role, username, result):
     )
 
 
+def hall_ticket_number(register_no, year=None):
+    year_text = str(datetime.now().year if year is None else year)
+    if re.match(r"^\d{4}", register_no):
+        return "HT" + register_no
+    return "HT" + year_text + register_no
+
+
 def _login_is_locked(key):
     attempt = LOGIN_ATTEMPTS.get(key)
     if attempt is None:
@@ -2980,11 +2987,7 @@ def generate_hallticket(id):
         <a href="/students">Go Back</a>
         """
 
-    hall_ticket_no = (
-        "HT"
-        + str(datetime.now().year)
-        + student["register_no"]
-    )
+    hall_ticket_no = hall_ticket_number(student["register_no"])
 
     generated_date = datetime.now().strftime("%d-%m-%Y")
 
