@@ -20,6 +20,19 @@ def reset_app(tmp_path, monkeypatch):
     shutil.copy2(ROOT / "database" / "student.db", database_path)
     monkeypatch.setattr(config, "DATABASE", str(database_path))
     application = create_app({"TESTING": True, "SECRET_KEY": "test-secret"})
+    conn = sqlite3.connect(database_path)
+    login_id = conn.execute(
+        "SELECT login_id FROM students WHERE register_no=?",
+        (REGISTER_NO,),
+    ).fetchone()[0]
+    if login_id is not None:
+        conn.execute("DELETE FROM login WHERE id=?", (login_id,))
+    conn.execute(
+        "UPDATE students SET login_id=NULL WHERE register_no=?",
+        (REGISTER_NO,),
+    )
+    conn.commit()
+    conn.close()
     return application, database_path
 
 

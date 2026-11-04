@@ -414,6 +414,7 @@ def admin_students():
         )
 
     students = cursor.fetchall()
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -517,9 +518,10 @@ def create_student_logins():
         flash("Confirm the bulk login creation before continuing.")
         return redirect(url_for("admin_students"))
 
-    conn = get_connection()
+    conn = get_connection(timeout=30)
     credentials = []
     try:
+        conn.execute("BEGIN IMMEDIATE")
         students = conn.execute(
             "SELECT register_no FROM students WHERE login_id IS NULL ORDER BY register_no"
         ).fetchall()
@@ -540,10 +542,9 @@ def create_student_logins():
             )
             credentials.append((register_no, register_no, temporary_password))
         conn.commit()
-    except sqlite3.IntegrityError:
+    except Exception:
         conn.rollback()
-        flash("A student username already exists.")
-        return redirect(url_for("admin_students"))
+        raise
     finally:
         conn.close()
 
@@ -863,6 +864,7 @@ def admin_fees_pending():
     """)
 
     total_pending = cursor.fetchone()[0]
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -2135,6 +2137,7 @@ def fees():
         ORDER BY er.registration_id DESC
         """, (register_no,))
         registrations = cursor.fetchall()
+        cursor.close()
         conn.close()
         return render_template(
             "fees.html",
@@ -2173,6 +2176,7 @@ def fees():
 
     registrations = cursor.fetchall()
 
+    cursor.close()
     conn.close()
 
     return render_template(

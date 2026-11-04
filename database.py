@@ -8,9 +8,11 @@ from werkzeug.security import generate_password_hash
 
 def init_db(db_path=None):
     database_path = db_path or config.DATABASE
-    conn = sqlite3.connect(database_path)
+    conn = sqlite3.connect(database_path, timeout=30)
 
     cursor = conn.cursor()
+    cursor.execute("PRAGMA journal_mode=WAL")
+    cursor.execute("PRAGMA busy_timeout=30000")
 
     # ---------------- LOGIN TABLE ----------------
 

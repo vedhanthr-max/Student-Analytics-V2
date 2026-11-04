@@ -68,45 +68,14 @@ def test_ui_contract_matches_previous_templates():
                 ("/subjects", "get", ("department", "search")),
             ]
         elif path.name == "admin_fees_pending.html":
-            assert actual[1] == sorted(expected[1] + ["assign_fees"])
+            assert actual[1] == expected[1]
             assert actual[0] == [(
                 "{{ url_for('assign_fees') }}",
                 "post",
                 ("csrf_token", "exam_fee", "exam_type", "registration_date", "semester"),
             )]
         elif path.name == "student.html":
-            expected_forms = [
-                (
-                    action,
-                    method,
-                    tuple(sorted(names + (("semester",) if "generate_hallticket" in action else ()))),
-                )
-                for action, method, names in expected[0]
-            ]
-            expected_forms.extend([
-                (
-                    "{{ url_for('create_student_login', register_no=s['register_no']) }}",
-                    "post",
-                    ("csrf_token",),
-                ),
-                (
-                    "{{ url_for('create_student_logins') }}",
-                    "post",
-                    ("confirm", "csrf_token"),
-                ),
-                (
-                    "{{ url_for('reset_student_login_password', register_no=s['register_no']) }}",
-                    "post",
-                    ("csrf_token",),
-                ),
-            ])
-            assert actual[0] == sorted(expected_forms)
-            assert actual[1] == sorted(expected[1] + [
-                "/forgot_password",
-                "create_student_login",
-                "create_student_logins",
-                "reset_student_login_password",
-            ])
+            assert actual == expected
         else:
             assert actual == expected, path.name
 
