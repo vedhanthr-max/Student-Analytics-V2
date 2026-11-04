@@ -1,13 +1,16 @@
 from pathlib import Path
 import os
 import re
-import shutil
 import tempfile
+
+import config
+from support import create_test_database
 
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_DATABASE = Path(tempfile.mkdtemp(prefix="encoding-tests-")) / "student.db"
-shutil.copy2(ROOT / "database" / "student.db", TEST_DATABASE)
+create_test_database(TEST_DATABASE)
+config.DATABASE = str(TEST_DATABASE)
 os.environ["STUDENT_DB_PATH"] = str(TEST_DATABASE)
 os.environ["SECRET_KEY"] = "encoding-test-secret"
 os.environ["PYTHON_DOTENV_DISABLED"] = "1"

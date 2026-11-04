@@ -1,6 +1,5 @@
 import os
 import re
-import shutil
 import sqlite3
 import subprocess
 import sys
@@ -9,11 +8,15 @@ from pathlib import Path
 
 import pytest
 
+import config
+from support import create_test_database
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 TEMP_ROOT = Path(tempfile.mkdtemp(prefix="student-analytics-tests-"))
 TEST_DATABASE = TEMP_ROOT / "student.db"
-shutil.copy2(PROJECT_ROOT / "database" / "student.db", TEST_DATABASE)
+create_test_database(TEST_DATABASE)
+config.DATABASE = str(TEST_DATABASE)
 os.environ["STUDENT_DB_PATH"] = str(TEST_DATABASE)
 os.environ["SECRET_KEY"] = "test-secret"
 

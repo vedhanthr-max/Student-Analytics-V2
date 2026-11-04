@@ -1,23 +1,21 @@
 import re
-import shutil
 import sqlite3
-from pathlib import Path
 
 import pytest
 from werkzeug.security import check_password_hash, generate_password_hash
 
 import config
 from app import create_app
+from support import create_test_database
 
 
-ROOT = Path(__file__).resolve().parents[1]
 REGISTER_NO = "2026CSE001"
 
 
 @pytest.fixture
 def password_app(tmp_path, monkeypatch):
     database_path = tmp_path / "student.db"
-    shutil.copy2(ROOT / "database" / "student.db", database_path)
+    create_test_database(database_path)
     monkeypatch.setattr(config, "DATABASE", str(database_path))
     application = create_app({"TESTING": True, "SECRET_KEY": "test-secret"})
 

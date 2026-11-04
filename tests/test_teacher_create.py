@@ -1,22 +1,18 @@
 import re
-import shutil
 import sqlite3
-from pathlib import Path
 
 import pytest
 from werkzeug.security import check_password_hash
 
 import config
 from app import create_app
-
-
-ROOT = Path(__file__).resolve().parents[1]
+from support import create_test_database
 
 
 @pytest.fixture
 def teacher_app(tmp_path, monkeypatch):
     database_path = tmp_path / "student.db"
-    shutil.copy2(ROOT / "database" / "student.db", database_path)
+    create_test_database(database_path)
     monkeypatch.setattr(config, "DATABASE", str(database_path))
     application = create_app({"TESTING": True, "SECRET_KEY": "test-secret"})
     return application, database_path

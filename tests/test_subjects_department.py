@@ -1,21 +1,17 @@
 import re
-import shutil
 import sqlite3
-from pathlib import Path
 
 import pytest
 
 import config
 from app import create_app
-
-
-ROOT = Path(__file__).resolve().parents[1]
+from support import create_test_database
 
 
 @pytest.fixture
 def subjects_app(tmp_path, monkeypatch):
     database_path = tmp_path / "student.db"
-    shutil.copy2(ROOT / "database" / "student.db", database_path)
+    create_test_database(database_path)
     monkeypatch.setattr(config, "DATABASE", str(database_path))
     application = create_app({"TESTING": True, "SECRET_KEY": "test-secret"})
     conn = sqlite3.connect(database_path)
