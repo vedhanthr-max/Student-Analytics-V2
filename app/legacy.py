@@ -2730,8 +2730,7 @@ def forgot_password():
 
 # ---------------- CHANGE PASSWORD ----------------
 
-@route("/change_password", methods=["POST"])
-def change_password():
+def _legacy_change_password():
 
     username = request.form["username"]
     old_password = request.form["old_password"]
@@ -2789,6 +2788,68 @@ def change_password():
 
     <a href="/forgot_password">Try Again</a>
     """
+@route("/change_password", methods=["POST"])
+def change_password():
+    role = session.get("role")
+    username = session.get("username")
+    login_endpoints = {
+        "admin": "admin_login",
+        "teacher": "teacher_login",
+        "student": "student_login",
+    }
+    dashboard_endpoints = {
+        "admin": "admin",
+        "teacher": "teacher",
+        "student": "students",
+    }
+
+    if role not in login_endpoints or not username:
+        flash("Please log in first.")
+        return redirect(url_for(login_endpoints.get(role, "student_login")))
+
+    old_password = request.form.get("old_password", "")
+    new_password = request.form.get("new_password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if len(new_password) < 8:
+        flash("New password must be at least 8 characters.")
+        return redirect(url_for(dashboard_endpoints[role]))
+    if new_password != confirm_password:
+        flash("Passwords do not match.")
+        return redirect(url_for(dashboard_endpoints[role]))
+
+    conn = get_connection()
+    conn.row_factory = sqlite3.Row
+    try:
+        user = conn.execute(
+            "SELECT id, password FROM login WHERE username=? AND role=?",
+            (username, role),
+        ).fetchone()
+        if user is None:
+            flash("Old password is incorrect.")
+            return redirect(url_for(dashboard_endpoints[role]))
+
+        stored_password = user["password"]
+        password_matches = (
+            check_password_hash(stored_password, old_password)
+            if stored_password.startswith(("scrypt:", "pbkdf2:"))
+            else stored_password == old_password
+        )
+        if not password_matches:
+            flash("Old password is incorrect.")
+            return redirect(url_for(dashboard_endpoints[role]))
+
+        conn.execute(
+            "UPDATE login SET password=? WHERE id=?",
+            (generate_password_hash(new_password), user["id"]),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+    flash("Password changed.")
+    return redirect(url_for(dashboard_endpoints[role]))
+
 # ---------------- PROFILE ----------------
 
 @route("/profile/<int:id>")

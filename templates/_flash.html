@@ -1,4 +1,5 @@
-{% set notice = message or request.args.get("message") %}
+{% set flashed_messages = get_flashed_messages() %}
+{% set notice = message or request.args.get("message") or (flashed_messages[0] if flashed_messages else none) %}
 {% if notice %}
 <div class="flash-banner {% if 'error' in notice|lower or 'failed' in notice|lower or 'incorrect' in notice|lower or 'forbidden' in notice|lower %}flash-error{% else %}flash-success{% endif %}"
     role="alert">

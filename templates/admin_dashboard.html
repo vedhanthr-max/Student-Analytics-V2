@@ -68,6 +68,23 @@
                 <p class="admin-card-desc">Access teacher listing and account details.</p>
             </a>
 
+            <div class="admin-card-link">
+                <h2 class="admin-card-title">Change Password</h2>
+                <form action="{{ url_for('change_password') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="field"><label for="admin-old-password">Old password</label>
+                        <input id="admin-old-password" type="password" name="old_password" required>
+                    </div>
+                    <div class="field"><label for="admin-new-password">New password</label>
+                        <input id="admin-new-password" type="password" name="new_password" minlength="8" required>
+                    </div>
+                    <div class="field"><label for="admin-confirm-password">Confirm password</label>
+                        <input id="admin-confirm-password" type="password" name="confirm_password" minlength="8" required>
+                    </div>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
+
             <a class="admin-card-link admin-logout-card" href="/logout">
                 <h2 class="admin-card-title">Logout</h2>
                 <p class="admin-card-desc">Sign out of the admin portal securely.</p>

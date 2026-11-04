@@ -284,11 +284,23 @@
                 <p class="student-card-desc">View your own exam fees and available payment options.</p>
             </a>
 
-            <a class="student-dashboard-card" href="/forgot_password">
+            <div class="student-dashboard-card">
                 <span class="student-card-icon">{{ icon('edit') }}</span>
                 <h2 class="student-card-title">Change Password</h2>
-                <p class="student-card-desc">Update your student login password.</p>
-            </a>
+                <form action="{{ url_for('change_password') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="field"><label for="student-old-password">Old password</label>
+                        <input id="student-old-password" type="password" name="old_password" required>
+                    </div>
+                    <div class="field"><label for="student-new-password">New password</label>
+                        <input id="student-new-password" type="password" name="new_password" minlength="8" required>
+                    </div>
+                    <div class="field"><label for="student-confirm-password">Confirm password</label>
+                        <input id="student-confirm-password" type="password" name="confirm_password" minlength="8" required>
+                    </div>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
 
             <div class="student-dashboard-card">
                 <span class="student-card-icon">{{ icon('graduation') }}</span>

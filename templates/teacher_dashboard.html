@@ -69,6 +69,24 @@
                 <p class="teacher-card-desc">Enter new result records for students using the current workflow.</p>
             </a>
 
+            <div class="teacher-dashboard-card">
+                <span class="teacher-card-icon">{{ icon('edit') }}</span>
+                <h2 class="teacher-card-title">Change Password</h2>
+                <form action="{{ url_for('change_password') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="field"><label for="teacher-old-password">Old password</label>
+                        <input id="teacher-old-password" type="password" name="old_password" required>
+                    </div>
+                    <div class="field"><label for="teacher-new-password">New password</label>
+                        <input id="teacher-new-password" type="password" name="new_password" minlength="8" required>
+                    </div>
+                    <div class="field"><label for="teacher-confirm-password">Confirm password</label>
+                        <input id="teacher-confirm-password" type="password" name="confirm_password" minlength="8" required>
+                    </div>
+                    <button type="submit">Change Password</button>
+                </form>
+            </div>
+
             <a class="teacher-dashboard-card" href="/exam_registration">
                 <span class="teacher-card-icon">{{ icon('calendar') }}</span>
                 <h2 class="teacher-card-title">Exam Registration</h2>

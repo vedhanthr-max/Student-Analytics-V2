@@ -60,7 +60,12 @@ def test_ui_contract_matches_previous_templates():
                 ("credits", "csrf_token", "department", "semester", "subject_code", "subject_name"),
             )]
         elif path.name == "teacher_dashboard.html":
-            assert actual == expected
+            assert set(expected[1]).issubset(actual[1])
+            assert actual[0] == [(
+                "{{ url_for('change_password') }}",
+                "post",
+                ("confirm_password", "csrf_token", "new_password", "old_password"),
+            )]
         elif path.name == "subjects.html":
             assert actual[1] == expected[1]
             assert actual[0] == [
@@ -74,8 +79,25 @@ def test_ui_contract_matches_previous_templates():
                 "post",
                 ("csrf_token", "exam_fee", "exam_type", "registration_date", "semester"),
             )]
+        elif path.name == "admin_dashboard.html":
+            assert set(expected[1]).issubset(actual[1])
+            assert actual[0] == [(
+                "{{ url_for('change_password') }}",
+                "post",
+                ("confirm_password", "csrf_token", "new_password", "old_password"),
+            )]
+        elif path.name == "forgot_password.html":
+            assert actual[0] == []
+            assert {
+                "{{ url_for('student_login') }}",
+            }.issubset(actual[1])
         elif path.name == "student.html":
-            assert actual == expected
+            assert set(expected[0]).issubset(actual[0])
+            assert (
+                "{{ url_for('change_password') }}",
+                "post",
+                ("confirm_password", "csrf_token", "new_password", "old_password"),
+            ) in actual[0]
         else:
             assert actual == expected, path.name
 
