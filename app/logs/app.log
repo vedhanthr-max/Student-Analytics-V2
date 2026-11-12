@@ -1,0 +1,2233 @@
+2026-11-03 21:01:29,254 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 212, in admin_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,431 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 224, in teacher_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,440 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 236, in student_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,447 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 212, in admin_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,454 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 236, in student_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,468 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 212, in admin_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:29,508 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 212, in admin_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 66, in get_source
+    return self._get_source_fast(environment, template)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 100, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: login.html
+2026-11-03 21:01:52,506 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:01:52,770 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:01:52,987 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:01:53,182 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:01:53,381 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:01:53,399 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,402 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,406 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,410 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,414 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,417 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:01:53,586 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:03:27,395 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:03:27,592 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:03:27,724 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:04:55,854 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:04:56,072 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:04:56,225 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:04:56,581 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:04:56,734 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:04:56,884 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:04:57,010 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:04:57,132 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:04:57,142 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,144 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,148 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,150 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,152 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,191 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:04:57,314 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:09:06,847 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:09:06,979 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:09:07,108 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:09:07,222 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:09:07,344 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:09:07,352 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,353 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,355 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,356 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,357 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,358 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:09:07,467 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:09:28,966 ERROR Unhandled server error
+Traceback (most recent call last):
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\app\legacy.py", line 241, in student_login
+    return render_template(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\tsp\project\Student_Analytics_V2\templates\login.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "D:\tsp\project\Student_Analytics_V2\templates\base.html", line 40, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\tsp\project\Student_Analytics_V2\templates\login.html", line 55, in block 'content'
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask_wtf\csrf.py", line 55, in generate_csrf
+    session[field_name] = hashlib.sha1(os.urandom(64)).hexdigest()
+    ~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\R.HARIHARAN\AppData\Roaming\Python\Python312\site-packages\flask\sessions.py", line 90, in _fail
+    raise RuntimeError(
+RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.
+2026-11-03 21:14:40,984 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:14:40,985 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:14:42,529 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:14:42,967 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:14:43,330 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:14:43,704 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:14:44,100 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:14:46,242 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:14:46,242 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:14:48,534 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,547 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,557 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,567 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,579 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,583 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:14:48,941 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:14:59,377 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:14:59,378 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:16:43,905 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:17:38,373 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:17:38,494 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:17:38,724 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:17:38,855 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:17:39,028 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:17:43,209 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:17:47,092 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:17:49,897 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:17:50,368 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:17:54,042 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,047 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,051 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,055 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,058 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,061 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:17:54,228 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:20:28,045 WARNING Login failure ip=127.0.0.1 username=admin role=student
+2026-11-03 21:20:44,321 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:31:21,233 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:31:21,354 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:31:21,473 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:31:21,587 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:31:21,705 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:31:24,224 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:31:27,001 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:31:28,738 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:31:29,043 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:31:31,420 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,421 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,423 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,425 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,427 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,429 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:31:31,540 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:39:48,854 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:39:48,976 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:39:49,113 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:39:49,259 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:39:49,392 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:39:52,531 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:39:55,918 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:39:58,013 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:39:58,338 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:40:00,876 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,878 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,880 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,882 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,884 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,885 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:40:00,994 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:40:53,439 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:43:01,394 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:43:01,652 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-03 21:43:01,906 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:43:02,191 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:43:02,399 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:43:05,729 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:43:08,984 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:43:11,036 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:43:11,370 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-03 21:43:14,042 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,044 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,046 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,050 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,052 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,054 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-03 21:43:14,188 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-03 21:45:36,672 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-03 21:48:38,009 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 17:55:47,548 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 17:55:47,695 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 17:55:47,814 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 17:55:47,931 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 17:55:48,047 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 17:55:50,955 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 17:55:54,055 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 17:55:56,035 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 17:55:56,421 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 17:55:59,173 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,177 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,179 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,181 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,183 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,185 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 17:55:59,299 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:01:46,705 WARNING Login failure ip=127.0.0.1 username=admin role=student
+2026-11-04 18:01:52,502 WARNING Login failure ip=127.0.0.1 username=admin role=student
+2026-11-04 18:02:06,378 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:24,394 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:24,537 INFO Admin admin created teacher new.teacher
+2026-11-04 18:07:24,760 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:07:25,274 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:25,424 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:07:25,940 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:26,430 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:26,925 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:27,473 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:07:28,126 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:07:28,614 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:29,123 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:43,431 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:43,603 INFO Admin admin created teacher new.teacher
+2026-11-04 18:07:43,908 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:07:44,422 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:44,553 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:07:45,054 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:45,576 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:46,068 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:46,578 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:07:47,136 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:07:47,656 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:48,130 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:54,249 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:54,390 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:07:54,521 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:07:54,654 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:07:54,784 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:07:57,760 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:00,905 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:03,357 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:08:03,866 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:08:06,820 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,822 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,825 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,828 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,831 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,832 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:08:06,981 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:07,506 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:07,647 INFO Admin admin created teacher new.teacher
+2026-11-04 18:08:07,877 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:08:08,372 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:08,504 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:08:08,980 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:09,484 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:10,026 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:10,536 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:08:10,999 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:08:11,528 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:12,121 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:48,870 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:48,998 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:08:49,116 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:08:49,234 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:49,351 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:08:52,400 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:55,623 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:08:57,912 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:08:58,305 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:09:01,051 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,053 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,055 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,059 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,062 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,063 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:01,187 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:01,727 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:01,868 INFO Admin admin created teacher new.teacher
+2026-11-04 18:09:02,113 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:09:02,575 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:02,712 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:09:03,193 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:03,706 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:04,193 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:04,686 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:09:05,201 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:09:05,702 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:06,187 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:32,636 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:32,774 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:09:32,889 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:09:33,009 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:33,121 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:09:35,985 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:39,375 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:41,567 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:09:41,920 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:09:44,717 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,720 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,723 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,726 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,728 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,729 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:09:44,872 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:45,425 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:45,564 INFO Admin admin created teacher new.teacher
+2026-11-04 18:09:45,799 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:09:46,379 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:46,514 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:09:47,031 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:47,499 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:48,018 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:48,689 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:09:49,466 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:09:50,349 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:09:51,001 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:12:26,115 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:13:56,642 INFO Admin admin created teacher hod
+2026-11-04 18:15:33,498 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:16:46,966 INFO Login success ip=127.0.0.1 username=hod role=teacher
+2026-11-04 18:18:09,724 INFO Admin action=generate_hallticket username=hod student_id=9
+2026-11-04 18:25:05,894 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:06,320 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:06,327 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:25:06,768 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:07,181 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:07,745 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:08,176 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:08,598 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:09,007 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:25:09,441 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:29,119 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:29,629 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:29,639 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:25:30,061 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:30,564 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:31,173 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:31,587 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:32,032 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:32,489 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:25:32,946 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:58,728 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:59,187 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:25:59,193 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:25:59,775 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:00,314 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:00,805 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:01,261 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:01,805 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:02,288 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:02,776 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:08,390 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:08,519 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:08,646 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:08,774 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:08,899 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:11,642 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:14,500 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:16,346 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:26:16,675 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:26:19,323 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,325 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,328 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,331 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,333 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,335 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:26:19,446 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:19,936 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:20,436 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:20,443 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:26:20,888 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:21,343 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:21,818 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:22,298 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:22,726 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:23,159 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:23,720 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:24,188 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:24,301 INFO Admin admin created teacher new.teacher
+2026-11-04 18:26:24,503 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:26:24,922 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:25,047 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:26:25,522 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:25,942 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:26,350 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:26,813 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:27,288 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:27,708 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:28,135 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:52,506 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:52,633 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:26:52,754 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:52,887 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:53,032 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:26:55,769 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:26:59,142 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:01,007 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:27:01,318 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:27:03,845 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,849 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,852 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,854 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,855 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,858 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:03,968 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:04,438 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:04,950 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:04,957 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:27:05,451 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:05,904 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:06,376 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:06,922 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:07,410 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:07,934 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:08,459 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:08,924 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:09,045 INFO Admin admin created teacher new.teacher
+2026-11-04 18:27:09,309 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:27:09,785 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:09,915 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:27:10,389 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:10,813 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:11,273 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:11,793 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:12,237 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:12,658 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:13,138 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:34,684 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:34,807 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:34,928 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:35,040 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:35,171 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:38,019 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:40,946 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:42,868 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:27:43,189 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:27:45,825 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:45,830 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:45,834 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:45,838 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:45,842 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:45,847 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:27:46,007 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:46,684 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:47,193 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:47,201 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:27:47,722 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:48,181 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:48,623 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:49,122 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:49,620 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:50,117 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:50,606 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:51,110 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:51,228 INFO Admin admin created teacher new.teacher
+2026-11-04 18:27:51,439 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:27:51,862 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:51,980 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:27:52,480 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:52,940 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:53,371 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:53,856 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:27:54,397 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:27:54,883 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:27:55,357 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:19,834 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:19,960 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:20,080 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:28:20,196 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:20,311 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:28:23,159 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:26,339 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:28,294 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:28:28,633 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:28:31,244 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,247 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,250 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,253 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,256 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,259 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:28:31,386 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:31,867 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:32,303 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:32,312 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:28:32,798 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:33,286 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:33,736 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:34,231 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:34,786 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:35,305 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:28:35,847 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:36,361 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:36,491 INFO Admin admin created teacher new.teacher
+2026-11-04 18:28:36,722 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:28:37,158 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:37,268 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:28:37,733 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:38,214 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:38,648 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:39,078 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:28:39,576 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:28:40,029 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:28:40,453 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:30:09,731 INFO Login success ip=127.0.0.1 username=hod role=teacher
+2026-11-04 18:35:06,789 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 18:35:12,047 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 18:35:24,343 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 18:41:59,749 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:00,894 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:01,325 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:42:02,123 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:02,850 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:03,985 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:04,626 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:05,216 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:27,818 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:29,216 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:29,609 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:42:30,267 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:31,193 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:32,392 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:33,091 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:33,831 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:55,470 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:56,447 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:56,833 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:42:57,462 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:42:58,090 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:58,108 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:42:58,782 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:42:59,449 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:00,041 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:07,650 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:07,804 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:07,981 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:43:08,151 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:08,346 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:43:12,997 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:17,661 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:19,851 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:43:20,207 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:43:22,610 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,612 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,614 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,617 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,621 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,623 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:43:22,749 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:23,262 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:23,941 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:24,160 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:43:24,636 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:25,220 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:25,231 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:43:25,673 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:26,162 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:26,666 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:27,114 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:27,562 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:27,571 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:43:28,079 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:28,551 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:29,000 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:29,482 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:29,983 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:30,436 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:43:30,899 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:31,405 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:31,528 INFO Admin admin created teacher new.teacher
+2026-11-04 18:43:31,748 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:43:32,176 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:32,289 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:43:32,750 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:33,379 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:34,020 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:34,758 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:43:35,409 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:43:35,878 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:43:36,356 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:15,031 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:15,226 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:15,368 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:15,505 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:15,644 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:18,365 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:21,660 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:23,608 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:44:23,958 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:44:26,477 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,479 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,481 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,482 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,486 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,488 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:44:26,592 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:27,072 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:27,828 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:28,053 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:44:28,480 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:29,025 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:29,038 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:44:29,513 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:29,990 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:30,591 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:31,103 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:31,545 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:31,556 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:44:31,999 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:32,511 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:32,975 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:33,408 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:33,901 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:34,386 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:34,831 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:35,276 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:35,413 INFO Admin admin created teacher new.teacher
+2026-11-04 18:44:35,664 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:44:36,134 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:36,245 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:44:36,673 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:37,160 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:37,646 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:38,077 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:38,505 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:38,996 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:39,452 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:54,027 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:54,151 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:44:54,264 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:54,374 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:44:54,487 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:44:57,248 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:00,374 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:02,297 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:45:02,617 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:45:05,137 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,140 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,143 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,146 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,148 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,150 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:05,289 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:05,804 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:06,483 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:06,736 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:45:07,250 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:07,722 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:07,734 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:45:08,167 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:08,668 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:09,161 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:09,619 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:10,092 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:10,102 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:45:10,598 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:11,103 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:11,560 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:12,062 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:12,521 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:12,960 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:45:13,444 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:13,927 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:14,041 INFO Admin admin created teacher new.teacher
+2026-11-04 18:45:14,253 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:45:14,672 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:14,795 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:45:15,321 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:15,789 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:16,219 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:16,693 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:17,185 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:45:17,608 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:18,038 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:43,485 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:43,634 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:43,787 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:45:43,939 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:44,118 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:45:47,239 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:50,287 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:52,171 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:45:52,512 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:45:54,988 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:54,990 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:54,992 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:54,994 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:54,996 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:54,998 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:45:55,106 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:55,643 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:56,387 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:56,624 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:45:57,102 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:57,626 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:57,640 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:45:58,079 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:58,514 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:45:59,150 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:45:59,654 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:00,099 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:00,107 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:46:00,591 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:01,091 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:01,531 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:01,976 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:02,501 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:02,965 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:46:03,406 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:03,895 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:04,258 INFO Admin admin created teacher new.teacher
+2026-11-04 18:46:04,505 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:46:04,994 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:05,116 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:46:05,618 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:06,134 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:06,585 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:07,066 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:46:07,593 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:46:08,042 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:46:08,475 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:48:17,447 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 18:49:00,651 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:00,766 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:00,880 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:49:00,984 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:01,088 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:49:03,410 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:06,379 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:08,269 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:49:08,575 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:49:10,942 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:10,946 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:10,950 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:10,952 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:10,956 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:10,960 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:49:11,091 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:11,563 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:12,242 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:12,497 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:49:12,960 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:13,416 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:13,428 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:49:13,947 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:14,453 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:14,883 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:15,311 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:15,831 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:15,842 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:49:16,341 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:16,783 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:17,247 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:17,750 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:18,210 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:18,644 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:49:19,150 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:19,627 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:19,741 INFO Admin admin created teacher new.teacher
+2026-11-04 18:49:19,954 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:49:20,389 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:20,518 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:49:21,019 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:21,468 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:21,895 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:22,367 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:49:22,848 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:49:23,278 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:49:23,714 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:07,111 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:07,968 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:08,198 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:50:08,639 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:30,978 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:31,449 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:50:31,461 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:50:31,946 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:50:32,445 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:50:32,890 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:38,259 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:38,380 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:50:38,504 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:50:38,631 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:38,758 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:50:41,388 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:44,493 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:46,556 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:50:46,872 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 18:50:49,430 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,432 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,435 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,437 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,440 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,441 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 18:50:49,559 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:50,125 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:50,911 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:50:51,143 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 18:50:51,565 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:14,009 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:14,478 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:14,489 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 18:51:14,956 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:15,474 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:15,906 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:16,345 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:16,863 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:16,873 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 18:51:17,358 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:17,809 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:18,309 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:18,825 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:19,276 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:19,714 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:51:20,245 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:20,711 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:20,825 INFO Admin admin created teacher new.teacher
+2026-11-04 18:51:21,037 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 18:51:21,574 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:21,708 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 18:51:22,206 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:22,642 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:23,074 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:23,579 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 18:51:24,034 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 18:51:24,466 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 18:51:24,922 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:41,466 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:41,601 INFO admin admin reset password for student 2026CSE001
+2026-11-04 19:40:41,898 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:40:42,000 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:40:42,446 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:42,891 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:40:43,299 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:53,090 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:53,215 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:40:53,335 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:40:53,447 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:53,554 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:40:56,112 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:40:58,749 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:00,474 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 19:41:00,796 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 19:41:03,286 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,289 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,292 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,295 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,297 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,299 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:41:03,404 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:03,824 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:04,464 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:04,694 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:41:05,097 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:25,873 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:26,312 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:26,324 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 19:41:26,732 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:27,210 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:27,672 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:28,080 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:28,183 INFO admin admin reset password for student 2026CSE001
+2026-11-04 19:41:28,486 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:41:28,600 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:41:29,063 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:29,498 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:29,904 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:30,408 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:30,890 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:30,896 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 19:41:31,313 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:31,740 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:32,238 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:32,677 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:33,096 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:33,551 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:41:34,031 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:34,445 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:34,557 INFO Admin admin created teacher new.teacher
+2026-11-04 19:41:34,758 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 19:41:35,190 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:35,316 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 19:41:35,760 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:36,171 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:36,582 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:37,074 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:37,511 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:41:37,925 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:38,377 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:54,460 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:54,582 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:41:54,691 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:41:54,794 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:41:54,897 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:41:57,358 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:00,088 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:01,908 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 19:42:02,248 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 19:42:04,545 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,547 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,550 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,554 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,556 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,557 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 19:42:04,666 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:05,116 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:05,829 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:06,038 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:42:06,429 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:27,526 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:28,049 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:28,061 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 19:42:28,511 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:28,929 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:29,356 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:29,840 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:29,960 INFO admin admin reset password for student 2026CSE001
+2026-11-04 19:42:30,273 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:42:30,376 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 19:42:30,788 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:31,294 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:31,745 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:32,173 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:32,627 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:32,635 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 19:42:33,120 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:33,561 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:33,992 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:34,497 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:35,022 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:35,495 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:42:35,993 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:36,521 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:36,648 INFO Admin admin created teacher new.teacher
+2026-11-04 19:42:36,877 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 19:42:37,328 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:37,446 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 19:42:37,974 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:38,467 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:38,913 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:39,411 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 19:42:39,945 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 19:42:40,410 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:42:40,891 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:49:04,222 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 19:49:26,064 INFO Admin action=edit_student username=admin student_id=13
+2026-11-04 19:50:03,264 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:11,730 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:12,308 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:12,913 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:28,032 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:47,909 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:18:48,449 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:11,301 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:31,393 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:31,925 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:54,131 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:54,272 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:19:54,407 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:19:54,536 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:19:54,667 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:19:57,602 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:00,324 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:02,380 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:20:02,763 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:20:05,129 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,131 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,137 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,140 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,144 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,145 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:20:05,259 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:05,751 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:06,506 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:06,642 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:20:07,129 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:07,580 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:08,075 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:08,103 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:20:08,541 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:08,996 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:09,452 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:09,928 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:10,054 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:20:10,641 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:10,764 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:20:11,257 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:11,760 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:12,272 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:12,731 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:12,753 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:20:13,229 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:13,709 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:14,181 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:14,673 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:15,159 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:15,630 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:20:16,122 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:16,600 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:16,719 INFO Admin admin created teacher new.teacher
+2026-11-04 20:20:16,956 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:20:17,472 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:17,588 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:20:18,052 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:18,513 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:18,959 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:19,411 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:20:19,860 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:20:20,308 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:20,758 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:20:51,284 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:14,008 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:14,612 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:38,176 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:38,304 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:38,429 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:21:38,552 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:38,677 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:21:41,467 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:44,267 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:46,376 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:21:46,714 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:21:49,134 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,137 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,140 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,142 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,147 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,149 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:21:49,261 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:49,777 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:50,521 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:50,792 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:21:51,286 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:51,898 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:52,422 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:52,445 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:21:52,992 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:53,467 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:53,949 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:54,462 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:54,601 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:21:54,960 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:21:55,078 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:21:55,564 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:56,165 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:56,662 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:21:57,134 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:57,604 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:57,609 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:21:58,094 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:58,576 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:59,055 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:21:59,536 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:22:00,005 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:22:00,491 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:22:00,981 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:22:01,439 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:01,557 INFO Admin admin created teacher new.teacher
+2026-11-04 20:22:01,785 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:22:02,252 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:02,381 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:22:02,922 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:03,390 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:03,845 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:04,299 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:22:04,745 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:22:05,195 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:05,651 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:20,245 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:46,057 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:22:46,757 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:11,517 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:11,640 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:11,757 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:23:11,873 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:11,995 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:23:14,831 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:17,533 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:19,517 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:23:19,832 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:23:22,136 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,139 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,145 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,147 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,149 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,151 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:23:22,264 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:22,783 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:23,491 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:23,750 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:23:24,263 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:24,847 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:25,347 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:25,369 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:23:25,817 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:26,268 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:26,726 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:27,195 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:27,317 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:23:27,633 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:23:27,739 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:23:28,183 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:28,662 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:29,265 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:29,744 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:30,210 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:30,216 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:23:30,716 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:31,178 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:31,635 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:32,080 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:32,531 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:32,979 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:23:33,443 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:33,864 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:33,979 INFO Admin admin created teacher new.teacher
+2026-11-04 20:23:34,203 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:23:34,642 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:34,756 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:23:35,188 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:35,621 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:36,053 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:36,485 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:23:36,924 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:23:37,353 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:37,780 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:23:56,179 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:17,552 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:18,114 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:40,125 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:40,245 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:24:40,368 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:24:40,489 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:40,615 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:24:43,612 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:46,614 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:49,109 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:24:49,484 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:24:52,722 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,727 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,731 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,735 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,741 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,744 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:24:52,906 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:53,568 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:54,340 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:54,595 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:24:55,160 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:55,834 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:56,372 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:24:56,392 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:24:56,919 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:24:57,437 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:24:57,969 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:58,513 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:24:58,651 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:24:59,050 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:24:59,177 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:24:59,701 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:00,290 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:00,808 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:01,277 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:01,764 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:01,769 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:25:02,328 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:02,824 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:03,508 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:04,063 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:04,602 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:05,109 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:25:05,611 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:06,112 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:06,258 INFO Admin admin created teacher new.teacher
+2026-11-04 20:25:06,528 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:25:07,032 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:07,162 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:25:07,647 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:08,222 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:08,772 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:09,252 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:25:09,730 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:25:10,239 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:10,794 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:25:42,128 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:03,696 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:04,257 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:26,147 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:26,260 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:26,370 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:26:26,479 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:26,590 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:26:29,220 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:31,762 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:33,642 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:26:33,961 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:26:36,362 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,366 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,370 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,373 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,375 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,377 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:26:36,488 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:36,979 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:37,670 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:37,893 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:26:38,370 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:38,993 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:39,493 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:39,514 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:26:39,960 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:40,410 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:40,892 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:41,370 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:41,490 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:26:41,808 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:26:41,912 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:26:42,353 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:42,822 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:43,277 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:43,763 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:44,220 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:44,225 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:26:44,681 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:45,138 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:45,576 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:46,030 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:46,500 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:46,956 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:26:47,418 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:47,841 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:47,951 INFO Admin admin created teacher new.teacher
+2026-11-04 20:26:48,169 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:26:48,595 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:48,711 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:26:49,221 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:49,651 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:50,077 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:50,507 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:26:50,940 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:26:51,385 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:26:51,823 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:14,913 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:34,118 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:34,633 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:54,765 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:54,866 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:30:54,974 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:30:55,072 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:30:55,176 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:30:57,670 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:00,111 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:01,848 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:31:02,165 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:31:04,331 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,334 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,336 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,342 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,344 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,346 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:31:04,448 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:04,885 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:05,496 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:05,699 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:31:06,099 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:06,608 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:07,090 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:07,113 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:31:07,520 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:07,943 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:08,351 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:08,769 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:08,883 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:31:09,177 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:31:09,277 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:31:09,690 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:10,130 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:10,565 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:10,976 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:11,383 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:11,386 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:31:11,808 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:12,296 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:13,084 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:13,501 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:13,908 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:14,365 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:31:14,792 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:15,185 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:15,288 INFO Admin admin created teacher new.teacher
+2026-11-04 20:31:15,489 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:31:15,881 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:15,982 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:31:16,385 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:16,788 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:17,252 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:17,656 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:31:18,126 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:31:18,634 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:31:19,193 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:38:46,299 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:05,688 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:06,190 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:26,307 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:26,407 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:26,508 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:39:26,606 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:26,706 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:39:29,190 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:31,655 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:33,338 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:39:33,645 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:39:35,827 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,829 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,833 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,837 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,839 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,840 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:39:35,946 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:36,388 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:36,997 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:37,201 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:39:37,591 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:38,096 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:38,563 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:38,584 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:39:38,985 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:39,392 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:39,797 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:40,227 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:40,339 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:39:40,621 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:39:40,718 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:39:41,121 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:41,549 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:42,011 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:42,416 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:42,822 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:42,827 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:39:43,246 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:43,675 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:44,078 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:44,482 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:44,887 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:45,303 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:39:45,742 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:46,131 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:46,235 INFO Admin admin created teacher new.teacher
+2026-11-04 20:39:46,430 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:39:46,816 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:46,918 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:39:47,304 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:47,699 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:48,089 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:48,479 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:39:48,870 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:39:49,263 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:39:49,648 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:42:27,092 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:46:23,069 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 20:49:04,398 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:49:20,061 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:49:28,609 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:49:55,602 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 20:50:21,672 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:50:42,478 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 20:51:13,744 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:51:25,429 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:51:44,335 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 20:53:09,068 INFO admin admin reset password for student 1
+2026-11-04 20:57:26,482 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:27,463 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:28,582 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:57:29,211 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:29,936 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:30,582 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:53,574 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:54,414 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:55,205 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:57:55,385 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:57:55,500 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:55,847 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:56,910 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:57,733 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:57:58,498 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:13,752 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:14,014 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:14,816 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:15,174 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:15,286 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:16,082 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:58:16,255 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:58:16,390 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:16,760 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:17,461 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:18,246 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:18,926 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:58:28,797 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:58:52,125 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:58:52,707 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:17,073 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:17,296 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:18,056 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:18,417 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:18,524 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:19,189 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:19,339 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:59:19,472 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:19,866 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:20,530 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:21,253 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:21,973 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:23,501 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:23,613 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:23,728 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:24,003 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:24,120 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:26,923 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:29,695 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:31,596 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:59:31,912 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 20:59:34,252 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,255 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,259 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,263 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,268 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,270 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 20:59:34,400 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:35,037 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:35,728 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:35,979 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:59:36,562 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:37,179 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:37,683 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:37,705 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 20:59:38,245 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:38,726 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:39,160 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:39,673 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:39,811 INFO admin admin reset password for student 2026CSE001
+2026-11-04 20:59:40,161 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:59:40,267 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 20:59:40,721 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:41,242 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:41,789 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:42,235 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:42,694 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:42,700 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 20:59:43,246 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:43,718 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:44,171 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:44,696 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:45,206 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:45,692 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:46,200 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:46,701 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:46,821 INFO Admin admin created teacher new.teacher
+2026-11-04 20:59:47,046 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 20:59:47,480 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:47,607 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 20:59:48,126 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:48,631 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:49,091 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:49,612 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 20:59:50,130 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 20:59:50,569 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 20:59:51,019 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:00:39,935 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:00:40,049 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:00:40,171 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:00:40,498 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:00:40,642 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:00:43,390 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:00:46,469 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:00:48,419 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:00:48,738 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:00:51,453 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,459 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,466 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,471 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,474 WARNING Login failure ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,477 WARNING Login locked ip=127.0.0.1 username=rate-limit-user role=admin
+2026-11-04 21:00:51,600 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:28,577 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:28,884 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:29,615 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:29,953 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:30,058 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:30,830 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:31,006 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:01:31,118 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:31,450 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:32,180 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:32,942 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:33,620 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:35,209 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:35,330 INFO Admin admin created teacher new.teacher
+2026-11-04 21:01:35,586 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 21:01:36,118 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:36,236 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 21:01:36,698 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:37,158 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:37,690 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:38,184 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:01:38,622 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:01:39,133 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:39,670 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:40,167 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:40,285 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:01:40,603 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 21:01:40,720 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 21:01:41,271 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:01:41,784 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:01:42,354 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:02:02,411 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:02,691 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:03,392 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:03,787 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:03,926 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:04,653 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:02:04,796 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:02:04,903 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:05,259 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:06,022 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:06,705 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:07,498 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:27,573 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:02:29,447 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:29,769 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:30,720 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:31,301 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:31,486 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:32,443 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:02:32,638 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:02:32,802 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:33,311 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:34,172 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:35,153 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:36,145 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:02:53,563 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:02:54,220 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:18,603 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:18,833 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:19,536 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:19,947 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:20,064 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:20,841 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:20,980 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:03:21,101 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:21,491 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:22,188 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:22,900 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:23,633 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:25,532 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:26,261 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:26,531 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 21:03:27,020 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:27,597 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:28,164 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:28,190 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 21:03:28,677 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:29,130 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:29,630 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:30,177 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:30,298 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:03:30,617 WARNING Login failure ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 21:03:30,723 INFO Login success ip=127.0.0.1 username=2026CSE001 role=student
+2026-11-04 21:03:31,216 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:31,809 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:32,294 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:32,768 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:33,333 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:33,338 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 21:03:33,830 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:34,295 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:34,836 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:35,355 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:35,800 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:36,292 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:37,041 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:37,480 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:37,665 INFO Admin admin created teacher new.teacher
+2026-11-04 21:03:37,930 INFO Login success ip=127.0.0.1 username=new.teacher role=teacher
+2026-11-04 21:03:38,445 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:38,564 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 21:03:39,046 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:39,509 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:40,034 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:40,501 INFO Login success ip=127.0.0.1 username=teacher role=teacher
+2026-11-04 21:03:40,946 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:03:41,450 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:03:41,944 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:04:02,547 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:02,825 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:03,555 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:03,936 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:04,049 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:04,716 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:04:04,852 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:04:04,979 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:05,361 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:06,060 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:06,751 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:07,505 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:32,385 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:32,636 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:33,412 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:33,772 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:33,880 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:34,561 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:04:34,734 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:04:34,871 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:35,255 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:35,929 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:36,671 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:37,360 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:53,742 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:53,995 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:54,759 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:55,113 WARNING Login failure ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:55,217 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:55,999 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:04:56,160 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:04:56,289 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:56,647 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:57,317 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:58,111 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:04:58,786 INFO Login success ip=127.0.0.1 username=student role=student
+2026-11-04 21:06:43,709 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:07:04,774 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 21:12:03,107 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:12:26,683 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:12:56,162 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 21:13:22,919 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:14:15,829 WARNING Login failure ip=127.0.0.1 username=Srinath Ravi role=student
+2026-11-04 21:14:45,399 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:15:36,572 INFO admin admin reset password for student 2026CSE003
+2026-11-04 21:16:03,405 WARNING Login failure ip=127.0.0.1 username=srinath kannan role=student
+2026-11-04 21:16:18,481 INFO Login success ip=127.0.0.1 username=admin role=admin
+2026-11-04 21:25:42,183 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:25:42,313 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:25:42,410 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:25:43,009 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:25:43,629 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:25:44,225 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:25:44,319 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:25:44,416 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:25:44,513 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:25:44,625 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:25:44,628 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:25:45,334 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
+2026-11-04 21:25:58,496 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:17,409 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:17,921 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:37,578 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:37,683 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:26:37,777 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:38,361 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:38,975 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:39,557 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:39,651 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:39,753 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:39,847 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:39,955 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:26:39,958 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:26:40,659 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
+2026-11-04 21:26:41,736 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:41,930 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:42,511 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:42,817 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:42,913 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:43,498 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:43,620 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:26:43,719 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:44,041 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:44,617 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:45,205 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:45,780 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:26:47,058 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:47,155 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:26:47,253 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:47,493 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:47,593 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:26:49,877 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:52,239 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:53,875 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:26:54,165 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:26:56,362 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:26:56,367 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:26:56,371 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:26:56,376 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:26:56,380 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:26:56,383 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:26:56,481 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:56,907 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:57,523 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:57,726 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:26:58,124 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:58,645 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:26:59,086 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:26:59,105 INFO Admin action=generate_hallticket username=teacher student_id=13
+2026-11-04 21:26:59,534 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:26:59,940 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:00,344 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:00,770 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:00,881 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:27:01,165 INFO Login attempt role=student username=2026CSE001 result=invalid ip=127.0.0.1
+2026-11-04 21:27:01,258 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:27:01,667 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:02,100 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:02,542 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:02,942 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:03,350 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:03,356 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 21:27:03,769 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:04,170 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:04,583 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:05,014 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:05,455 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:05,878 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:06,304 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:06,701 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:06,808 INFO Admin admin created teacher new.teacher
+2026-11-04 21:27:07,019 INFO Login attempt role=teacher username=new.teacher result=success ip=127.0.0.1
+2026-11-04 21:27:07,408 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:07,514 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 21:27:07,952 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:08,354 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:08,744 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:09,143 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:27:09,538 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:09,936 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:10,330 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:47,249 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:47,425 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:27:47,533 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:48,188 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:48,821 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:49,662 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:49,805 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:49,950 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:50,119 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:50,263 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:27:50,269 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:27:51,134 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
+2026-11-04 21:27:52,315 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:52,517 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:53,149 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:53,474 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:27:53,579 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:54,214 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:27:54,349 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:27:54,450 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:54,764 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:55,407 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:56,183 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:27:56,825 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:31:23,556 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:31:35,531 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:33:47,321 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:34:54,990 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:36:26,087 INFO Login attempt role=student username=hod result=invalid ip=127.0.0.1
+2026-11-04 21:36:48,419 INFO Login attempt role=teacher username=hod result=success ip=127.0.0.1
+2026-11-04 21:42:16,888 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:16,997 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:17,099 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:42:17,349 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:17,452 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:42:19,820 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:22,219 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:23,954 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:42:24,236 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:42:26,359 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:42:26,362 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:42:26,365 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:42:26,370 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:42:26,374 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:42:26,376 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:42:26,475 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:28,078 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:28,183 INFO Admin admin created teacher new.teacher
+2026-11-04 21:42:28,391 INFO Login attempt role=teacher username=new.teacher result=success ip=127.0.0.1
+2026-11-04 21:42:29,378 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:29,496 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 21:42:30,521 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:31,520 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:32,517 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:33,539 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:34,531 INFO Login attempt role=student username=student result=unlinked ip=127.0.0.1
+2026-11-04 21:42:35,558 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:36,554 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:37,572 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:38,567 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:38,571 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 21:42:39,627 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:40,621 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:41,616 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:42,640 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:43,645 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:44,655 INFO Login attempt role=student username=student result=unlinked ip=127.0.0.1
+2026-11-04 21:42:45,685 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:42:46,696 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:47,937 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:42:48,147 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:42:49,153 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:08,883 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:09,940 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:43:09,960 INFO Admin action=generate_hallticket username=teacher student_id=1
+2026-11-04 21:43:10,970 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:43:11,979 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:43:12,974 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:13,985 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:14,099 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:43:14,386 INFO Login attempt role=student username=2026CSE001 result=invalid ip=127.0.0.1
+2026-11-04 21:43:14,485 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:43:15,486 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:16,517 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:43:17,532 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:18,528 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:38,819 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:43:39,971 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:01,721 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:01,920 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:03,150 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:03,475 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:03,575 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:04,808 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:04,933 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:44:05,047 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:05,373 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:06,624 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:07,897 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:09,180 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:11,577 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:11,690 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:44:11,794 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:13,060 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:14,340 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:44:15,591 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:15,693 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:15,795 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:15,898 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:16,012 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:44:16,015 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:44:17,466 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
+2026-11-04 21:44:49,875 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:49,989 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:44:50,106 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:50,411 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:50,531 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:44:53,073 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:55,701 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:44:57,542 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:44:57,916 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:45:00,090 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:00,094 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:00,097 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:00,101 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:00,105 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:45:00,107 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:45:00,217 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:01,348 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:45:02,490 INFO Login attempt role=student username=student result=unlinked ip=127.0.0.1
+2026-11-04 21:45:03,664 INFO Login attempt role=student username=student result=unlinked ip=127.0.0.1
+2026-11-04 21:45:13,314 INFO Login attempt role=student username=student result=unlinked ip=127.0.0.1
+2026-11-04 21:45:34,128 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:45:43,122 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:43,240 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:45:43,361 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:45:43,643 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:43,769 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:45:46,525 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:49,137 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:51,176 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:45:51,485 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:45:53,675 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:53,678 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:53,684 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:53,687 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:45:53,692 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:45:53,694 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:45:53,804 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:55,602 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:55,737 INFO Admin admin created teacher new.teacher
+2026-11-04 21:45:55,970 INFO Login attempt role=teacher username=new.teacher result=success ip=127.0.0.1
+2026-11-04 21:45:57,046 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:57,162 INFO Admin admin created teacher duplicate.teacher
+2026-11-04 21:45:58,280 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:45:59,345 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:00,426 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:01,582 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:02,668 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:46:03,750 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:04,821 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:05,915 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:07,009 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:07,013 INFO teacher created subject CSE-NEW in CSE
+2026-11-04 21:46:08,107 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:09,203 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:10,294 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:11,466 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:12,552 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:13,638 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:46:14,730 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:15,850 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:17,205 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:17,427 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:46:18,525 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:39,793 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:40,911 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:40,933 INFO Admin action=generate_hallticket username=teacher student_id=1
+2026-11-04 21:46:42,035 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:43,116 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:44,208 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:45,302 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:45,419 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:46:45,732 INFO Login attempt role=student username=2026CSE001 result=invalid ip=127.0.0.1
+2026-11-04 21:46:45,847 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:46:46,937 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:48,082 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:46:49,228 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:46:50,330 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:47:12,189 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:47:13,388 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:47:36,961 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:37,254 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:39,012 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:39,374 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:39,487 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:40,875 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:47:41,006 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:47:41,118 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:41,448 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:42,883 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:44,298 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:45,582 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:48,056 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:47:48,172 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:47:48,281 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:49,719 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:51,183 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:47:52,501 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:52,604 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:52,707 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:52,814 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:47:52,933 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:47:52,936 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:47:54,445 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
+2026-11-04 21:48:10,557 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:48:10,679 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:48:10,810 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:48:10,933 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:48:11,066 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:48:13,728 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:48:16,430 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:48:18,332 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:48:18,635 WARNING SECRET_KEY is empty; sessions reset on restart.
+2026-11-04 21:48:20,834 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:48:20,839 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:48:20,844 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:48:20,849 INFO Login attempt role=admin username=rate-limit-user result=invalid ip=127.0.0.1
+2026-11-04 21:48:20,854 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:48:20,856 INFO Login attempt role=admin username=rate-limit-user result=locked ip=127.0.0.1
+2026-11-04 21:48:20,967 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:15,417 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:16,859 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:17,092 INFO Login attempt role=student username=2026CSE001 result=success ip=127.0.0.1
+2026-11-04 21:50:18,231 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:40,273 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:41,413 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:50:41,440 INFO Admin action=generate_hallticket username=teacher student_id=1
+2026-11-04 21:50:42,525 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:50:43,610 INFO Login attempt role=teacher username=teacher result=success ip=127.0.0.1
+2026-11-04 21:50:44,699 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:45,993 INFO Login attempt role=admin username=admin result=success ip=127.0.0.1
+2026-11-04 21:50:46,110 INFO admin admin reset password for student 2026CSE001
+2026-11-04 21:50:46,221 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:50:47,512 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:50:48,794 INFO Login attempt role=student username=student result=success ip=127.0.0.1
+2026-11-04 21:50:50,086 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:50:50,188 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:50:50,295 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:50:50,412 INFO Login attempt role=student username=student result=invalid ip=127.0.0.1
+2026-11-04 21:50:50,531 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:50:50,533 INFO Login attempt role=student username=student result=locked ip=127.0.0.1
+2026-11-04 21:50:51,957 INFO Login attempt role=student username=unlinked.student result=unlinked ip=127.0.0.1
